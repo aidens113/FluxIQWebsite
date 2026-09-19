@@ -132,15 +132,19 @@ bytes on every run, and exits 1 if any output is over 300 KB:
 
 ## Commands
 
+Deployment targets and their settings are in [deployment.md](./deployment.md).
+
 ```bash
 pnpm dev        # development server on http://localhost:3000
-pnpm build      # static export to out/
-pnpm preview    # serve out/ locally
+pnpm build      # static export to out/, plus the generated .htaccess and _headers
+pnpm start      # serve out/ with the policy headers on PORT (default 3000)
+pnpm preview    # the same server, for local checks
 pnpm check      # structure audit, working-docs audit, Biome, TypeScript
 pnpm test       # node:test suites under scripts/tests
 pnpm test:site  # audit the built out/ (run after pnpm build)
 pnpm format     # apply Biome's formatting and safe fixes
 pnpm docs:index # regenerate docs/working/README.md from document headers
+pnpm vercel:config # regenerate vercel.json from scripts/static-hosting/policy.mjs
 pnpm brand:assets # regenerate icons, favicon, Open Graph image, and logo from design/brand/
 ```
 

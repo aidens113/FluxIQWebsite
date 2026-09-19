@@ -20,7 +20,8 @@ pairing are defined in
 
 | Document | Owner | Lines | Scope | Paired |
 | --- | --- | --- | --- | --- |
+| [deployment.md](./deployment.md) | Senior supervisor agent | 203 | Make the repository deployable, unchanged, to Hostinger (Git deploy or Node.js web app) and to other CI/CD targets (Docker, Netlify, Cloudflare Pages, Vercel, any static host); excludes choosing or configuring the user's live account. | none |
 | [landing-page.md](./landing-page.md) | Senior supervisor agent | 590 | Rebuild the getfluxiq.com landing page in Next.js with copy corrected against the FluxIQ repositories; excludes hosting cutover and any page beyond the landing page. | none |
 
-⚠ marks documents over the 800-line compaction threshold (0 of 2 here).
+⚠ marks documents over the 800-line compaction threshold (0 of 3 here).
 Compact them the next time work touches them; do not schedule a bulk rewrite.

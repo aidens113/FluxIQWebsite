@@ -1,0 +1,9 @@
+# Netlify builds the static export and publishes out/. The Node version comes
+# from .nvmrc and pnpm from the lockfile.
+#
+# Headers come from out/_headers, which `pnpm build` generates from
+# scripts/static-hosting/policy.mjs. Do not add [[headers]] here: the two
+# would drift. See docs/architecture/deployment.md.
+[build]
+  command = "pnpm build"
+  publish = "out"

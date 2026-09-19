@@ -11,15 +11,17 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "preview": "pnpm dlx serve@14 out",
+    "build": "next build && node scripts/static-hosting/write-host-files.mjs",
+    "start": "node scripts/static-hosting/serve.mjs",
+    "preview": "node scripts/static-hosting/serve.mjs",
     "check": "node scripts/structure-audit.mjs && node scripts/working-docs-audit.mjs && biome check . && next typegen && tsc --noEmit",
-    "test": "node --test \"scripts/tests/*.test.mjs\"",
+    "test": "node --test \"scripts/**/tests/*.test.mjs\"",
     "test:site": "node scripts/site-check.mjs",
     "format": "biome check --write .",
     "structure:check": "node scripts/structure-audit.mjs",
     "docs:index": "node scripts/working-docs-audit.mjs --update",
-    "brand:assets": "node scripts/brand-assets.mjs"
+    "brand:assets": "node scripts/brand-assets.mjs",
+    "vercel:config": "node scripts/static-hosting/write-vercel-config.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.47.0",

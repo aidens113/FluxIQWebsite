@@ -39,6 +39,8 @@ on documents your task will not use.
 - The [site architecture](docs/architecture/README.md) before creating, moving,
   or splitting source files, changing design tokens, or when you need the exact
   commands. Skip it for copy-only edits.
+- The [deployment guide](docs/architecture/deployment.md) before changing the
+  build output, the host files, the Node server, Docker, or the workflows.
 
 **Worker.** Read your brief, the files it names, and the `Current State` of the
 working document it points to. Do not read the planning documents, the rest of a
@@ -195,8 +197,9 @@ final response for any code change:
 
 ```bash
 pnpm check   # structure audit, working-docs audit, Biome, TypeScript
-pnpm test    # node:test suites under scripts/tests
-pnpm build   # static export to out/
+pnpm test       # node:test suites under scripts/**/tests
+pnpm build      # static export to out/, plus the generated host files
+pnpm test:site  # audit the built out/index.html
 ```
 
 Compilation and tests cannot prove layout, responsiveness, motion, contrast, or
@@ -226,6 +229,11 @@ These actions still require explicit user approval every time: pushing to `main`
 or opening a pull request into it; force-pushing anything; rewriting history,
 including `filter-repo`, `rebase -i`, and amends to already-pushed commits; and
 deleting branches or tags on the remote.
+
+The `deploy` branch holds the built site for hosts that pull files without
+building, such as Hostinger's website Git deploy. CI generates it from `main`.
+Never edit, commit to, or push it by hand; change `main` and let the workflow
+publish.
 
 Never commit `node_modules/`, `.next/`, `out/`, `.env*` files, or an image over
 the asset budget under `public/`. Never commit secrets. Never use `--no-verify`.
