@@ -207,7 +207,11 @@ the widths above when feasible, and state what was and was not exercised.
 
 Only the senior supervisor agent commits or pushes. Workers never do.
 
-Push `dev` without being asked once all of the following hold:
+Push every significant feature to the `dev` branch on `origin` without being
+asked, as soon as it is done. A significant feature is a completed plan phase, a
+new or reworked page section, a new check or script, or a dependency change.
+Push each one when it lands; do not batch several into one end-of-session push.
+A push is due once all of the following hold:
 
 1. The work is a complete, coherent unit — not a partial refactor or an
    experiment left mid-flight.
