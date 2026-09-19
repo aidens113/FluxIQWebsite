@@ -1,5 +1,5 @@
 // Vendored verbatim from F:\!AgentBrain\tools\tests\working-docs-audit.test.mjs.
-// Re-copy from the brain to update; do not edit here.
+// Re-copy from the brain to update; do not edit here. Biome excludes this file.
 
 // Tests for tools/working-docs-audit.mjs. The tool is a command, so every test
 // builds a temporary repository on disk and runs it as a child process: that
@@ -8,12 +8,12 @@
 //
 // Run with: node --test "tools/tests/*.test.mjs"
 
+import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const TOOL = fileURLToPath(new URL("../working-docs-audit.mjs", import.meta.url));
@@ -30,7 +30,7 @@ const HEADER = [
   "Owner: supervisor",
   "Scope: the example",
   "Paired document: none",
-  "Related: none",
+  "Related: none"
 ];
 
 const CURRENT_STATE = ["", "## Current State", "", "Everything is fine.", ""];
@@ -43,7 +43,7 @@ const GOOD_ENTRY = [
   "- Validation: `node --test` -> 6 tests passed, 0 failed",
   "- Outcome: Accepted",
   "- Follow-up: none",
-  "",
+  ""
 ];
 
 const LEDGER = (entries) => ["## Work Ledger", "", ...entries.flat()];
@@ -72,7 +72,8 @@ function makeRepo(t, files) {
   return dir;
 }
 
-const audit = (dir, ...args) => spawnSync(process.execPath, [TOOL, "--root", dir, ...args], { encoding: "utf8" });
+const audit = (dir, ...args) =>
+  spawnSync(process.execPath, [TOOL, "--root", dir, ...args], { encoding: "utf8" });
 
 const findings = (result) => (result.stdout.trim() === "" ? [] : result.stdout.trim().split("\n"));
 
@@ -191,7 +192,7 @@ test("a Validation bullet that repeats a report fails, including across a wrap",
     "- Validation: three workers were dispatched and each one of the three",
     "  workers said the suite passed, so it passed",
     "- Outcome: Accepted",
-    "",
+    ""
   ];
   const text = doc([HEADER, CURRENT_STATE, LEDGER([GOOD_ENTRY, hearsay])]);
   const { result } = auditWithCurrentIndex(t, { [DOC]: text });
@@ -212,14 +213,10 @@ test("a document over the compaction threshold fails with its line count", (t) =
 });
 
 test("several broken documents each report, one line per finding", (t) => {
-  const noLedgerValidation = doc([
-    HEADER,
-    CURRENT_STATE,
-    LEDGER([GOOD_ENTRY.filter((line) => !line.startsWith("- Validation:"))]),
-  ]);
+  const noLedgerValidation = doc([HEADER, CURRENT_STATE, LEDGER([GOOD_ENTRY.filter((line) => !line.startsWith("- Validation:"))])]);
   const { result } = auditWithCurrentIndex(t, {
     [DOC]: noLedgerValidation,
-    "docs/working/other-plan.md": GOOD_DOC.replace("Status: Active", "Status: Ongoing"),
+    "docs/working/other-plan.md": GOOD_DOC.replace("Status: Active", "Status: Ongoing")
   });
 
   assert.equal(result.status, 1);
@@ -246,7 +243,7 @@ test("the index, nested documents, and non-markdown files are not audited", (t) 
   const { result } = auditWithCurrentIndex(t, {
     [DOC]: GOOD_DOC,
     "docs/working/example-plan/archive/old.md": "not a working document at all",
-    "docs/working/notes.txt": "not markdown",
+    "docs/working/notes.txt": "not markdown"
   });
 
   assert.equal(result.status, 0, result.stdout);
@@ -265,10 +262,9 @@ test("in a git repository only tracked documents are audited", (t) => {
   const dir = makeRepo(t, {
     [DOC]: GOOD_DOC,
     // Untracked, and broken enough to report if it were ever read.
-    "docs/working/scratch.md": "scratch notes with no header at all\n",
+    "docs/working/scratch.md": "scratch notes with no header at all\n"
   });
-  const git = (...args) =>
-    execFileSync("git", ["-C", dir, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+  const git = (...args) => execFileSync("git", ["-C", dir, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
   git("init", "-q");
   git("add", DOC);
 

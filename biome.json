@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!out", "!next-env.d.ts"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!out",
+      "!next-env.d.ts",
+      "!scripts/working-docs-audit.mjs",
+      "!scripts/tests/working-docs-audit.test.mjs"
+    ]
   },
   "formatter": {
     "enabled": true,

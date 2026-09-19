@@ -1,6 +1,6 @@
 // Vendored verbatim from F:\!AgentBrain\tools\working-docs-audit.mjs so that
 // `pnpm check` runs in any clone and in CI. Re-copy from the brain to update;
-// do not edit here.
+// do not edit here. Biome excludes this file so the copy stays byte-identical.
 
 // Audits docs/working/ the way FluxIQ Core's structure-audit `working-docs`
 // rule does, but as one dependency-free file, for repositories that do not run
@@ -31,7 +31,7 @@
 // repository's docs/working/agent-working-doc-protocol.md.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const WORKING_DIR = "docs/working";
@@ -94,8 +94,7 @@ function lineCount(text) {
 function isGitRepo(root) {
   try {
     const top = execFileSync("git", ["-C", root, "rev-parse", "--show-toplevel"], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
+      encoding: "utf8", stdio: ["ignore", "pipe", "ignore"]
     });
     return path.relative(top.trim(), root) === "";
   } catch {
@@ -110,18 +109,12 @@ function isGitRepo(root) {
 function workingDirFiles(root) {
   if (isGitRepo(root)) {
     const out = execFileSync("git", ["-C", root, "ls-files", WORKING_DIR], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
+      encoding: "utf8", stdio: ["ignore", "pipe", "ignore"]
     });
-    return (
-      out
-        .split("\n")
-        .map((line) => line.trim())
-        .filter(Boolean)
-        // A tracked file may have been deleted from the working tree; reading it
-        // would throw, and it is no longer there to audit.
-        .filter((file) => existsSync(path.join(root, file)))
-    );
+    return out.split("\n").map((line) => line.trim()).filter(Boolean)
+      // A tracked file may have been deleted from the working tree; reading it
+      // would throw, and it is no longer there to audit.
+      .filter((file) => existsSync(path.join(root, file)));
   }
   const dir = path.join(root, WORKING_DIR);
   if (!existsSync(dir)) return [];
@@ -133,13 +126,10 @@ function workingDirFiles(root) {
 // The documents themselves: top-level markdown only, the index excluded.
 function workingDocs(files) {
   return files
-    .filter(
-      (file) =>
-        file.startsWith(`${WORKING_DIR}/`) &&
-        file.endsWith(".md") &&
-        !file.slice(WORKING_DIR.length + 1).includes("/") &&
-        basename(file) !== "README.md",
-    )
+    .filter((file) => file.startsWith(`${WORKING_DIR}/`)
+      && file.endsWith(".md")
+      && !file.slice(WORKING_DIR.length + 1).includes("/")
+      && basename(file) !== "README.md")
     .sort(byName);
 }
 
@@ -178,10 +168,9 @@ function checkHeader(file, lines) {
     const line = 3 + index;
     const text = at(line - 1);
     if (!text.startsWith(`${field}: `)) {
-      const wrapped =
-        !KEY_PATTERN.test(text) && text.trim() !== ""
-          ? " This looks like the previous field's value wrapped onto a second line; a value must fit on one line."
-          : "";
+      const wrapped = !KEY_PATTERN.test(text) && text.trim() !== ""
+        ? " This looks like the previous field's value wrapped onto a second line; a value must fit on one line."
+        : "";
       return headerFinding(file, line, `expected "${field}:" but found ${show(text)}.${wrapped}`);
     }
     const value = text.slice(field.length + 2).trim();
@@ -283,7 +272,7 @@ function checkDocument(file, text) {
     checkCurrentState(file, lines, headerMeta(lines).get("Status")),
     checkCurrentStateLength(file, lines),
     checkLedger(file, lines),
-    checkSize(file, text),
+    checkSize(file, text)
   ].filter((finding) => finding !== null);
 }
 
@@ -301,7 +290,7 @@ function indexEntry(root, file) {
     owner: meta.get("Owner") ?? "unassigned",
     lines: lineCount(text),
     scope: (meta.get("Scope") ?? "").replaceAll("|", "\\|"),
-    paired: rawPaired === "none" ? "none" : rawPaired.replaceAll("\\", "/").split("/").at(-1),
+    paired: rawPaired === "none" ? "none" : rawPaired.replaceAll("\\", "/").split("/").at(-1)
   };
 }
 
@@ -309,18 +298,15 @@ function generateIndex(root, docs) {
   const entries = docs.map((file) => indexEntry(root, file));
 
   const out = [
-    "# Working Document Index",
-    "",
+    "# Working Document Index", "",
     "Every working document in this repository is listed here, grouped by the",
     "`Status` field of its header block. This index is derived from those headers",
     "and regenerated when a document is created, retired, or re-statused; edit the",
     "document's header, not this table. Read it first, pick the relevant document,",
-    "then read that document's `Current State` section before anything else.",
-    "",
+    "then read that document's `Current State` section before anything else.", "",
     "Format, status vocabulary, ledger rules, worker briefs, and cross-repository",
     "pairing are defined in",
-    "[Agent Working Document Protocol](./agent-working-doc-protocol.md).",
-    "",
+    "[Agent Working Document Protocol](./agent-working-doc-protocol.md).", ""
   ];
 
   for (const status of GROUP_ORDER) {
@@ -328,29 +314,21 @@ function generateIndex(root, docs) {
     if (group.length === 0) continue;
     out.push(`## ${status}`, "");
     if (status === "Superseded") {
-      out.push(
-        "These no longer own current status; each names its successor in `Status",
-        "detail`. Retained for evidence. Do not plan current work from them.",
-        "",
-      );
+      out.push("These no longer own current status; each names its successor in `Status",
+        "detail`. Retained for evidence. Do not plan current work from them.", "");
     }
     out.push("| Document | Owner | Lines | Scope | Paired |", "| --- | --- | --- | --- | --- |");
     for (const entry of group) {
       const flag = entry.lines > MAX_DOC_LINES ? " \u26a0" : "";
       const paired = entry.paired === "none" ? "none" : `\`${entry.paired}\``;
-      out.push(
-        `| [${entry.name}](./${entry.name}) | ${entry.owner} | ${entry.lines}${flag} | ${entry.scope} | ${paired} |`,
-      );
+      out.push(`| [${entry.name}](./${entry.name}) | ${entry.owner} | ${entry.lines}${flag} | ${entry.scope} | ${paired} |`);
     }
     out.push("");
   }
 
   const oversized = entries.filter((entry) => entry.lines > MAX_DOC_LINES).length;
-  out.push(
-    `\u26a0 marks documents over the ${MAX_DOC_LINES}-line compaction threshold (${oversized} of ${entries.length} here).`,
-    "Compact them the next time work touches them; do not schedule a bulk rewrite.",
-    "",
-  );
+  out.push(`\u26a0 marks documents over the ${MAX_DOC_LINES}-line compaction threshold (${oversized} of ${entries.length} here).`,
+    "Compact them the next time work touches them; do not schedule a bulk rewrite.", "");
   return out.join("\n");
 }
 
@@ -389,9 +367,7 @@ function main(argv) {
   try {
     options = parseArgs(argv);
   } catch (error) {
-    process.stderr.write(
-      `working-docs: ${error.message}\nUsage: node working-docs-audit.mjs [--root <repo>] [--update]\n`,
-    );
+    process.stderr.write(`working-docs: ${error.message}\nUsage: node working-docs-audit.mjs [--root <repo>] [--update]\n`);
     return 2;
   }
 
