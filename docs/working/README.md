@@ -20,7 +20,7 @@ pairing are defined in
 
 | Document | Owner | Lines | Scope | Paired |
 | --- | --- | --- | --- | --- |
-| [landing-page.md](./landing-page.md) | Senior supervisor agent | 591 | Rebuild the getfluxiq.com landing page in Next.js with copy corrected against the FluxIQ repositories; excludes hosting cutover and any page beyond the landing page. | none |
+| [landing-page.md](./landing-page.md) | Senior supervisor agent | 590 | Rebuild the getfluxiq.com landing page in Next.js with copy corrected against the FluxIQ repositories; excludes hosting cutover and any page beyond the landing page. | none |
 
 ⚠ marks documents over the 800-line compaction threshold (0 of 2 here).
 Compact them the next time work touches them; do not schedule a bulk rewrite.

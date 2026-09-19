@@ -1,7 +1,7 @@
 # Landing Page
 
 Status: Complete
-Status detail: The landing page is built, verified, and pushed to dev; hosting, the main branch, and the stale upstream main branches are open with the user.
+Status detail: The landing page is built, verified, and on dev and main; hosting and the stale upstream main branches are open with the user.
 Created: 2026-09-18
 Last updated: 2026-09-18
 Owner: Senior supervisor agent
@@ -15,7 +15,8 @@ Related: [AGENTS.md](../../AGENTS.md), [site architecture](../architecture/READM
 
 **True now.** The landing page is built and verified at every phase, and it
 is pushed to `origin/dev`. The user asked for it to be built with workers on
-2026-09-18. `main` does not exist on the remote yet.
+2026-09-18. On the user's instruction, `main` was created from `dev` at
+`55e30f1` and pushed the same day.
 
 - **Page.** Ten server-component sections, composed by `src/app/page.tsx` in
   Page Plan order. No client components: the only JavaScript shipped is the
@@ -577,8 +578,6 @@ Add later claims here.
   or connecting the GitHub repository to Vercel or Cloudflare Pages for
   per-branch previews. The user's choice settles it; phases 1 to 4 do not
   depend on it.
-- **`main` branch** (owner: user). Only `dev` is pushed, so GitHub shows `dev`
-  as the default branch. Creating `main` from `dev` needs the user's approval.
 - **GitHub default branches are stale** (owner: user). `main` in both
   `aidens113/FluxIQ` and `FluxIQWebExtension` is still at 2026-08-09 (fluxiq
   0.1.0), while `dev` holds everything the site describes. The site's repository
