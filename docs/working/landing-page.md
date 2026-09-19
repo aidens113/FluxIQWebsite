@@ -423,8 +423,12 @@ Shared values for every brief:
 
 ## Copy Sources
 
-Phase 2 fills this with one line per claim that is not in the Claim Audit:
-the claim, then the file or commit that supports it.
+Phase 2's claims beyond the Claim Audit, each with its file or commit, are in
+[reports/content.md](./landing-page/reports/content.md#copy-sources)
+(14 entries, Core `80a8495`). The supervisor spot-checked `MAX_TOTAL_COST_USD = 2`,
+the `builtin.control.start` / `next` port, and the identity-scoring margin.
+Both code samples were type-checked against Core source and run against its
+build. Add later claims here.
 
 ## Work Ledger
 
@@ -452,6 +456,14 @@ the claim, then the file or commit that supports it.
 - Outcome: Accepted, pending the integration build
 - Follow-up: build at integration
 
+### 2026-09-18 — Phase 2 content, and the first integration build
+- Agent: worker `content`; supervisor review and three copy fixes (hero "when a run breaks", "New Flows start fail-closed", plainer replay wording); supervisor fix to `brand-assets.mjs` (favicon PNG forced to RGBA)
+- Changed: `src/content/*.ts` (12 files), `scripts/brand-assets.mjs`, `src/app/favicon.ico`
+- Why: all copy as typed data from the Claim Audit. The first build failed with "Format error decoding Ico: The PNG is not in RGBA format!"
+- Validation: `pnpm check` -> structure passed, working-docs passed, Biome 32 files clean, tsc exit 0; `pnpm test` -> 44 pass; `pnpm build` -> exit 0, 7 static routes (/, icons, OG image, robots.txt, sitemap.xml); `node scripts/site-check.mjs` -> only the section-anchor findings Phase 3 resolves
+- Outcome: Accepted
+- Follow-up: Phase 3 sections
+
 ## Open Questions
 
 - **Hosting target** (owner: user). Static export deploys anywhere. The domain
@@ -461,6 +473,12 @@ the claim, then the file or commit that supports it.
   depend on it.
 - **`main` branch** (owner: user). Only `dev` is pushed, so GitHub shows `dev`
   as the default branch. Creating `main` from `dev` needs the user's approval.
+- **GitHub default branches are stale** (owner: user). `main` in both
+  `aidens113/FluxIQ` and `FluxIQWebExtension` is still at 2026-08-09 (fluxiq
+  0.1.0), while `dev` holds everything the site describes. The site's repository
+  links land on `main`, so visitors see old code; the build sample uses
+  `git clone --branch dev` meanwhile. Merging `dev` into `main` there needs the
+  user's approval.
 - **Stale Core documentation** (owner: user). Core's `current-system.md:78`
   says the Automation Studio port is planned, and `roadmap.md` lists
   already-built features as planned. Those are Core's documents, so fixing them

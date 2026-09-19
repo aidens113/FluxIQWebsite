@@ -112,7 +112,8 @@ async function openGraphImage() {
 }
 
 async function build() {
-  const favicon = await logo(32).png({ compressionLevel: 9 }).toBuffer();
+  // Next's ICO decoder accepts only RGBA PNG images, so force the alpha channel.
+  const favicon = await logo(32).ensureAlpha().png({ compressionLevel: 9 }).toBuffer();
   return [
     ["src/app/icon.png", await logo(512).png(PNG_OPTIONS).toBuffer()],
     ["src/app/apple-icon.png", await logo(180).png(PNG_OPTIONS).toBuffer()],
