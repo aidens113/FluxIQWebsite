@@ -7,7 +7,7 @@ export const ROADMAP: RoadmapContent = {
   id: "roadmap",
   eyebrow: "Roadmap",
   title: "Where it stands.",
-  lede: "Each item sits where the source puts it today. Shipped means you can run it now, built from source.",
+  lede: "Each item sits where the source repository classifies it today. Shipped means you can run it now, built from source.",
   columns: [
     {
       status: "shipped",

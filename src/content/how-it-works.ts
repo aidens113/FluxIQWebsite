@@ -15,7 +15,7 @@ export const HOW_IT_WORKS: HowItWorksContent = {
     {
       icon: GitBranch,
       title: "Generate",
-      body: "Text becomes a proposed Flow: a Router plus Subflows, each with the conditions it runs under. A recording maps to a Subflow deterministically, with no model.",
+      body: "Text becomes a proposed Flow: a Router plus Subflows, each with defined run conditions. A recording maps to a Subflow deterministically, with no model.",
     },
     {
       icon: Play,

@@ -22,7 +22,7 @@ export const FEATURES: FeaturesContent = {
     {
       id: "core",
       title: "FluxIQ Core",
-      summary: "The fluxiq package and its Next.js control panel.",
+      summary: "The FluxIQ package and its Next.js control panel.",
       items: [
         {
           icon: Workflow,
@@ -42,12 +42,12 @@ export const FEATURES: FeaturesContent = {
         {
           icon: Gauge,
           title: "Bounded Runtime Adaptation",
-          body: "Recovery stops at a USD 2 cost cap, its token budget, a 600-second deadline, or three steps without progress. Lasting changes are proposed, reviewed, and reversible.",
+          body: "Recovery stops at a $2 cost cap, its token budget, a 600-second deadline, or three steps without progress. Lasting changes are proposed, reviewed, and reversible.",
         },
         {
           icon: KeyRound,
           title: "Execution Grants",
-          body: "Every model call needs a session-bound grant that caps calls, tokens, time, and spend. A default grant costs about USD 0.09; the hard ceiling is USD 2.",
+          body: "Every model call needs a session-bound grant that caps calls, tokens, time, and spend. A default grant costs about $0.09; the hard ceiling is $2.",
         },
         {
           icon: Cable,
@@ -67,7 +67,7 @@ export const FEATURES: FeaturesContent = {
         {
           icon: PanelsTopLeft,
           title: "Control Panel",
-          body: "A Next.js panel of global programs: Automation Studio, Database Manager, Compute Control, Deployment Sync, and Runtime.",
+          body: "A Next.js panel for core programs: Automation Studio, Database Manager, Compute Control, Deployment Sync, and Runtime.",
         },
       ],
     },

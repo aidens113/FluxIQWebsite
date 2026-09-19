@@ -15,12 +15,12 @@ export const WHY: WhyContent = {
     {
       icon: ShieldCheck,
       title: "Bounded by default",
-      body: "No grant, no model call. Each grant caps calls, tokens, time, and cost, never above USD 2. New Flows start fail-closed.",
+      body: "No grant, no model call. Each grant caps calls, tokens, time, and cost, never above $2. New Flows start fail-closed.",
     },
     {
       icon: ScrollText,
       title: "Every change on the record",
-      body: "Run records itemize every model call. Saved traces withhold credentials. Adaptations are reviewed before they apply and can be reverted after.",
+      body: "Run records itemize every model call. Saved traces exclude credentials. Adaptations are reviewed before they apply and can be reverted after.",
     },
   ],
 };
