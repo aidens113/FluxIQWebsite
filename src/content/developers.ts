@@ -12,8 +12,8 @@ const fluxiq = FluxIQ.create({ rootDir: process.cwd() });
 // Databases, logs, and caches are created on first use.
 await fluxiq.setup();`;
 
-const FLOW_SAMPLE = `import { compileFlowDefinition, defineFlow } from "fluxiq/automation-studio/dsl";
-
+const FLOW_SAMPLE = `import { compileFlowDefinition, defineFlow }
+  from "fluxiq/automation-studio/dsl";
 const flow = defineFlow({
   flowId: "flow.hello",
   name: "Hello",

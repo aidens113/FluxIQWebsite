@@ -1,9 +1,11 @@
 import {
   Boxes,
+  Braces,
   Cable,
   FingerprintPattern,
   Gauge,
   KeyRound,
+  LockKeyhole,
   MousePointerClick,
   PanelsTopLeft,
   Route,
@@ -33,6 +35,11 @@ export const FEATURES: FeaturesContent = {
           body: "A Router picks a Subflow from live state. Subflows carry a recovery ladder, and published Flows are reused as pinned Call Flow nodes.",
         },
         {
+          icon: Braces,
+          title: "TypeScript Flow DSL",
+          body: "Write Flows as plain data with defineFlow. The compiler checks them against the node registry and returns a plan with a deterministic SHA-256 digest.",
+        },
+        {
           icon: Gauge,
           title: "Bounded Runtime Adaptation",
           body: "Recovery stops at a USD 2 cost cap, its token budget, a 600-second deadline, or three steps without progress. Lasting changes are proposed, reviewed, and reversible.",
@@ -53,9 +60,14 @@ export const FEATURES: FeaturesContent = {
           body: "Domains declare their own inputs and outputs with defineDomainIo, defineInput, and defineOutput. Core never imports a domain package; manifests drive loading.",
         },
         {
+          icon: LockKeyhole,
+          title: "Identity & Access",
+          body: "12-hour sessions, PIN and TOTP sign-in, and roles, with Secret Keys encrypted by AES-256-GCM. Built into the control panel, not bolted on.",
+        },
+        {
           icon: PanelsTopLeft,
-          title: "Control Panel Programs",
-          body: "A Next.js control panel with global programs, including Identity & Access, Secret Keys, Database Manager, Compute Control, Deployment Sync, and Runtime.",
+          title: "Control Panel",
+          body: "A Next.js panel of global programs: Automation Studio, Database Manager, Compute Control, Deployment Sync, and Runtime.",
         },
       ],
     },

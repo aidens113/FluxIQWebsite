@@ -59,9 +59,30 @@ Dependencies point one way: `app` imports `components` and `content`;
 from the site. Keeping every product claim in `content/` means a claim can be
 audited, or corrected when FluxIQ changes, without reading any markup.
 
-As of 2026-09-18 `page.tsx` is still a placeholder; `content/` and the
-section directories under `components/` arrive with the landing page build in
-[landing-page.md](../working/landing-page.md).
+The page. `app/page.tsx` composes the sections in this order:
+
+1. `site-header` (sticky)
+2. `hero`
+3. `why-fluxiq`
+4. `how-it-works`
+5. `features`
+6. `developers`
+7. `roadmap`
+8. `licensing`
+9. `follow`
+10. `site-footer`
+
+The wrapper uses `overflow-x-clip`, not `overflow-hidden`, so the hero's
+decoration cannot widen the page and the header can still stick. Each section is
+`components/<section>/<section>.tsx`, a server component with no props that
+renders one constant from `content/`. Its parts sit beside it, one component
+per file. `ui/action-button.tsx` renders a content `ActionLink` as a
+`LinkButton` with its icon. No component is a client component, so the only
+JavaScript shipped is the Next.js and React runtime, about 137 KB gzip.
+
+Grids that hold code must set `min-w-0` on their items. Otherwise a `<pre>`'s
+longest line widens the column past a phone screen. The page wrapper's clip
+hides that from page-level overflow checks while cutting off the text.
 
 ## Brand
 
@@ -117,10 +138,15 @@ pnpm build      # static export to out/
 pnpm preview    # serve out/ locally
 pnpm check      # structure audit, working-docs audit, Biome, TypeScript
 pnpm test       # node:test suites under scripts/tests
+pnpm test:site  # audit the built out/ (run after pnpm build)
 pnpm format     # apply Biome's formatting and safe fixes
 pnpm docs:index # regenerate docs/working/README.md from document headers
 pnpm brand:assets # regenerate icons, favicon, Open Graph image, and logo from design/brand/
 ```
 
-CI (`.github/workflows/ci.yml`) runs install, `check`, `test`, `build`, and a
-production dependency audit on every push and pull request.
+`pnpm test:site` audits the built `out/index.html`. It checks headings,
+anchors, the link allowlist, metadata, retired phrases, and a 200 KB gzip budget
+on the scripts a modern browser loads.
+
+CI (`.github/workflows/ci.yml`) runs install, `check`, `test`, `build`,
+`test:site`, and a production dependency audit on every push and pull request.

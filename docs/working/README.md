@@ -15,7 +15,12 @@ pairing are defined in
 | Document | Owner | Lines | Scope | Paired |
 | --- | --- | --- | --- | --- |
 | [agent-working-doc-protocol.md](./agent-working-doc-protocol.md) | Senior supervisor agent | 242 | How the supervisor and workers use `docs/working/` as durable memory and as the coordination substrate for multi-agent work. | none |
-| [landing-page.md](./landing-page.md) | Senior supervisor agent | 485 | Rebuild the getfluxiq.com landing page in Next.js with copy corrected against the FluxIQ repositories; excludes hosting cutover and any page beyond the landing page. | none |
+
+## Complete
+
+| Document | Owner | Lines | Scope | Paired |
+| --- | --- | --- | --- | --- |
+| [landing-page.md](./landing-page.md) | Senior supervisor agent | 591 | Rebuild the getfluxiq.com landing page in Next.js with copy corrected against the FluxIQ repositories; excludes hosting cutover and any page beyond the landing page. | none |
 
 ⚠ marks documents over the 800-line compaction threshold (0 of 2 here).
 Compact them the next time work touches them; do not schedule a bulk rewrite.
