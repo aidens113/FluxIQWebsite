@@ -22,9 +22,10 @@ each target.
   `scripts/static-hosting/policy.mjs`. `vercel.json` is generated from the
   same file, and a test fails on drift.
 - **Node platforms.** `pnpm start` / `npm start` serve `out/` with the
-  policy on `PORT`/`HOST`. This covers a Hostinger Node.js web app
-  (entry `scripts/static-hosting/serve.mjs`, output `out`), Render, and
-  Railway.
+  policy on `PORT`/`HOST`. The unconditional entry is
+  `scripts/static-hosting/start.mjs`; the reusable server is
+  `scripts/static-hosting/serve.mjs`. This covers a Hostinger Node.js web app
+  (output `out`), Render, and Railway.
 - **Hostinger compatibility.** Select npm in Hostinger to avoid its pnpm 12 /
   Corepack binary-path bug. Production uses webpack, allowing Next to fall back
   to WebAssembly SWC on Hostinger's pre-glibc-2.29 image; `next.config.mjs`
@@ -190,6 +191,14 @@ file. See Open Questions.
 - Report to: docs/working/deployment/reports/deploy-targets.md
 
 ## Work Ledger
+
+### 2026-09-19 — Hostinger Node entry startup
+- Agent: senior supervisor
+- Changed: `scripts/static-hosting/start.mjs`, `scripts/static-hosting/serve.mjs`, `package.json`, `Dockerfile`, deployment documentation, and server CLI tests
+- Why: Hostinger's Node.js web app rejected the guarded `serve.mjs` module entry before it called `listen()`
+- Validation: focused server tests -> 18 pass; `pnpm test` -> 85 pass; `pnpm check` -> passed; `pnpm build` was attempted but webpack rejects the workspace's `!` path on Windows
+- Outcome: The configured Hostinger entry now calls `main()` unconditionally; npm, Docker, and preview use the same entry
+- Follow-up: set Hostinger's Entry file to `scripts/static-hosting/start.mjs` and redeploy from `main`
 
 ### 2026-09-19 — Hostinger legacy Linux compatibility
 - Agent: senior supervisor

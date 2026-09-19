@@ -18,9 +18,10 @@ too old for the native compiler; Turbopack requires native bindings.
 | `out/_next/static/.htaccess` | Apache and LiteSpeed: the immutable cache for hashed assets |
 | `out/_headers` | Netlify and Cloudflare Pages: the same headers and cache rules |
 
-`pnpm start` (and `pnpm preview`) runs `scripts/static-hosting/serve.mjs`, a
-dependency-free Node server that serves `out/` on `PORT` (default 3000) and
-`HOST` (default `0.0.0.0`). It applies the same headers itself, so it is the
+`pnpm start` (and `pnpm preview`) runs `scripts/static-hosting/start.mjs`, an
+unconditional entry that starts the dependency-free Node server in
+`scripts/static-hosting/serve.mjs`. It serves `out/` on `PORT` (default 3000)
+and `HOST` (default `0.0.0.0`) and applies the same headers itself, so it is the
 runtime for Node hosts and for the Docker image.
 
 The Node version is 22, from `.nvmrc`; setup-node, Netlify, and Cloudflare
@@ -39,7 +40,7 @@ the generated files or add headers in a host's own configuration.
 | --- | --- |
 | Hostinger website hosting, cPanel, any Apache or LiteSpeed host | `.htaccess` |
 | Netlify, Cloudflare Pages | `_headers` |
-| Hostinger Node.js web app, Docker, a VPS, Coolify, Render, Railway | `serve.mjs`, reading `policy.mjs` |
+| Hostinger Node.js web app, Docker, a VPS, Coolify, Render, Railway | `start.mjs` / `serve.mjs`, reading `policy.mjs` |
 | Vercel | `vercel.json` at the repository root (see [Vercel](#vercel)) |
 | nginx, Caddy, object storage | Nothing: the headers are not sent; proxy to `serve.mjs` instead |
 
@@ -101,7 +102,7 @@ the repository from GitHub and set:
 | Root directory | The repository root |
 | Build command | `build`, the `package.json` script |
 | Output directory | `out` |
-| Entry file | `scripts/static-hosting/serve.mjs` |
+| Entry file | `scripts/static-hosting/start.mjs` |
 
 - Select npm explicitly. Hostinger currently provisions pnpm 12 through an
   older Corepack that looks for the removed `bin/pnpm.cjs` entry point. The
@@ -113,11 +114,11 @@ the repository from GitHub and set:
 - Each push to `main` sends a webhook, and Hostinger installs, builds, and
   restarts the app.
 - Use **Other** so that no Next.js server defaults apply; the site is a static
-  export, and `serve.mjs` is the server.
+  export, and `start.mjs` is the unconditional server entry.
 
 ### Docker, a VPS, and Coolify
 
-The `Dockerfile` builds in `node:22-alpine` and runs `serve.mjs` in a second
+The `Dockerfile` builds in `node:22-alpine` and runs `start.mjs` in a second
 `node:22-alpine` stage that holds only `out/` and `scripts/static-hosting/`.
 
 ```bash

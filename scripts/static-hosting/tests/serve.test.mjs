@@ -10,7 +10,7 @@ import { CACHE_DEFAULT, CACHE_IMMUTABLE, CACHE_REVALIDATE, SECURITY_HEADERS } fr
 import { acceptsGzip, createStaticServer, DEFAULT_DIRECTORY, DEFAULT_PORT, parsePort, stopServer } from "../serve.mjs";
 import { APP_JS, INDEX_HTML, NOT_FOUND_HTML, SECRET, SITE_FILES, withSite } from "./site-fixture.mjs";
 
-const TOOL = fileURLToPath(new URL("../serve.mjs", import.meta.url));
+const TOOL = fileURLToPath(new URL("../start.mjs", import.meta.url));
 const REPOSITORY_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 const DECOY = "decoy-out-in-the-working-directory";
 

@@ -21,7 +21,8 @@
 //   - Files carry a weak ETag and Last-Modified, and a matching
 //     If-None-Match or If-Modified-Since answers 304.
 //
-// Usage:  node scripts/static-hosting/serve.mjs [--dir <dir>]
+// Library module for the unconditional scripts/static-hosting/start.mjs entry.
+// Usage:  node scripts/static-hosting/start.mjs [--dir <dir>]
 //   <dir> defaults to `out` at the repository root, found from this file, so
 //   the server serves the right directory whatever the working directory (a
 //   host's entry-file mode, a Docker WORKDIR). A --dir value resolves against
@@ -233,7 +234,7 @@ export function parsePort(value) {
   return /^\d+$/.test(value) && port <= 65535 ? port : null;
 }
 
-function main(argv, environment) {
+export function main(argv, environment) {
   const dirFlag = argv.indexOf("--dir");
   const root = path.resolve(dirFlag >= 0 && argv[dirFlag + 1] ? argv[dirFlag + 1] : DEFAULT_DIRECTORY);
   if (!statOrNull(root)?.isDirectory()) {
@@ -262,8 +263,4 @@ function main(argv, environment) {
   process.once("SIGTERM", shutdown);
   process.once("SIGINT", shutdown);
   return 0;
-}
-
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  process.exitCode = main(process.argv.slice(2), process.env);
 }

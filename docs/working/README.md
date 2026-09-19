@@ -15,7 +15,7 @@ pairing are defined in
 | Document | Owner | Lines | Scope | Paired |
 | --- | --- | --- | --- | --- |
 | [agent-working-doc-protocol.md](./agent-working-doc-protocol.md) | Senior supervisor agent | 242 | How the supervisor and workers use `docs/working/` as durable memory and as the coordination substrate for multi-agent work. | none |
-| [deployment.md](./deployment.md) | Senior supervisor agent | 221 | Make the repository deployable, unchanged, to Hostinger (Git deploy or Node.js web app) and to other CI/CD targets (Docker, Netlify, Cloudflare Pages, Vercel, any static host); excludes choosing or configuring the user's live account. | none |
+| [deployment.md](./deployment.md) | Senior supervisor agent | 230 | Make the repository deployable, unchanged, to Hostinger (Git deploy or Node.js web app) and to other CI/CD targets (Docker, Netlify, Cloudflare Pages, Vercel, any static host); excludes choosing or configuring the user's live account. | none |
 
 ## Complete
 

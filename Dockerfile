@@ -32,4 +32,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -q -O /dev/null "http://127.0.0.1:${PORT}/" || exit 1
 # The server handles SIGTERM itself, so `docker stop` shuts it down cleanly.
-CMD ["node", "scripts/static-hosting/serve.mjs"]
+CMD ["node", "scripts/static-hosting/start.mjs"]
