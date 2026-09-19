@@ -1,0 +1,9 @@
+import type { MetadataRoute } from "next";
+
+// Marked static so the export always prerenders it to out/sitemap.xml. The
+// site is one page, and `lastModified` is left out so every build is identical.
+export const dynamic = "force-static";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [{ url: "https://getfluxiq.com/", changeFrequency: "monthly", priority: 1 }];
+}

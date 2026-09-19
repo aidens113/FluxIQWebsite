@@ -1,1 +1,109 @@
 @import "tailwindcss";
+
+/* Design tokens. `bg-ink`, `font-display`, and `font-body` are the utilities
+   these produce. The font tokens are inline so their utilities read the
+   next/font variables that layout.tsx sets on <html>. */
+@theme {
+  --color-ink: #03001c;
+}
+
+@theme inline {
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    /* Clears the sticky header when an in-page anchor is followed. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-slate-200);
+    font-family: var(--font-body);
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-cyan-400) 30%, transparent);
+  }
+}
+
+/* Motion. Every animation below runs only when the visitor has not asked for
+   reduced motion, so under `prefers-reduced-motion: reduce` nothing moves. */
+
+@keyframes wave-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-4%, 2%, 0);
+  }
+}
+
+@keyframes status-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  75%,
+  100% {
+    transform: scale(2.25);
+    opacity: 0;
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* A slow drift for the hero's wave SVGs. Stagger layers with an arbitrary
+   `[animation-delay:-6s]`; the delay is deliberately left unset here. */
+@utility animate-wave-drift {
+  @media (prefers-reduced-motion: no-preference) {
+    animation-name: wave-drift;
+    animation-duration: 18s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+}
+
+/* An expanding, fading halo for the status pill's dot. Put it on an
+   absolutely positioned span behind the dot. */
+@utility animate-status-pulse {
+  @media (prefers-reduced-motion: no-preference) {
+    animation-name: status-pulse;
+    animation-duration: 2s;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+  }
+}
+
+/* Reveal on scroll, with no JavaScript: <Reveal> renders `[data-reveal]`.
+   The rise completes once the element has fully entered the viewport, so wrap
+   blocks shorter than a screen. Browsers without scroll-driven animations
+   skip the rule and show the content as it is. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation: reveal-rise ease-out both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}

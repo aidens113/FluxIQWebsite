@@ -266,7 +266,7 @@ Owns `src/app/*`, `src/components/ui/*`, `scripts/brand-assets.mjs`,
    if the build requires it.
 5. Add `lucide-react`. Build the UI primitives, one per file under
    `src/components/ui/`: `section-heading.tsx` (eyebrow, h2, lede),
-   `link-button.tsx` (primary and ghost variants), `reveal.tsx` (client), and
+   `link-button.tsx` (primary and ghost variants), `reveal.tsx` (server; CSS-only motion per Decision 3), and
    `x-logo.tsx`.
 6. Update the Layout section of `docs/architecture/README.md`.
 
@@ -443,6 +443,14 @@ the claim, then the file or commit that supports it.
 - Validation: supervisor ran `pnpm test` -> 44 pass, 0 fail; `pnpm exec biome check scripts` -> no fixes; `node scripts/site-check.mjs` on the placeholder `out/` -> exit 1 with only the expected anchor and meta findings, and no js-budget finding
 - Outcome: Accepted
 - Follow-up: run `pnpm test:site` against the real build at integration
+
+### 2026-09-18 — Phase 1 foundation
+- Agent: worker `foundation`, one revision requested by the supervisor (the Open Graph crop broke on the user's higher-resolution banner master)
+- Changed: `src/app/{layout.tsx,globals.css,robots.ts,sitemap.ts}`, icon/apple-icon/favicon/opengraph images, `src/components/ui/*`, `scripts/brand-assets.mjs`, `public/brand/fluxiq-logo.webp`, `docs/architecture/README.md`
+- Why: tokens, fonts, metadata, generated brand assets, and the shared primitives that the sections build on
+- Validation: supervisor ran `pnpm brand:assets` -> 6 outputs, largest 267 KB; `node scripts/structure-audit.mjs` -> passed; biome -> no fixes; `tsc --noEmit` -> no errors outside `src/content`; opened the OG image (full wordmark, centred) and the logo on ink (clean). No `pnpm build` yet, because `src/content` is still being written
+- Outcome: Accepted, pending the integration build
+- Follow-up: build at integration
 
 ## Open Questions
 

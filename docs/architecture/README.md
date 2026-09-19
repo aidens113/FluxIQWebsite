@@ -26,7 +26,7 @@ src/
   app/          routes, root layout, metadata, icon and Open Graph files
   components/   one directory per page section, plus ui/ for shared primitives
   content/      typed copy and link data; the only place product claims live
-scripts/        structure audit, vendored working-docs audit, their tests
+scripts/        structure audit, vendored working-docs audit, brand-asset generator, tests
 design/brand/   full-resolution brand masters; never served
 public/         served static assets, each at most 300 KB
 docs/
@@ -34,13 +34,33 @@ docs/
   working/      plans and agent memory
 ```
 
+What exists in `src/` today:
+
+- `app/layout.tsx`: the root layout. It loads the fonts, sets the site-wide
+  metadata (title template `%s — FluxIQ`, description, canonical `/`, Open
+  Graph, Twitter `summary_large_image` for `@GetFluxIQ`, theme colour), and
+  renders a "Skip to content" link to `#main` ahead of the page. The page
+  itself owns the header, `<main id="main">`, and the footer.
+- `app/globals.css`: the Tailwind `@theme` tokens, body base styles, and all
+  motion (see [Brand](#brand)).
+- `app/robots.ts` and `app/sitemap.ts`: static, for `https://getfluxiq.com`.
+- `app/icon.png`, `apple-icon.png`, `favicon.ico`, `opengraph-image.png`, and
+  `opengraph-image.alt.txt`: metadata files that Next turns into `<head>` tags.
+  They are generated, never edited by hand.
+- `components/ui/`: the shared primitives, one component per file.
+  `SectionHeading` (eyebrow, h2, optional lede, centred), `LinkButton` (pill
+  link, `primary` or `ghost`, `external` opens a new tab), `Reveal` (a server
+  component that marks its block for the CSS reveal), and the decorative
+  `GitHubLogo` and `XLogo` SVGs. Every interactive element, the skip link
+  included, shows a visible cyan focus outline.
+
 Dependencies point one way: `app` imports `components` and `content`;
 `components` import `content` and `components/ui`; `content` imports nothing
 from the site. Keeping every product claim in `content/` means a claim can be
 audited, or corrected when FluxIQ changes, without reading any markup.
 
-As of 2026-09-18 only `src/app/` exists, with a placeholder page;
-`components/` and `content/` arrive with the landing page build in
+As of 2026-09-18 `page.tsx` is still a placeholder; `content/` and the
+section directories under `components/` arrive with the landing page build in
 [landing-page.md](../working/landing-page.md).
 
 ## Brand
@@ -54,9 +74,40 @@ Carried over from the site that was live on 2026-09-18:
 - Logo: the neon "F" monogram in a ring. Wordmark: "Flux" in white, "IQ" in
   the accent gradient. Tagline: "Automate Smarter".
 
+In code, the tokens, base styles, and motion live in `src/app/globals.css`, and
+the fonts load in `src/app/layout.tsx`:
+
+- Tokens: `--color-ink` (`bg-ink`, `text-ink`), and `--font-display` and
+  `--font-body` (`font-display`, `font-body`), which read the `next/font`
+  variables that `layout.tsx` sets on `<html>`. Space Grotesk loads at 500,
+  600, and 700; Inter at 400, 500, and 600. Both are self-hosted at build time.
+- Base: `body` is ink with `slate-200` Inter text; text selection is
+  `cyan-400` at 30 %; `color-scheme` is dark; anchors land 5 rem below the top
+  to clear the sticky header.
+- Motion, all of it inside `prefers-reduced-motion: no-preference`:
+  `animate-wave-drift` (an 18 s drift for the hero waves),
+  `animate-status-pulse` (a 2 s fading halo for the status dot), smooth anchor
+  scrolling, and the reveal on `[data-reveal]`: a 24 px rise and fade driven
+  by `animation-timeline: view()`, which also sits inside
+  `@supports (animation-timeline: view())`. There is no JavaScript for motion;
+  without support, or under reduced motion, content simply shows.
+
+The primary `LinkButton` puts ink text on the cyan → blue → purple gradient,
+because white text on its cyan end is under 2:1 contrast.
+
 Masters are `design/brand/fluxiq-logo-master.png` (1254 × 1254) and
-`design/brand/og-banner-master.png` (1600 × 595). Served derivatives are
-generated from these; never serve a master.
+`design/brand/og-banner-master.png` (2056 × 765). Served derivatives are
+generated from these; never serve a master. `pnpm brand:assets`
+(`scripts/brand-assets.mjs`) regenerates every derivative, writes identical
+bytes on every run, and exits 1 if any output is over 300 KB:
+
+| Output | Size | From |
+| --- | --- | --- |
+| `src/app/icon.png` | 512 × 512 | logo |
+| `src/app/apple-icon.png` | 180 × 180 | logo |
+| `src/app/favicon.ico` | ICO holding one 32 × 32 PNG | logo |
+| `src/app/opengraph-image.png` and `.alt.txt` | 1200 × 630 | banner, cropped by fractions of its size to centre the logo and wordmark and leave out the corner labels |
+| `public/brand/fluxiq-logo.webp` | 288 × 288, for 144 px at 2× | logo, with its black background keyed to transparency so it sits on ink without a square |
 
 ## Commands
 
@@ -68,6 +119,7 @@ pnpm check      # structure audit, working-docs audit, Biome, TypeScript
 pnpm test       # node:test suites under scripts/tests
 pnpm format     # apply Biome's formatting and safe fixes
 pnpm docs:index # regenerate docs/working/README.md from document headers
+pnpm brand:assets # regenerate icons, favicon, Open Graph image, and logo from design/brand/
 ```
 
 CI (`.github/workflows/ci.yml`) runs install, `check`, `test`, `build`, and a
