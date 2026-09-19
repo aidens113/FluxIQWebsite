@@ -7,8 +7,10 @@ live in [docs/working/](../working/README.md).
 
 ## What a build produces
 
-`pnpm build` runs `next build`, which writes the static export to `out/`, then
-`scripts/static-hosting/write-host-files.mjs`, which adds the host files:
+`pnpm build` runs `next build --webpack`, which writes the static export to
+`out/`, then `scripts/static-hosting/write-host-files.mjs`, which adds the host
+files. Webpack lets Next use its WebAssembly SWC fallback when a host's glibc is
+too old for the native compiler; Turbopack requires native bindings.
 
 | File | Read by |
 | --- | --- |
@@ -22,7 +24,8 @@ dependency-free Node server that serves `out/` on `PORT` (default 3000) and
 runtime for Node hosts and for the Docker image.
 
 The Node version is 22, from `.nvmrc`; setup-node, Netlify, and Cloudflare
-Pages read it. pnpm comes from `packageManager` in `package.json`.
+Pages read it. pnpm comes from `packageManager` in `package.json`, except for
+the temporary Hostinger npm workaround described below.
 
 ## One header policy
 
@@ -94,12 +97,18 @@ the repository from GitHub and set:
 | Framework preset | Other |
 | Branch | `main` |
 | Node.js version | 22 |
+| Package manager | `npm` |
 | Root directory | The repository root |
-| Build command | `build`, the `package.json` script, which is `pnpm build` |
+| Build command | `build`, the `package.json` script |
 | Output directory | `out` |
 | Entry file | `scripts/static-hosting/serve.mjs` |
 
-- pnpm is detected from `pnpm-lock.yaml`.
+- Select npm explicitly. Hostinger currently provisions pnpm 12 through an
+  older Corepack that looks for the removed `bin/pnpm.cjs` entry point. The
+  repository remains pinned to pnpm 10 for local work and CI; npm is only the
+  Hostinger installation workaround until its Corepack is updated.
+- The webpack production build falls back to WebAssembly SWC when Hostinger's
+  glibc is older than Next's native Linux compiler requires.
 - The server listens on `PORT`, or 3000 if it is unset.
 - Each push to `main` sends a webhook, and Hostinger installs, builds, and
   restarts the app.

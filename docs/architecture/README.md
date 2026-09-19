@@ -8,7 +8,7 @@ plans live in [docs/working/](../working/README.md).
 
 | Concern | Choice | Why |
 | --- | --- | --- |
-| Framework | Next.js 16, App Router, React 19, React Compiler | The FluxIQ control panel is Next.js; one framework across the family. |
+| Framework | Next.js 16, App Router, React 19, React Compiler | The FluxIQ control panel is Next.js; one framework across the family. Production builds use webpack so Next can fall back to WebAssembly SWC on hosts whose glibc is too old for the native compiler. |
 | Output | Static export (`output: "export"`) to `out/` | A landing page needs no server, and static files deploy to any host. |
 | Styling | Tailwind CSS 4, tokens in `src/app/globals.css` | The existing site's design is utility-class based and ports directly. |
 | Lint and format | Biome 2 | Matches FluxIQ Core. |

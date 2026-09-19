@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/static-hosting/write-host-files.mjs",
+    "build": "next build --webpack && node scripts/static-hosting/write-host-files.mjs",
     "start": "node scripts/static-hosting/serve.mjs",
     "preview": "node scripts/static-hosting/serve.mjs",
     "check": "node scripts/structure-audit.mjs && node scripts/working-docs-audit.mjs && biome check . && next typegen && tsc --noEmit",

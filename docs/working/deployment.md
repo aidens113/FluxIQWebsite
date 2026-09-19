@@ -1,9 +1,9 @@
 # Deployment
 
-Status: Complete
-Status detail: Every target is wired and verified locally; the first real deploy waits on the user's hosting choice and a push to main.
+Status: Active
+Status detail: Hostinger exposed pnpm/Corepack and glibc incompatibilities; the verified repository fix awaits a live redeploy.
 Created: 2026-09-18
-Last updated: 2026-09-18
+Last updated: 2026-09-19
 Owner: Senior supervisor agent
 Scope: Make the repository deployable, unchanged, to Hostinger (Git deploy or Node.js web app) and to other CI/CD targets (Docker, Netlify, Cloudflare Pages, Vercel, any static host); excludes choosing or configuring the user's live account.
 Paired document: none
@@ -25,6 +25,10 @@ each target.
   policy on `PORT`/`HOST`. This covers a Hostinger Node.js web app
   (entry `scripts/static-hosting/serve.mjs`, output `out`), Render, and
   Railway.
+- **Hostinger compatibility.** Select npm in Hostinger to avoid its pnpm 12 /
+  Corepack binary-path bug. Production uses webpack, allowing Next to fall back
+  to WebAssembly SWC on Hostinger's pre-glibc-2.29 image; `next.config.mjs`
+  loads without compiling a TypeScript configuration first.
 - **Docker.** A multi-stage `Dockerfile` with a non-root runtime and a
   health check.
 - **Platform config.** `netlify.toml`, plus `.nvmrc` (22) for setup-node,
@@ -49,12 +53,13 @@ each target.
   no-op when nothing changed, then a stacked commit. Only `out/` is on the
   branch, dotfiles included.
 
-**Not verified.** No live Hostinger, Apache, LiteSpeed, Netlify, Cloudflare, or
-Vercel deploy. The GitHub-hosted workflows have not run: the deploy workflow
-needs a push to `main`, and `gh` is unauthenticated on this machine.
+**Not verified.** The compatibility fix has not yet been redeployed on live
+Hostinger. No live Apache, LiteSpeed, Netlify, Cloudflare, or Vercel deploy has
+run. The GitHub-hosted workflows have not run from `main`.
 
-**Next.** The user picks the Hostinger product and approves pushing `main`,
-which triggers the first deploy. See Open Questions.
+**Next.** Push or merge the fix to the branch Hostinger builds, then redeploy
+with npm, Node 22, build script `build`, output `out`, and the documented entry
+file. See Open Questions.
 
 ## Findings
 
@@ -109,6 +114,11 @@ which triggers the first deploy. See Open Questions.
    - `.html`, `.txt`, `.xml`, and directory URLs:
      `public, max-age=0, must-revalidate`.
    - Everything else: `public, max-age=86400`.
+8. **Production builds use webpack.** Hostinger's current Linux image cannot
+   load Next's native SWC binary because its glibc predates 2.29. Next can fall
+   back to WebAssembly SWC, but that fallback does not support Turbopack. The
+   JavaScript `next.config.mjs` also avoids needing SWC to compile the
+   configuration before the fallback is ready.
 
 ## Worker Briefs
 
@@ -180,6 +190,14 @@ which triggers the first deploy. See Open Questions.
 - Report to: docs/working/deployment/reports/deploy-targets.md
 
 ## Work Ledger
+
+### 2026-09-19 — Hostinger legacy Linux compatibility
+- Agent: senior supervisor
+- Changed: `next.config.ts` to `next.config.mjs`, the build script, and deployment documentation
+- Why: Hostinger's Corepack failed pnpm 12 startup, then its glibc older than 2.29 could not load Next's native SWC binary
+- Validation: `pnpm check` passed; 85 tests passed; a clean npm install and forced WebAssembly SWC webpack build exported all routes; `pnpm test:site` passed at 134.9 KB gzip JS
+- Outcome: Accepted locally; live Hostinger redeploy pending
+- Follow-up: redeploy on Hostinger and record the result
 
 ### 2026-09-18 — Deployable to Hostinger and other pipelines
 - Agent: workers `static-hosting` (one follow-up: a generated `vercel.json`, and the server resolving `out/` from its own path) and `deploy-targets`; supervisor verification and doc updates
