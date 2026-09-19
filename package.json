@@ -1,0 +1,37 @@
+{
+  "name": "fluxiq-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The getfluxiq.com landing page for the FluxIQ automation framework.",
+  "homepage": "https://getfluxiq.com",
+  "type": "module",
+  "packageManager": "pnpm@10.5.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "preview": "pnpm dlx serve@14 out",
+    "check": "node scripts/structure-audit.mjs && node scripts/working-docs-audit.mjs && biome check . && next typegen && tsc --noEmit",
+    "test": "node --test \"scripts/tests/*.test.mjs\"",
+    "format": "biome check --write .",
+    "structure:check": "node scripts/structure-audit.mjs",
+    "docs:index": "node scripts/working-docs-audit.mjs --update"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.0"
+  }
+}

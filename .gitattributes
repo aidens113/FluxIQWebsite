@@ -1,0 +1,3 @@
+# Normalize line endings. core.autocrlf=true on Windows would otherwise check
+# files out with CRLF, which Biome's formatter (LF) then reports as changed.
+* text=auto eol=lf
