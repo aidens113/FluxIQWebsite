@@ -15,6 +15,7 @@
     "preview": "pnpm dlx serve@14 out",
     "check": "node scripts/structure-audit.mjs && node scripts/working-docs-audit.mjs && biome check . && next typegen && tsc --noEmit",
     "test": "node --test \"scripts/tests/*.test.mjs\"",
+    "test:site": "node scripts/site-check.mjs",
     "format": "biome check --write .",
     "structure:check": "node scripts/structure-audit.mjs",
     "docs:index": "node scripts/working-docs-audit.mjs --update",
