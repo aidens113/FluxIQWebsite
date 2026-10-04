@@ -1,15 +1,26 @@
-import { NAV_ITEMS } from "@/content/navigation";
+import { FOCUS_RING } from "@/components/ui/focus-ring";
+import type { NavItem } from "@/content/types";
 
-/** The section anchors, shown from `md` up; below that the header keeps only the logo and GitHub. */
-export function PrimaryNav() {
+export type PrimaryNavProps = {
+  items: readonly NavItem[];
+};
+
+/**
+ * The page links. From `md` up they sit inline; below that they take their
+ * own row under the logo and scroll sideways if they do not fit.
+ */
+export function PrimaryNav({ items }: PrimaryNavProps) {
   return (
-    <nav aria-label="Primary" className="hidden md:block">
-      <ul className="flex items-center gap-1">
-        {NAV_ITEMS.map((item) => (
-          <li key={item.href}>
+    <nav
+      aria-label="Primary"
+      className="order-last -mx-6 w-[calc(100%+3rem)] overflow-x-auto md:order-none md:mx-0 md:ml-auto md:w-auto"
+    >
+      <ul className="flex gap-6 px-6 md:gap-7 md:px-0">
+        {items.map((item) => (
+          <li key={item.href} className="shrink-0">
             <a
               href={item.href}
-              className="rounded-full px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
+              className={`inline-flex min-h-11 items-center rounded-sm text-sm text-dim transition-colors hover:text-fg ${FOCUS_RING}`}
             >
               {item.label}
             </a>

@@ -1,14 +1,17 @@
-// Generates every served brand image from the full-resolution masters in
-// design/brand/. The masters are never served; these derivatives are committed.
-// Running it again rewrites the same bytes, so it is safe to rerun at any time.
+// Generates every served brand image from the masters in design/brand/. The
+// masters are never served; these derivatives are committed. Running it again
+// rewrites the same bytes, so it is safe to rerun at any time.
+//
+// Masters:
+//   design/brand/fluxiq-mark.svg         the app icon: the wave mark on an ink tile
+//   design/brand/og-banner-master.png    2400 x 1260, rendered from og-banner.html
 //
 // Outputs:
-//   src/app/icon.png                  512 x 512, the logo
-//   src/app/apple-icon.png            180 x 180, the logo
+//   src/app/icon.png                  512 x 512, the mark
+//   src/app/apple-icon.png            180 x 180, the mark
 //   src/app/favicon.ico               an ICO container holding one 32 x 32 PNG
-//   src/app/opengraph-image.png       1200 x 630, cropped from the banner
+//   src/app/opengraph-image.png       1200 x 630, the banner
 //   src/app/opengraph-image.alt.txt   the Open Graph image's alt text
-//   public/brand/fluxiq-logo.webp     288 x 288 (144 px at 2x), black keyed to transparent
 //
 // Usage:  pnpm brand:assets
 //   Prints one line per output with its size, and exits 1 if any output is
@@ -20,26 +23,21 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const LOGO_MASTER = path.join(ROOT, "design/brand/fluxiq-logo-master.png");
+const LOGO_MASTER = path.join(ROOT, "design/brand/fluxiq-mark.svg");
 const BANNER_MASTER = path.join(ROOT, "design/brand/og-banner-master.png");
 const MAX_BYTES = 300 * 1024;
+const MASTER_SIZE = 512;
 
-// The Open Graph crop, as fractions of the banner master so it holds at any
-// master size (measured on both the 1600 x 595 and 2056 x 765 masters). The
-// logo and wordmark group spans x 0.318 to 0.698 and y 0.307 to 0.590; the
-// window is centred on it. The corner labels end at x 0.20 ("Ideas -> Action")
-// and start at x 0.85 ("Adapt / Automate / Evolve"). A plain cover crop at
-// 630 px high is 0.71 of the width and slices "ACTION" to "CTION" at the left
-// edge, so the window is 0.58 of the width, which leaves both labels wholly out.
 const OG_SIZE = { width: 1200, height: 630 };
-const OG_GROUP_CENTRE = { x: 0.508, y: 0.449 };
-const OG_WINDOW_WIDTH = 0.58;
-const OG_ALT = "The FluxIQ logo and wordmark with the tagline Automate Smarter, between blue and purple light waves.";
+const OG_ALT =
+  "The FluxIQ wave mark and wordmark above the headline: Only pay AI for what FluxIQ doesn’t already know.";
 
 const PNG_OPTIONS = { compressionLevel: 9, effort: 10, palette: true, quality: 95 };
 
+// The SVG is rasterised at the density that yields the target size directly,
+// so small icons are drawn sharp rather than scaled down from a large bitmap.
 function logo(size) {
-  return sharp(LOGO_MASTER).resize(size, size, { kernel: "lanczos3" });
+  return sharp(LOGO_MASTER, { density: (72 * size) / MASTER_SIZE }).resize(size, size, { kernel: "lanczos3" });
 }
 
 // An ICO file is a 6-byte header, one 16-byte directory entry per image, then
@@ -61,51 +59,8 @@ function icoFromPng(png, size) {
   return Buffer.concat([header, entry, png]);
 }
 
-// The logo master is opaque on black. Keying black to transparency (alpha is
-// the brightest channel, colour is divided back out) lets the page's own
-// background show through, so the logo sits on #03001c without a black square.
-async function logoOnTransparent(size) {
-  const { data, info } = await logo(size).removeAlpha().raw().toBuffer({ resolveWithObject: true });
-  const rgba = Buffer.alloc(info.width * info.height * 4);
-  for (let pixel = 0; pixel < info.width * info.height; pixel++) {
-    const r = data[pixel * 3] ?? 0;
-    const g = data[pixel * 3 + 1] ?? 0;
-    const b = data[pixel * 3 + 2] ?? 0;
-    const alpha = Math.max(r, g, b);
-    const scale = alpha === 0 ? 0 : 255 / alpha;
-    rgba[pixel * 4] = Math.round(r * scale);
-    rgba[pixel * 4 + 1] = Math.round(g * scale);
-    rgba[pixel * 4 + 2] = Math.round(b * scale);
-    rgba[pixel * 4 + 3] = alpha;
-  }
-  return sharp(rgba, { raw: { width: info.width, height: info.height, channels: 4 } })
-    .webp({ quality: 88, alphaQuality: 90, effort: 6 })
-    .toBuffer();
-}
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-}
-
-// Crops the banner to the 1200:630 window centred on the logo and wordmark,
-// then scales that window to exactly 1200 x 630.
 async function openGraphImage() {
-  const { width = 0, height = 0 } = await sharp(BANNER_MASTER).metadata();
-  const aspect = OG_SIZE.width / OG_SIZE.height;
-  let cropWidth = Math.round(width * OG_WINDOW_WIDTH);
-  let cropHeight = Math.round(cropWidth / aspect);
-  if (cropHeight > height) {
-    cropHeight = height;
-    cropWidth = Math.round(height * aspect);
-  }
-  const crop = {
-    left: clamp(Math.round(width * OG_GROUP_CENTRE.x - cropWidth / 2), 0, width - cropWidth),
-    top: clamp(Math.round(height * OG_GROUP_CENTRE.y - cropHeight / 2), 0, height - cropHeight),
-    width: cropWidth,
-    height: cropHeight,
-  };
   return sharp(BANNER_MASTER)
-    .extract(crop)
     .resize(OG_SIZE.width, OG_SIZE.height, { fit: "fill", kernel: "lanczos3" })
     .png(PNG_OPTIONS)
     .toBuffer();
@@ -121,7 +76,6 @@ async function build() {
     ["src/app/opengraph-image.png", await openGraphImage()],
     // No trailing newline: Next reads this file verbatim into og:image:alt.
     ["src/app/opengraph-image.alt.txt", Buffer.from(OG_ALT, "utf8")],
-    ["public/brand/fluxiq-logo.webp", await logoOnTransparent(288)],
   ];
 }
 

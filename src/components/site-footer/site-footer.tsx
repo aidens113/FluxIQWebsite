@@ -1,32 +1,24 @@
-import { Mail } from "lucide-react";
-import { GitHubLogo } from "@/components/ui/github-logo";
-import { Reveal } from "@/components/ui/reveal";
-import { XLogo } from "@/components/ui/x-logo";
+import { Container } from "@/components/ui/container";
+import { TextLink } from "@/components/ui/text-link";
 import { LINKS } from "@/content/links";
 import { SITE } from "@/content/site";
-import { FooterLink } from "./footer-link";
 
-/** The closing bar: the copyright, then small GitHub, X, and license-email links. */
+const FOOTER_LINKS = [LINKS.home, LINKS.extensionPage, LINKS.coreRepo, LINKS.x, LINKS.licenseEmail] as const;
+
+/** The closing bar: the copyright, then small text links. */
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/5">
-      <Reveal className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-        <p className="text-sm text-slate-400">{SITE.copyright}</p>
-        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          <li>
-            <FooterLink link={LINKS.coreRepo} icon={<GitHubLogo className="size-4" />} />
-          </li>
-          <li>
-            <FooterLink link={LINKS.x} icon={<XLogo className="size-4" />} />
-          </li>
-          <li>
-            <FooterLink
-              link={LINKS.licenseEmail}
-              icon={<Mail className="size-4" strokeWidth={2} aria-hidden="true" />}
-            />
-          </li>
+    <footer className="border-t border-line">
+      <Container className="flex flex-wrap justify-between gap-4 py-12 text-sm text-dim">
+        <p>{SITE.copyright}</p>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2">
+          {FOOTER_LINKS.map((link) => (
+            <li key={link.href}>
+              <TextLink link={link} className="text-muted" />
+            </li>
+          ))}
         </ul>
-      </Reveal>
+      </Container>
     </footer>
   );
 }

@@ -1,133 +1,160 @@
-// Shared shapes for the landing page's copy. Content files hold words, links,
-// and icons only: no class names and no colours. Sections decide presentation.
-
-import type { LucideIcon } from "lucide-react";
-
-/** A brand logo, drawn by an inline SVG component in `src/components/ui/`, since Lucide 1.x has no brand icons. */
-export type BrandMark = "github" | "x";
+// Shared shapes for the site's copy. Content files hold words and links only:
+// no class names and no colours. Sections decide presentation.
 
 /** A destination and its visible label. */
 export type SiteLink = {
   label: string;
   href: string;
-  /** True opens a new tab with `rel="noopener noreferrer"`. False for in-page anchors and `mailto:`. */
+  /** True opens a new tab with `rel="noopener noreferrer"`. False for site paths, anchors, and `mailto:`. */
   external: boolean;
 };
 
-/** A link rendered as a pill button. `icon` is a string for a brand logo, otherwise a Lucide icon. */
-export type ActionLink = SiteLink & {
-  variant: "primary" | "ghost";
-  icon: BrandMark | LucideIcon;
-};
+/** A link rendered as a button. */
+export type ActionLink = SiteLink & { variant: "primary" | "ghost" };
 
 export type SiteContent = {
   name: string;
-  /** The wordmark in two parts, so the section can style the accent ("Flux" + "IQ"). */
-  wordmark: { lead: string; accent: string };
-  tagline: string;
   /** The meta description, shared verbatim with the page metadata. */
   description: string;
   url: string;
-  /** The status pill. */
-  status: string;
   copyright: string;
 };
 
-/** Section anchors, without the leading `#`. Each section renders its own as `id`. */
-export type SectionId = "why" | "how-it-works" | "features" | "developers" | "roadmap" | "license" | "follow";
+export type NavItem = { label: string; href: string };
 
-export type NavItem = { label: string; href: `#${SectionId}` };
+/** A headline in two tones: the lead line, then a quieter second line. */
+export type SplitTitle = { lead: string; muted: string };
 
-/** The eyebrow, h2 title, and optional lede a section opens with. */
-export type SectionIntro = {
-  id: SectionId;
-  eyebrow: string;
-  title: string;
-  lede?: string;
-};
+/**
+ * How a value reads at a glance: `ok` is green, `attention` is the accent,
+ * `neutral` is muted text. Shared by the run history, the roadmap, the concept
+ * pipeline, and the side-panel sketch.
+ */
+export type Tone = "ok" | "attention" | "neutral";
 
-/** A card or timeline step: an icon, a short title, and a body of at most 30 words. */
-export type Card = {
-  icon: LucideIcon;
-  title: string;
-  body: string;
-};
+/** A short titled paragraph: one of a section's points. */
+export type Point = { title: string; body: string };
 
 export type HeroContent = {
+  title: SplitTitle;
   lede: string;
-  /** Decorative corner labels, in reading order. */
-  cornerLabels: { start: string; end: string };
   actions: readonly ActionLink[];
 };
 
-export type WhyContent = SectionIntro & { cards: readonly Card[] };
-
-export type HowItWorksContent = SectionIntro & { steps: readonly Card[] };
-
-export type FeatureGroup = {
-  id: "core" | "web-extension";
-  title: string;
-  summary: string;
-  /** An optional one-line footnote under the group. */
-  note?: string;
-  items: readonly Card[];
+export type RunRow = {
+  run: string;
+  event: string;
+  ai: string;
+  result: string;
+  /** The result's tone; an `attention` row is highlighted as a whole. */
+  tone: Tone;
+  /** True colours the AI column with the accent. */
+  usedAi: boolean;
 };
 
-export type FeaturesContent = SectionIntro & { groups: readonly FeatureGroup[] };
+export type RunHistoryContent = {
+  label: string;
+  /** Says the run history is an illustration, not a recording. */
+  note: string;
+  columns: readonly [string, string, string, string];
+  rows: readonly RunRow[];
+};
 
-export type CodeSample = {
-  id: string;
+/** Home page section anchors, without the leading `#`. */
+export type HomeSectionId = "why" | "framework" | "how-it-works" | "vision" | "status";
+
+export type WhyContent = {
+  id: HomeSectionId;
+  /** Each line renders on its own line; the last is muted. */
+  titleLines: readonly string[];
+  points: readonly Point[];
+};
+
+export type Part = {
+  kicker: string;
   title: string;
-  /** Shown in the code block's title bar. */
-  filename: string;
-  language: "ts" | "sh";
-  /** At most 20 lines. Verified against FluxIQ Core; see the content report. */
-  code: string;
+  body: string;
+  items: readonly string[];
+  link: SiteLink;
+};
+
+export type PartsContent = {
+  id: HomeSectionId;
+  title: string;
+  lede: string;
+  parts: readonly Part[];
+};
+
+export type Step = {
+  label: string;
+  title: string;
+  body: string;
+  /** True draws the step in the accent: the one where AI may step in again. */
+  highlight?: boolean;
+};
+
+export type HowItWorksContent = {
+  id: HomeSectionId;
+  title: string;
+  steps: readonly Step[];
+};
+
+export type RoadmapStage = { stage: string; label: string; tone: Tone };
+
+export type PipelineStage = { label: string; value: string; highlight?: boolean };
+
+export type PipelineFlow = { name: string; lastRun: string; status: string; tone: Tone };
+
+export type ConceptContent = {
+  prompt: string;
+  heading: string;
+  stages: readonly PipelineStage[];
+  columns: readonly [string, string, string];
+  flows: readonly PipelineFlow[];
+  /** States plainly that the concept is not a shipped feature. */
   caption: string;
 };
 
-export type PackageInfo = {
-  name: string;
-  version: string;
-  summary: string;
-};
-
-export type DevelopersContent = SectionIntro & {
-  /** The release label shown beside the samples: no package is on npm yet. */
-  release: string;
-  requirements: readonly string[];
-  packages: readonly PackageInfo[];
-  samples: readonly CodeSample[];
-  /** How to build the packages today, until the npm release. */
-  build: CodeSample;
-  action: ActionLink;
-};
-
-export type RoadmapItem = {
+export type VisionContent = {
+  id: HomeSectionId;
+  eyebrow: string;
   title: string;
-  detail: string;
+  paragraphs: readonly string[];
+  roadmap: readonly RoadmapStage[];
+  concept: ConceptContent;
 };
 
-export type RoadmapColumn = {
-  status: "shipped" | "in-progress" | "planned";
+export type StatusRow = {
+  label: string;
+  body: string;
+  /** An optional link after the body. */
+  link?: SiteLink;
+};
+
+export type StatusContent = {
+  id: HomeSectionId;
   title: string;
-  icon: LucideIcon;
-  items: readonly RoadmapItem[];
+  lede: string;
+  rows: readonly StatusRow[];
 };
 
-export type RoadmapContent = SectionIntro & { columns: readonly RoadmapColumn[] };
+/** A mock automation in the side-panel sketch. */
+export type PanelItem = { name: string; detail: string; tone: Tone };
 
-export type LicenseList = {
-  title: string;
-  icon: LucideIcon;
-  items: readonly string[];
-};
-
-export type LicensingContent = SectionIntro & {
-  freeFor: LicenseList;
-  needsAgreement: LicenseList;
-  disclaimer: string;
+export type ExtensionContent = {
+  kicker: string;
+  title: SplitTitle;
+  lede: string;
   actions: readonly ActionLink[];
+  panel: {
+    tabs: readonly [string, string];
+    connection: string;
+    items: readonly PanelItem[];
+    runLabel: string;
+    record: string;
+    extract: string;
+    caption: string;
+  };
+  features: { id: "features"; title: string; points: readonly Point[] };
+  setup: { id: "setup"; title: string; lede: string; steps: readonly string[] };
 };
-
-export type FollowContent = SectionIntro & { actions: readonly ActionLink[] };

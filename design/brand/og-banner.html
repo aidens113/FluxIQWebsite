@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- Source for og-banner-master.png. Render at 1200 x 630 with device scale 2
+     (2400 x 1260) in a headless browser, then run `pnpm brand:assets`. Headless
+     renders may not reach Google Fonts; the 2026-10-04 render swapped this link
+     for the built site's CSS so the self-hosted Geist files were used. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  body { width: 1200px; height: 630px; background: #0c0d0f; color: #e8e6e3; font-family: Geist, sans-serif;
+         box-sizing: border-box; padding: 88px 96px; display: flex; flex-direction: column; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 18px; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; }
+  h1 { margin: 0; font-size: 76px; line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; }
+  h1 span { color: #8c8a85; }
+  .foot { font-family: "Geist Mono", monospace; font-size: 22px; color: #8c8a85; display: flex; justify-content: space-between; }
+  .foot b { color: #f5b83d; font-weight: 400; }
+</style>
+</head>
+<body>
+  <div class="brand">
+    <svg width="56" height="56" viewBox="0 0 32 32" fill="none"><title>FluxIQ mark</title><path d="M3 16 C6 6, 9 26, 13 16 L29 16" stroke="#f5b83d" stroke-width="3" stroke-linecap="round"/><circle cx="29" cy="16" r="2.5" fill="#e8e6e3"/></svg>
+    FluxIQ
+  </div>
+  <h1>Only pay AI for what<br><span>FluxIQ doesn’t already know.</span></h1>
+  <div class="foot"><span>getfluxiq.com</span><b>framework · browser extension</b></div>
+</body>
+</html>

@@ -1,39 +1,30 @@
-import type { ReactNode } from "react";
+import type { ActionLink } from "@/content/types";
+import { FOCUS_RING } from "./focus-ring";
 
 export type LinkButtonProps = {
-  href: string;
-  variant?: "primary" | "ghost";
-  /** Opens in a new tab, with `rel="noopener noreferrer"` and a screen-reader note. */
-  external?: boolean;
-  /** Layout additions only, such as width; the variant owns the look. */
-  className?: string;
-  children: ReactNode;
+  action: ActionLink;
 };
 
-const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300";
+const BASE = `inline-flex min-h-12 items-center justify-center rounded-md px-5.5 text-[15px] transition-colors ${FOCUS_RING}`;
 
-// The primary label is ink, not white: white on the cyan end of the gradient
-// is under 2:1 contrast, while ink stays above 4.5:1 across the whole gradient.
 const VARIANTS = {
-  primary:
-    "bg-linear-to-r from-cyan-400 via-blue-500 to-purple-500 text-ink shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:brightness-110",
-  ghost: "border border-white/10 bg-white/5 text-slate-100 hover:border-white/20 hover:bg-white/10",
+  primary: "bg-amber font-semibold text-ink hover:bg-[#ffc95c]",
+  ghost: "border border-edge font-medium text-fg hover:border-dim hover:text-white",
 } as const;
 
-/** A rounded-full pill link, the site's only button shape. */
-export function LinkButton({ href, variant = "primary", external = false, className, children }: LinkButtonProps) {
-  const classes = [BASE, VARIANTS[variant], className].filter(Boolean).join(" ");
-  if (!external) {
+/** A call-to-action link styled as a button. External links open a new tab and say so to screen readers. */
+export function LinkButton({ action }: LinkButtonProps) {
+  const classes = `${BASE} ${VARIANTS[action.variant]}`;
+  if (!action.external) {
     return (
-      <a href={href} className={classes}>
-        {children}
+      <a href={action.href} className={classes}>
+        {action.label}
       </a>
     );
   }
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
-      {children}
+    <a href={action.href} target="_blank" rel="noopener noreferrer" className={classes}>
+      {action.label}
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );

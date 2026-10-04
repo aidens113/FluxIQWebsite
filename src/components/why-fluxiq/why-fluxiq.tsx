@@ -1,29 +1,27 @@
-import { Reveal } from "@/components/ui/reveal";
-import { SectionHeading } from "@/components/ui/section-heading";
+import { PageSection } from "@/components/ui/page-section";
+import { PointGrid } from "@/components/ui/point-grid";
+import { SectionTitle } from "@/components/ui/section-title";
 import { WHY } from "@/content/why";
-import { WhyCard } from "./why-card";
 
-/** "Why FluxIQ": the section heading, then the reasons as three cards from `md` up. */
+/** Scripts versus agents versus FluxIQ, then the four reasons it costs less. */
 export function WhyFluxIQ() {
-  const { id, eyebrow, title, lede, cards } = WHY;
+  const lines = WHY.titleLines;
   return (
-    <section
-      id={id}
-      aria-labelledby={`${id}-title`}
-      className="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-16 sm:py-24"
-    >
-      <Reveal>
-        <SectionHeading id={`${id}-title`} eyebrow={eyebrow} title={title} lede={lede} />
-      </Reveal>
-      <ul className="mt-16 grid gap-6 md:grid-cols-3">
-        {cards.map((card) => (
-          <li key={card.title}>
-            <Reveal className="h-full">
-              <WhyCard card={card} />
-            </Reveal>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <PageSection id={WHY.id} labelledBy="why-title">
+      <SectionTitle id="why-title" className="max-w-[900px]">
+        {lines.map((line, index) =>
+          index === lines.length - 1 ? (
+            <span key={line} className="block text-dim">
+              {line}
+            </span>
+          ) : (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ),
+        )}
+      </SectionTitle>
+      <PointGrid points={WHY.points} className="mt-16" />
+    </PageSection>
   );
 }

@@ -1,25 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
+import { SITE } from "@/content/site";
 import "./globals.css";
 
-const SITE_TITLE = "FluxIQ — Automate Smarter";
-const SITE_DESCRIPTION =
-  "FluxIQ is a source-available TypeScript automation framework: AI generates and repairs your Flows, and deterministic replay runs them without a model.";
+const SITE_TITLE = "FluxIQ — Only pay AI for what it doesn’t already know";
 
 // Self-hosted at build time, so the page makes no request to Google. The
-// variables feed the `font-display` and `font-body` tokens in globals.css.
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "swap",
-  variable: "--font-space-grotesk",
-});
-
-const inter = Inter({
+// variables feed the `font-sans` and `font-mono` tokens in globals.css.
+const geist = Geist({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-geist",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-geist-mono",
 });
 
 // Open Graph and Twitter inherit the title and description, and the images
@@ -27,24 +26,24 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://getfluxiq.com"),
   title: { default: SITE_TITLE, template: "%s — FluxIQ" },
-  description: SITE_DESCRIPTION,
+  description: SITE.description,
   alternates: { canonical: "/" },
   openGraph: { type: "website", siteName: "FluxIQ", url: "/", locale: "en_US" },
   twitter: { card: "summary_large_image", site: "@GetFluxIQ" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#03001c",
+  themeColor: "#0c0d0f",
 };
 
-// page.tsx owns the header, <main id="main">, and the footer.
+// Each page owns its header, <main id="main">, and the footer.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} antialiased`}>
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-ink focus:outline-2 focus:outline-offset-2 focus:outline-cyan-300"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-fg focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-ink focus:outline-2 focus:outline-offset-2 focus:outline-amber"
         >
           Skip to content
         </a>

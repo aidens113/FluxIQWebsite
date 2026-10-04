@@ -1,64 +1,56 @@
 @import "tailwindcss";
 
-/* Design tokens. `bg-ink`, `font-display`, and `font-body` are the utilities
-   these produce. The font tokens are inline so their utilities read the
-   next/font variables that layout.tsx sets on <html>. */
+/* Design tokens. Each `--color-*` becomes Tailwind utilities (`bg-ink`,
+   `text-muted`, `border-line`, ...). The font tokens are inline so their
+   utilities read the next/font variables that layout.tsx sets on <html>.
+   Contrast on ink: fg 15:1, soft 12:1, muted 8.9:1, dim 5.4:1, amber 10:1. */
 @theme {
-  --color-ink: #03001c;
+  --color-ink: #0c0d0f;
+  --color-panel: #111214;
+  --color-line: #1b1d21;
+  --color-rule: #23252a;
+  --color-edge: #2e3035;
+  --color-fg: #e8e6e3;
+  --color-soft: #d6d3ce;
+  --color-muted: #b5b2ac;
+  --color-dim: #8c8a85;
+  --color-amber: #f5b83d;
+  --color-amber-edge: #5a4618;
+  --color-amber-wash: #15130d;
+  --color-amber-row: #1a1710;
+  --color-ok: #7fc99b;
 }
 
 @theme inline {
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 }
 
 @layer base {
   html {
     color-scheme: dark;
     /* Clears the sticky header when an in-page anchor is followed. */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
 
   body {
     background-color: var(--color-ink);
-    color: var(--color-slate-200);
-    font-family: var(--font-body);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-cyan-400) 30%, transparent);
+    background-color: color-mix(in oklab, var(--color-amber) 35%, transparent);
   }
 }
 
 /* Motion. Every animation below runs only when the visitor has not asked for
    reduced motion, so under `prefers-reduced-motion: reduce` nothing moves. */
 
-@keyframes wave-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-4%, 2%, 0);
-  }
-}
-
-@keyframes status-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.75;
-  }
-  75%,
-  100% {
-    transform: scale(2.25);
-    opacity: 0;
-  }
-}
-
 @keyframes reveal-rise {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -69,28 +61,6 @@
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
-  }
-}
-
-/* A slow drift for the hero's wave SVGs. Stagger layers with an arbitrary
-   `[animation-delay:-6s]`; the delay is deliberately left unset here. */
-@utility animate-wave-drift {
-  @media (prefers-reduced-motion: no-preference) {
-    animation-name: wave-drift;
-    animation-duration: 18s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-  }
-}
-
-/* An expanding, fading halo for the status pill's dot. Put it on an
-   absolutely positioned span behind the dot. */
-@utility animate-status-pulse {
-  @media (prefers-reduced-motion: no-preference) {
-    animation-name: status-pulse;
-    animation-duration: 2s;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    animation-iteration-count: infinite;
   }
 }
 

@@ -1,13 +1,15 @@
-import { Puzzle } from "lucide-react";
 import { LINKS } from "./links";
 import type { HeroContent } from "./types";
 
+// Sources (FluxIQ Core f6ef9f4): replay without a model and the triggers for a
+// model call are runtime/result-check-schedule and runtime-adaptation; "limits
+// you set" is the per-Flow LLM Budget in FlowSettingsView.tsx. Recording is
+// the Web Extension's recorder (b6768b7). See docs/working/site-v2.md.
 export const HERO: HeroContent = {
-  lede: "A source-available TypeScript framework for automations that call AI only when something is new. Describe or demonstrate the job once, and FluxIQ generates a Flow that replays without a model. When a run breaks, it diagnoses the failure and proposes a repair for your review.",
-  cornerLabels: { start: "Adapt / Automate / Evolve", end: "Ideas → Action" },
+  title: { lead: "Only pay AI for what", muted: "FluxIQ doesn’t already know." },
+  lede: "Describe a job or show it once in your browser. FluxIQ turns it into an automation that replays on its own. A model only steps in when something is new, a result looks wrong, or the page has changed, and always within the limits you set.",
   actions: [
-    { ...LINKS.coreRepo, variant: "primary", icon: "github" },
-    { ...LINKS.extensionRepo, variant: "ghost", icon: Puzzle },
-    { ...LINKS.x, variant: "ghost", icon: "x" },
+    { ...LINKS.coreRepo, label: "Get the framework", variant: "primary" },
+    { ...LINKS.extensionPage, label: "See the browser extension", variant: "ghost" },
   ],
 };

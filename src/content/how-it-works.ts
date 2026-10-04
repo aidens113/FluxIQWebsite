@@ -1,31 +1,34 @@
-import { GitBranch, MessageSquareText, Play, Stethoscope } from "lucide-react";
 import type { HowItWorksContent } from "./types";
 
+// Sources (Core f6ef9f4): instruction-first authoring from a permission- and
+// capability-filtered node catalog, with purchases, deletion, and sending
+// always held for a person (runtime/flow-bootstrap,
+// docs/architecture/automation-studio/llm-flow-bootstrap.md); a patch is kept
+// only after a whole run on it is judged a success (judged-promotion.ts).
 export const HOW_IT_WORKS: HowItWorksContent = {
   id: "how-it-works",
-  eyebrow: "How it works",
-  title: "From intent to a Flow that runs without a model.",
-  lede: "AI handles what is new. What it produces is a Flow you can read, review, and replay without it.",
+  title: "How a Flow is born, and stays alive",
   steps: [
     {
-      icon: MessageSquareText,
-      title: "Describe or demonstrate",
-      body: "Write what you want in plain language, or record it once in the browser with the FluxIQ Web Extension.",
+      label: "01 · show",
+      title: "Say it or show it",
+      body: "Type what you want done, or record it once in your browser.",
     },
     {
-      icon: GitBranch,
-      title: "Generate",
-      body: "Text becomes a proposed Flow: a Router plus Subflows, each with defined run conditions. A recording maps to a Subflow deterministically, with no model.",
+      label: "02 · build",
+      title: "Built from real parts",
+      body: "AI assembles the Flow only from actions FluxIQ actually has. Buying, deleting, or sending always waits for a person.",
     },
     {
-      icon: Play,
-      title: "Run",
-      body: "The Router reads live inputs and state to pick a Subflow. Replay is deterministic and needs no API key, no grant, and no model.",
+      label: "03 · run",
+      title: "Replays without AI",
+      body: "Saved steps run the same way every time, and results get checked until the Flow has earned trust.",
     },
     {
-      icon: Stethoscope,
-      title: "Diagnose and adapt",
-      body: "When a run fails, recovery works inside a cost cap, token budget, deadline, and no-progress guard. It proposes an adaptation you review and can revert.",
+      label: "04 · repair",
+      title: "Fixes itself, with your say",
+      body: "When a site changes or a check fails, FluxIQ works out why, proposes a fix, and keeps it only once a full run succeeds.",
+      highlight: true,
     },
   ],
 };

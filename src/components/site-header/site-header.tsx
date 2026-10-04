@@ -1,29 +1,33 @@
-import { GitHubLogo } from "@/components/ui/github-logo";
+import { Container } from "@/components/ui/container";
+import { FOCUS_RING } from "@/components/ui/focus-ring";
 import { LINKS } from "@/content/links";
+import type { NavItem } from "@/content/types";
 import { HomeLink } from "./home-link";
 import { PrimaryNav } from "./primary-nav";
 
-/**
- * The sticky top bar: home link on the left, section anchors in the centre
- * from `md` up, and an icon-only GitHub link on the right. The three-column
- * grid keeps the nav centred however wide the two ends are.
- */
-export function SiteHeader() {
+export type SiteHeaderProps = {
+  nav: readonly NavItem[];
+  /** A page name shown after the wordmark. */
+  section?: string;
+};
+
+/** The sticky top bar: home link, page links, and GitHub. */
+export function SiteHeader({ nav, section }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/5 bg-ink/70 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-6 md:grid md:grid-cols-[1fr_auto_1fr]">
-        <HomeLink />
-        <PrimaryNav />
+    <header className="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur">
+      <Container className="flex flex-wrap items-center justify-between gap-x-8 pt-3 md:min-h-18 md:pt-0">
+        <HomeLink section={section} />
+        <PrimaryNav items={nav} />
         <a
           href={LINKS.coreRepo.href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`${LINKS.coreRepo.label} (opens in a new tab)`}
-          className="inline-flex size-10 items-center justify-center justify-self-end rounded-full text-slate-300 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
+          className={`inline-flex min-h-11 items-center rounded-sm text-sm text-fg transition-colors hover:text-amber ${FOCUS_RING}`}
         >
-          <GitHubLogo className="size-5" />
+          {LINKS.coreRepo.label}
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
-      </div>
+      </Container>
     </header>
   );
 }

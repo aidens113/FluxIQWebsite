@@ -1,24 +1,26 @@
-// Audits the built static export in out/ for the rules the landing page must
-// keep: one h1, resolvable anchors, allowlisted links, complete head metadata,
-// none of the retired copy, and a JavaScript budget. It parses with regexes on
+// Audits the built static export in out/ for the rules every page must keep:
+// one h1, resolvable anchors, allowlisted links, complete head metadata, none
+// of the retired copy, and a JavaScript budget. Each page in PAGES is checked
+// against its own canonical URL and required ids. It parses with regexes on
 // purpose; the page is a single generated document, and a parser dependency
 // would buy nothing here. Every finding fails.
 //
 // Rules:
 //   missing-index    out/index.html exists (run `pnpm build` first)
+//   missing-page     every other page in PAGES exists
 //   html-lang        the root element is <html lang="en">
 //   single-h1        the document has exactly one <h1>
 //   img-alt          every <img> has an alt attribute (empty is allowed)
 //   anchor-target    every href="#x" resolves to an element with id="x"
-//   required-anchor  #main and the five navigation targets exist
+//   required-anchor  #main and the page's section anchors exist
 //   link-allowlist   every other <a href> is on the allowlist
 //   link-rel         every target="_blank" link has rel="noopener noreferrer"
-//   head-meta        title, description, canonical, absolute og:image, twitter:card
+//   head-meta        title, description, the page's canonical, absolute og:image, twitter:card
 //   retired-phrase   no retired phrase in visible text or meta content
-//   js-budget        the scripts a modern browser loads total at most 200 KB gzip
+//   js-budget        the scripts a modern browser loads per page total at most 200 KB gzip
 //
 // js-budget measures what a module-supporting browser downloads: every
-// <script src> in index.html that has no nomodule attribute, resolved against
+// <script src> in the page that has no nomodule attribute, resolved against
 // the out directory, deduplicated by file, and gzipped one file at a time as a
 // server would send it. Legacy nomodule polyfills, inline scripts, and files
 // nothing references are not counted. A referenced file that is missing, or a
@@ -31,7 +33,8 @@
 //
 // Usage:  node scripts/site-check.mjs [--out <dir>]
 //   <dir> defaults to `out`, relative to the working directory. Prints one
-//   `<rule>: <message>` line per finding and exits 1 if there are any,
+//   `<rule>: <message>` line per finding (prefixed with the page for pages
+//   other than index.html) and exits 1 if there are any,
 //   otherwise prints `site-check: passed (<n> KB gzip JS)` and exits 0.
 
 import { existsSync, readFileSync, statSync } from "node:fs";
@@ -46,10 +49,25 @@ export const ALLOWED_HREFS = [
   "https://x.com/GetFluxIQ",
   "mailto:license@getfluxiq.com",
   "/",
+  "/extension/",
   "https://getfluxiq.com/",
 ];
-export const REQUIRED_IDS = ["main", "how-it-works", "features", "developers", "roadmap", "license"];
-export const CANONICAL_URL = "https://getfluxiq.com/";
+// Every page the export must contain, its canonical URL, and the ids its
+// navigation and skip link point at. The first page is the home page.
+export const PAGES = [
+  {
+    file: "index.html",
+    canonical: "https://getfluxiq.com/",
+    requiredIds: ["main", "why", "framework", "how-it-works", "vision", "status"],
+  },
+  {
+    file: "extension/index.html",
+    canonical: "https://getfluxiq.com/extension/",
+    requiredIds: ["main", "features", "setup"],
+  },
+];
+export const REQUIRED_IDS = PAGES[0].requiredIds;
+export const CANONICAL_URL = PAGES[0].canonical;
 // Each phrase must start on a word boundary, so "many models" does not match
 // "any model" and "mastodon" does not match "todo". "policy" is a whole word
 // at both ends, so "policies" and "policyholder" pass.
@@ -61,6 +79,10 @@ export const RETIRED_PHRASES = [
   { phrase: "any model", pattern: /\bany\s+model/i },
   { phrase: "lorem", pattern: /\blorem/i },
   { phrase: "todo", pattern: /\btodo/i },
+  // Core removed execution grants; model limits are user-set per Flow, so the
+  // site names neither the old concept nor its old $2 ceiling.
+  { phrase: "execution grant", pattern: /\bexecution\s+grants?\b/i },
+  { phrase: "$2", pattern: /\$2(?![\d,]|\.\d)/ },
 ];
 export const MAX_SCRIPT_GZIP_BYTES = 200 * 1024;
 
@@ -136,9 +158,9 @@ function checkDocument(tags, report) {
   }
 }
 
-function checkLinks(tags, report) {
+function checkLinks(tags, page, report) {
   const ids = new Set(tags.filter((tag) => tag.attributes.has("id")).map((tag) => tag.attributes.get("id")));
-  for (const id of REQUIRED_IDS) {
+  for (const id of page.requiredIds) {
     if (!ids.has(id)) report("required-anchor", `no element with id="${id}"`);
   }
 
@@ -167,7 +189,7 @@ function checkLinks(tags, report) {
   }
 }
 
-function checkHead(markup, tags, report) {
+function checkHead(markup, tags, page, report) {
   const head = markup.match(/<head\b[^>]*>([\s\S]*?)<\/head\s*>/i)?.[1] ?? markup;
   const title = head.match(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/i);
   if (!title || visibleText(title[1]) === "") report("head-meta", "missing a non-empty <title>");
@@ -190,9 +212,9 @@ function checkHead(markup, tags, report) {
     (tag) =>
       tag.name === "link" &&
       tokens(tag.attributes.get("rel")).has("canonical") &&
-      tag.attributes.get("href") === CANONICAL_URL,
+      tag.attributes.get("href") === page.canonical,
   );
-  if (!canonical) report("head-meta", `missing <link rel="canonical" href="${CANONICAL_URL}">`);
+  if (!canonical) report("head-meta", `missing <link rel="canonical" href="${page.canonical}">`);
 }
 
 function checkPhrases(markup, tags, report) {
@@ -211,15 +233,16 @@ function checkPhrases(markup, tags, report) {
   }
 }
 
-// The pure checker: every rule that reads the document, given its HTML.
-export function checkHtml(html) {
+// The pure checker: every rule that reads the document, given its HTML and
+// the page it is (the home page unless told otherwise).
+export function checkHtml(html, page = PAGES[0]) {
   const findings = [];
   const report = (rule, message) => findings.push({ rule, message });
   const markup = NON_CONTENT.reduce((text, pattern) => text.replace(pattern, " "), html);
   const tags = startTags(markup);
   checkDocument(tags, report);
-  checkLinks(tags, report);
-  checkHead(markup, tags, report);
+  checkLinks(tags, page, report);
+  checkHead(markup, tags, page, report);
   checkPhrases(markup, tags, report);
   return findings;
 }
@@ -276,26 +299,43 @@ export function measureScripts(outDir, sources) {
   return { bytes, problems };
 }
 
-export function checkSite(outDir) {
-  const indexPath = path.join(outDir, "index.html");
-  if (!existsSync(indexPath)) {
-    return {
-      findings: [{ rule: "missing-index", message: `${indexPath} does not exist; run pnpm build first` }],
-      scriptBytes: 0,
-    };
-  }
-  const html = readFileSync(indexPath, "utf8");
-  const findings = checkHtml(html);
+function checkPage(outDir, page) {
+  const html = readFileSync(path.join(outDir, page.file), "utf8");
+  const findings = checkHtml(html, page);
   const { bytes, problems } = measureScripts(outDir, scriptSources(html));
   for (const message of problems) findings.push({ rule: "js-budget", message });
   if (bytes > MAX_SCRIPT_GZIP_BYTES) {
     const kilobytes = (bytes / 1024).toFixed(1);
     findings.push({
       rule: "js-budget",
-      message: `${kilobytes} KB gzip of JavaScript loaded by index.html, limit ${MAX_SCRIPT_GZIP_BYTES / 1024} KB`,
+      message: `${kilobytes} KB gzip of JavaScript loaded by ${page.file}, limit ${MAX_SCRIPT_GZIP_BYTES / 1024} KB`,
     });
   }
-  return { findings, scriptBytes: bytes };
+  return { findings, bytes };
+}
+
+// Checks every page; the reported script size is the largest any page loads.
+export function checkSite(outDir, pages = PAGES) {
+  const indexPath = path.join(outDir, pages[0].file);
+  if (!existsSync(indexPath)) {
+    return {
+      findings: [{ rule: "missing-index", message: `${indexPath} does not exist; run pnpm build first` }],
+      scriptBytes: 0,
+    };
+  }
+  const findings = [];
+  let scriptBytes = 0;
+  for (const [index, page] of pages.entries()) {
+    if (!existsSync(path.join(outDir, page.file))) {
+      findings.push({ rule: "missing-page", message: `${page.file} does not exist` });
+      continue;
+    }
+    const result = checkPage(outDir, page);
+    const prefix = index === 0 ? "" : `${page.file}: `;
+    for (const finding of result.findings) findings.push({ ...finding, message: prefix + finding.message });
+    scriptBytes = Math.max(scriptBytes, result.bytes);
+  }
+  return { findings, scriptBytes };
 }
 
 function main(argv) {

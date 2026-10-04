@@ -12,6 +12,7 @@ import {
   checkHtml,
   checkSite,
   MAX_SCRIPT_GZIP_BYTES,
+  PAGES,
   REQUIRED_IDS,
   scriptSources,
 } from "../site-check.mjs";
@@ -35,21 +36,30 @@ const PASSING = `<!DOCTYPE html><html lang="en" class="antialiased"><head><meta 
 </head><body>
 <a href="#main">Skip to content</a>
 <header><a href="/"><img src="/brand/fluxiq-logo.webp" alt="FluxIQ"/></a>
-<nav><a href="#how-it-works">How it works</a><a href="#features">Features</a><a href="#developers">Developers</a>
-<a href="#roadmap">Roadmap</a><a href="#license">License</a></nav></header>
+<nav><a href="#how-it-works">How it works</a><a href="#framework">Framework</a><a href="#vision">Vision</a>
+<a href="#status">Status</a><a href="#why">Why</a><a href="/extension/">Extension</a></nav></header>
 <main id="main"><h1 class="text-4xl">Automate smarter</h1>
 <section id="how-it-works"><img src="/wave.svg" alt=""/><p>Record a Flow; the Router picks a Subflow; policies &amp; a policyholder are fine words; many models too.</p></section>
-<section id="features"><p>Reviewed adaptations, never silent ones.</p></section>
-<section id="developers"><a href="https://github.com/aidens113/FluxIQ" target="_blank" rel="noopener noreferrer">Core</a>
+<section id="framework"><p>Reviewed adaptations, never silent ones.</p></section>
+<section id="vision"><a href="https://github.com/aidens113/FluxIQ" target="_blank" rel="noopener noreferrer">Core</a>
 <a href="https://github.com/aidens113/FluxIQWebExtension" target="_blank" rel="noreferrer noopener external">Extension</a></section>
-<section id="roadmap"><p>In progress</p></section>
-<section id="license"><a href="https://github.com/aidens113/FluxIQ/blob/main/LICENSE.md">License</a>
+<section id="status"><p>In progress</p></section>
+<section id="why"><a href="https://github.com/aidens113/FluxIQ/blob/main/LICENSE.md">License</a>
 <a href="mailto:license@getfluxiq.com">license@getfluxiq.com</a></section></main>
 <footer><a href="https://getfluxiq.com/">FluxIQ</a><a href="https://x.com/GetFluxIQ" target="_blank" rel="noopener noreferrer">X</a></footer>
 <!-- TODO: Coming Soon <h1>policy</h1> <a href="#nowhere"> <script src="/_next/static/chunks/gone.js"></script> -->
 <script>self.__next_f.push([1,"<h1>Coming Soon</h1><a href=\\"https://example.com\\">policy</a>"])</script>
 </body></html>
 `;
+
+// The extension page, passing on its own canonical URL and ids.
+const EXTENSION_PASSING = PASSING.replace(
+  '<link rel="canonical" href="https://getfluxiq.com/"/>',
+  '<link rel="canonical" href="https://getfluxiq.com/extension/"/>',
+).replace(
+  '<section id="status">',
+  '<section id="features"><a href="#setup">Setup</a></section><section id="setup"></section><section id="status">',
+);
 
 // Returns PASSING with each [from, to] replacement applied, failing the test
 // if a replacement would silently match nothing.
@@ -75,7 +85,11 @@ function withSite(files, run) {
 
 // An out directory named `dir` holding `html` as its index and the app script
 // PASSING loads, so a fixture only fails the rule it was built to fail.
-const siteFiles = (dir, html) => ({ [`${dir}/index.html`]: html, [`${dir}${APP_SRC}`]: APP_JS });
+const siteFiles = (dir, html) => ({
+  [`${dir}/index.html`]: html,
+  [`${dir}/extension/index.html`]: EXTENSION_PASSING,
+  [`${dir}${APP_SRC}`]: APP_JS,
+});
 const rulesOf = (findings) => findings.map((finding) => finding.rule).sort();
 const runSite = (html, files = {}) =>
   withSite({ ...siteFiles("out", html), ...files }, (root) => checkSite(path.join(root, "out")));
@@ -84,6 +98,21 @@ const siteRules = (html, files = {}) => rulesOf(runSite(html, files).findings);
 test("the passing fixture has no findings", () => {
   assert.deepEqual(siteRules(PASSING), []);
   assert.deepEqual(checkHtml(PASSING), []);
+  assert.deepEqual(checkHtml(EXTENSION_PASSING, PAGES[1]), []);
+});
+
+test("each page is held to its own canonical URL and ids, and a missing page is reported", () => {
+  const findings = checkHtml(PASSING, PAGES[1]);
+  assert.deepEqual(rulesOf(findings), ["head-meta", "required-anchor", "required-anchor"]);
+  withSite({ "out/index.html": PASSING, [`out${APP_SRC}`]: APP_JS }, (root) => {
+    const result = checkSite(path.join(root, "out"));
+    assert.deepEqual(rulesOf(result.findings), ["missing-page"]);
+    assert.match(result.findings[0].message, /extension\/index\.html/);
+  });
+  withSite({ ...siteFiles("out", PASSING), "out/extension/index.html": PASSING }, (root) => {
+    const messages = checkSite(path.join(root, "out")).findings.map((finding) => finding.message);
+    assert.ok(messages.length > 0 && messages.every((message) => message.startsWith("extension/index.html: ")));
+  });
 });
 
 test("the fixture exercises every allowlisted href and required id", () => {
@@ -116,16 +145,16 @@ test("anchor-target fails an in-page href with no matching id", () => {
 });
 
 test("required-anchor fails when a navigation target is missing, even with no link to it", () => {
-  const findings = checkHtml(mutate(['id="roadmap"', 'id="plans"'], ['href="#roadmap"', 'href="#plans"']));
+  const findings = checkHtml(mutate(['id="status"', 'id="plans"'], ['href="#status"', 'href="#plans"']));
   assert.deepEqual(rulesOf(findings), ["required-anchor"]);
-  assert.match(findings[0].message, /id="roadmap"/);
+  assert.match(findings[0].message, /id="status"/);
   assert.deepEqual(rulesOf(checkHtml(mutate(['<main id="main">', "<main>"]))), ["anchor-target", "required-anchor"]);
 });
 
 test("link-allowlist fails every href that is not on the list", () => {
   const html = mutate([
     "<p>In progress</p>",
-    '<a href="https://example.com">x</a><a href="http://github.com/aidens113/FluxIQ">x</a><a href="/#features">x</a><a href="https://getfluxiq.com">x</a>',
+    '<a href="https://example.com">x</a><a href="http://github.com/aidens113/FluxIQ">x</a><a href="/#framework">x</a><a href="https://getfluxiq.com">x</a>',
   ]);
   assert.deepEqual(siteRules(html), ["link-allowlist", "link-allowlist", "link-allowlist", "link-allowlist"]);
 });
@@ -159,14 +188,27 @@ test("head-meta fails each missing or malformed head field", () => {
 test("retired-phrase finds each phrase in visible text and meta content", () => {
   const html = mutate(
     ["<p>In progress</p>", "<p>Coming <em>Soon</em>. Our policy. Lorem ipsum. It patches the  Flow. ToDo.</p>"],
-    ["<p>Reviewed adaptations, never silent ones.</p>", "<p>It learns from your demonstrations with any model.</p>"],
+    [
+      "<p>Reviewed adaptations, never silent ones.</p>",
+      "<p>It learns from your demonstrations with any model, under an execution grant of $2.</p>",
+    ],
     ['content="summary_large_image"', 'content="Coming soon"'],
   );
   const findings = checkHtml(html);
   const messages = findings.map((finding) => finding.message);
   assert.deepEqual(new Set(rulesOf(findings)), new Set(["retired-phrase"]));
-  assert.equal(findings.length, 8);
-  for (const phrase of ["coming soon", "policy", "lorem", "patches the flow", "todo", "learns from", "any model"]) {
+  assert.equal(findings.length, 10);
+  for (const phrase of [
+    "coming soon",
+    "policy",
+    "lorem",
+    "patches the flow",
+    "todo",
+    "learns from",
+    "any model",
+    "execution grant",
+    "$2",
+  ]) {
     assert.ok(
       messages.some((message) => message.startsWith(`"${phrase}`) && message.includes("visible text")),
       phrase,
