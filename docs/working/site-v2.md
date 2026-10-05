@@ -1,7 +1,7 @@
 # Site v2: Redesign And Rewritten Copy
 
 Status: Active
-Status detail: Home and extension pages are built and validated; the logo, further copy changes, and deployment to main await the user.
+Status detail: Home and extension pages are built, validated, and on main; the logo and further copy changes await the user.
 Created: 2026-10-04
 Last updated: 2026-10-05
 Owner: Senior supervisor agent
@@ -39,11 +39,11 @@ three lines.
 **Not done.**
 - The logo is not decided. "Settle" is a placeholder.
 - The user plans another round of design and copy changes.
-- Pushed to `claude/fluxiq-website-redesign-0dpyy6` on 2026-10-05, after
-  GitHub access was fixed. Not merged to `dev` or `main`; nothing is deployed.
+- Pushed on 2026-10-05 and fast-forwarded to `dev` and `main` at the
+  user's request. CI publishes the `deploy` branch from `main`; the live
+  host was not checked from here.
 
-**Next.** The user's review round, then a logo decision, then merge toward
-`dev` and `main` with the user's approval.
+**Next.** The user's review round, then a logo decision.
 
 ---
 
@@ -95,4 +95,3 @@ dashboards or analytics, and pause or takeover from the panel.
 - Which logo concept replaces the "Settle" placeholder? Owner: user.
 - Should the site stay one framework page plus `/extension/`, or split
   further? Owner: user.
-- When should this branch merge to `dev` and `main`? Owner: user.
