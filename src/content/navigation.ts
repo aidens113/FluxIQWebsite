@@ -6,6 +6,7 @@ import type { NavItem } from "./types";
 export const HOME_NAV: readonly NavItem[] = [
   { label: "Framework", href: "#framework" },
   { label: "Extension", href: LINKS.extensionPage.href },
+  { label: "Vision paper", href: LINKS.paper.href, highlight: true },
   { label: "Where it’s going", href: "#vision" },
   { label: "Status", href: "#status" },
 ];
@@ -13,4 +14,5 @@ export const HOME_NAV: readonly NavItem[] = [
 export const EXTENSION_NAV: readonly NavItem[] = [
   { label: "Framework", href: LINKS.home.href },
   { label: "Setup", href: "#setup" },
+  { label: "Vision paper", href: LINKS.paper.href, highlight: true },
 ];

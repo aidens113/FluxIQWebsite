@@ -28,7 +28,7 @@ src/
   content/      typed copy and link data; the only place product claims live
 scripts/        structure audit, vendored working-docs audit, brand-asset generator, tests
 design/brand/   brand masters; never served
-public/         served static assets, each at most 300 KB (none today)
+public/         served static assets, each at most 300 KB: papers/ holds the vision paper PDF and its cover
 docs/
   architecture/ this document
   working/      plans and agent memory
@@ -70,7 +70,8 @@ against, so a claim can be audited or corrected without reading markup.
 The home page, `app/page.tsx`, in order:
 
 1. `site-header` (sticky; nav `HOME_NAV`)
-2. `hero`: headline, lede, actions, and `run-history`, an illustrative table
+2. `hero`: `paper-banner` (a "New" link to the vision paper), headline,
+   lede, actions, and `run-history`, an illustrative table
    labelled "example". From `md` up it is four columns; on a phone the header
    row is visually hidden and each row stacks.
 3. `why-fluxiq` (`#why`)
@@ -78,14 +79,25 @@ The home page, `app/page.tsx`, in order:
 5. `how-it-works` (`#how-it-works`): four steps, the repair step in amber
 6. `vision` (`#vision`): the direction, the now/next/then/later roadmap, and
    a pipeline concept captioned as not shipped
-7. `status` (`#status`): install, AI provider, platform, license
-8. `site-footer`
+7. `paper` (`#paper`): the Technical Vision & Architecture paper, with its
+   cover, contents, and download link
+8. `status` (`#status`): install, AI provider, platform, license
+9. `site-footer`
 
 The extension page, `app/extension/page.tsx`: `site-header` (nav
 `EXTENSION_NAV`, with "/ Extension" after the wordmark), `extension/hero`
 with `extension/side-panel-sketch` (a drawing of the shipped Automations tab,
 captioned as a sketch), `extension/features` (`#features`),
 `extension/setup` (`#setup`), and `site-footer`.
+
+The vision paper is promoted in four places: the hero banner, a highlighted
+"Vision paper" item in both pages' headers, the `#paper` section, and the
+footer. It is served from `public/papers/fluxiq-technical-vision-v0.9.pdf`;
+the cover `…-cover.webp` is page 1 rendered with `pdftoppm -r 150` and resized
+to 640 px wide. The cover is a plain `<img>` because `next/image` adds client
+JavaScript and optimizes nothing in a static export. A new edition replaces
+both files and the paths in `src/content/links.ts`, `src/content/paper.ts`,
+and `scripts/site-check.mjs`.
 
 Each section is a server component with no props that renders one constant
 from `content/`; its parts sit beside it. No component is a client component,

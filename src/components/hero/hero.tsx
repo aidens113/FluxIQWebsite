@@ -1,13 +1,15 @@
 import { Container } from "@/components/ui/container";
 import { LinkButton } from "@/components/ui/link-button";
 import { HERO } from "@/content/hero";
+import { PaperBanner } from "./paper-banner";
 import { RunHistory } from "./run-history";
 
-/** The opening: the headline, the lede, two actions, then the example run history. */
+/** The opening: the paper announcement, the headline, the lede, two actions, then the example run history. */
 export function Hero() {
   return (
     <section aria-labelledby="hero-title">
-      <Container className="pt-16 pb-14 md:pt-24 md:pb-16">
+      <Container className="pt-12 pb-14 md:pt-20 md:pb-16">
+        <PaperBanner />
         <h1
           id="hero-title"
           className="max-w-[1060px] text-[clamp(2.5rem,6vw,4.875rem)] text-balance leading-[1.02] font-semibold tracking-[-0.04em]"

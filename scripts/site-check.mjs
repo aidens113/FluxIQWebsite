@@ -50,6 +50,7 @@ export const ALLOWED_HREFS = [
   "mailto:license@getfluxiq.com",
   "/",
   "/extension/",
+  "/papers/fluxiq-technical-vision-v0.9.pdf",
   "https://getfluxiq.com/",
 ];
 // Every page the export must contain, its canonical URL, and the ids its
@@ -58,7 +59,7 @@ export const PAGES = [
   {
     file: "index.html",
     canonical: "https://getfluxiq.com/",
-    requiredIds: ["main", "why", "framework", "how-it-works", "vision", "status"],
+    requiredIds: ["main", "why", "framework", "how-it-works", "vision", "paper", "status"],
   },
   {
     file: "extension/index.html",

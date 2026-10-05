@@ -108,6 +108,14 @@ dashboards or analytics, and pause or takeover from the panel.
 - Outcome: Accepted
 - Follow-up: none
 
+### 2026-10-05 — Vision paper on the site
+- Agent: supervisor
+- Changed: `public/papers/` (PDF and cover), `src/content/{paper,links,navigation,types}.ts`, `src/components/paper/paper.tsx`, `src/components/hero/{hero,paper-banner}.tsx`, header nav, footer, `src/components/ui/section-title.tsx` (balanced wrapping), `src/app/page.tsx`, `scripts/site-check.mjs` and its test, `docs/architecture/README.md`
+- Why: The user asked for the Technical Vision & Architecture PDF on the site, prominently. The uploaded file's properties said Author "OpenAI" and Title "v0.4"; the published copy says Author "FluxIQ" and Title "… v0.9". Pages unchanged (12, checked).
+- Validation: `pnpm check` -> passed; `pnpm build` -> 10 pages; `pnpm test:site` -> passed (128.4 KB gzip JS); the PDF served 200 `application/pdf` from `pnpm preview`; Playwright at 1440 and 375 px -> no horizontal overflow, banner, nav, and section inspected.
+- Outcome: Accepted
+- Follow-up: none
+
 ---
 
 ## Open Questions

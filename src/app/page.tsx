@@ -1,5 +1,6 @@
 import { Hero } from "@/components/hero/hero";
 import { HowItWorks } from "@/components/how-it-works/how-it-works";
+import { Paper } from "@/components/paper/paper";
 import { Parts } from "@/components/parts/parts";
 import { SiteFooter } from "@/components/site-footer/site-footer";
 import { SiteHeader } from "@/components/site-header/site-header";
@@ -21,6 +22,7 @@ export default function Home() {
         <Parts />
         <HowItWorks />
         <Vision />
+        <Paper />
         <Status />
       </main>
       <SiteFooter />

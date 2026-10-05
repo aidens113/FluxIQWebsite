@@ -17,5 +17,10 @@ export const LINKS = {
     href: "https://github.com/aidens113/FluxIQ/blob/main/LICENSE.md",
     external: true,
   },
+  paper: {
+    label: "Read the paper",
+    href: "/papers/fluxiq-technical-vision-v0.9.pdf",
+    external: false,
+  },
   licenseEmail: { label: "license@getfluxiq.com", href: "mailto:license@getfluxiq.com", external: false },
 } as const satisfies Record<string, SiteLink>;

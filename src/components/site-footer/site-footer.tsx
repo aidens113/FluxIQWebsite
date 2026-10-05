@@ -3,7 +3,14 @@ import { TextLink } from "@/components/ui/text-link";
 import { LINKS } from "@/content/links";
 import { SITE } from "@/content/site";
 
-const FOOTER_LINKS = [LINKS.home, LINKS.extensionPage, LINKS.coreRepo, LINKS.x, LINKS.licenseEmail] as const;
+const FOOTER_LINKS = [
+  LINKS.home,
+  LINKS.extensionPage,
+  { ...LINKS.paper, label: "Vision paper" },
+  LINKS.coreRepo,
+  LINKS.x,
+  LINKS.licenseEmail,
+] as const;
 
 /** The closing bar: the copyright, then small text links. */
 export function SiteFooter() {

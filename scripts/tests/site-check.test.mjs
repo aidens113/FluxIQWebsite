@@ -37,13 +37,14 @@ const PASSING = `<!DOCTYPE html><html lang="en" class="antialiased"><head><meta 
 <a href="#main">Skip to content</a>
 <header><a href="/"><img src="/brand/fluxiq-logo.webp" alt="FluxIQ"/></a>
 <nav><a href="#how-it-works">How it works</a><a href="#framework">Framework</a><a href="#vision">Vision</a>
-<a href="#status">Status</a><a href="#why">Why</a><a href="/extension/">Extension</a></nav></header>
+<a href="#status">Status</a><a href="#why">Why</a><a href="/extension/">Extension</a>
+<a href="/papers/fluxiq-technical-vision-v0.9.pdf">Paper</a><a href="#paper">Paper</a></nav></header>
 <main id="main"><h1 class="text-4xl">Automate smarter</h1>
 <section id="how-it-works"><img src="/wave.svg" alt=""/><p>Record a Flow; the Router picks a Subflow; policies &amp; a policyholder are fine words; many models too.</p></section>
 <section id="framework"><p>Reviewed adaptations, never silent ones.</p></section>
 <section id="vision"><a href="https://github.com/aidens113/FluxIQ" target="_blank" rel="noopener noreferrer">Core</a>
 <a href="https://github.com/aidens113/FluxIQWebExtension" target="_blank" rel="noreferrer noopener external">Extension</a></section>
-<section id="status"><p>In progress</p></section>
+<section id="paper"></section><section id="status"><p>In progress</p></section>
 <section id="why"><a href="https://github.com/aidens113/FluxIQ/blob/main/LICENSE.md">License</a>
 <a href="mailto:license@getfluxiq.com">license@getfluxiq.com</a></section></main>
 <footer><a href="https://getfluxiq.com/">FluxIQ</a><a href="https://x.com/GetFluxIQ" target="_blank" rel="noopener noreferrer">X</a></footer>

@@ -20,7 +20,12 @@ export type SiteContent = {
   copyright: string;
 };
 
-export type NavItem = { label: string; href: string };
+export type NavItem = {
+  label: string;
+  href: string;
+  /** True draws the link in the accent, for the one item that should stand out. */
+  highlight?: boolean;
+};
 
 /** A headline in two tones: the lead line, then a quieter second line. */
 export type SplitTitle = { lead: string; muted: string };
@@ -61,7 +66,7 @@ export type RunHistoryContent = {
 };
 
 /** Home page section anchors, without the leading `#`. */
-export type HomeSectionId = "why" | "framework" | "how-it-works" | "vision" | "status";
+export type HomeSectionId = "why" | "framework" | "how-it-works" | "vision" | "paper" | "status";
 
 export type WhyContent = {
   id: HomeSectionId;
@@ -159,4 +164,24 @@ export type ExtensionContent = {
   };
   features: { id: "features"; title: string; points: readonly Point[] };
   setup: { id: "setup"; title: string; lede: string; steps: readonly string[] };
+};
+
+/** The Technical Vision & Architecture paper and where the site promotes it. */
+export type PaperContent = {
+  id: HomeSectionId;
+  title: string;
+  /** Draft status and date, shown beside the title. */
+  edition: string;
+  /** Format, length, and size, shown on the download link. */
+  format: string;
+  eyebrow: string;
+  heading: string;
+  summary: string;
+  /** What the paper covers, one line each. */
+  contents: readonly string[];
+  quote: string;
+  link: SiteLink;
+  cover: { src: string; width: number; height: number; alt: string };
+  /** The one-line announcement above the home page headline. */
+  banner: { tag: string; text: string; cta: string };
 };

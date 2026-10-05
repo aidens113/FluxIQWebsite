@@ -20,7 +20,7 @@ export function PrimaryNav({ items }: PrimaryNavProps) {
           <li key={item.href} className="shrink-0">
             <a
               href={item.href}
-              className={`inline-flex min-h-11 items-center rounded-sm text-sm text-dim transition-colors hover:text-fg ${FOCUS_RING}`}
+              className={`inline-flex min-h-11 items-center rounded-sm text-sm transition-colors ${item.highlight ? "text-amber hover:text-[#ffc95c]" : "text-dim hover:text-fg"} ${FOCUS_RING}`}
             >
               {item.label}
             </a>
