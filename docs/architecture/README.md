@@ -131,6 +131,10 @@ Masters in `design/brand/`, never served:
   browser that has the Geist fonts (the 2026-10-05 render loaded the built
   site's CSS), then run `pnpm brand:assets`.
 
+- `social/`: the social media kit (avatar, transparent marks and lockups,
+  X and LinkedIn headers, GitHub social preview, square post), rendered from
+  `social/social-kit.html`. Its README lists each file and how to re-render.
+
 `pnpm brand:assets` (`scripts/brand-assets.mjs`) regenerates every
 derivative, writes identical bytes on every run, and exits 1 if any output is
 over 300 KB:

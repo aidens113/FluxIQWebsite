@@ -100,6 +100,14 @@ dashboards or analytics, and pause or takeover from the panel.
 - Outcome: Accepted
 - Follow-up: none
 
+### 2026-10-05 — Social media kit
+- Agent: supervisor
+- Changed: `design/brand/social/` (new), `docs/architecture/README.md`
+- Why: The user asked for logo and banner assets for social media.
+- Validation: rendered with Playwright from `social-kit.html` with Geist loaded (`Geist 600, Geist Mono 400`); transparent files checked for alpha 0 at the corner; every file inspected on a contact sheet; `pnpm check` -> passed.
+- Outcome: Accepted
+- Follow-up: none
+
 ---
 
 ## Open Questions

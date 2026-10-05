@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- Source for the social media kit in this folder. Each .asset element is
+     screenshotted at its own size; see README.md for the render steps. The
+     fonts are Geist and Geist Mono; the render swaps the Google Fonts link for
+     the built site's self-hosted CSS. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FluxIQ social kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 40px; background: #333; display: flex; flex-direction: column; gap: 40px; align-items: flex-start; font-family: Geist, sans-serif; }
+  .asset { position: relative; overflow: hidden; box-sizing: border-box; }
+  .ink { background: #0c0d0f; color: #e8e6e3; }
+  .clear { background: transparent; }
+  .mark { display: block; }
+  .center { display: flex; align-items: center; justify-content: center; }
+  .lockup { display: flex; align-items: center; gap: 0.42em; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .lockup [data-mark] { width: 1.15em; height: 1.15em; flex: none; }
+  .head { font-weight: 600; letter-spacing: -0.04em; line-height: 1.02; margin: 0; }
+  .head span { color: #8c8a85; }
+  .mono { font-family: "Geist Mono", monospace; color: #8c8a85; }
+  .amber { color: #f5b83d; }
+  .rule { position: absolute; left: 0; right: 0; height: 1px; background: #1b1d21; }
+</style>
+</head>
+<body>
+<!-- Light strokes for dark grounds. -->
+<template id="mark-light"><svg viewBox="0 0 32 32" fill="none"><title>FluxIQ</title><path d="M9 26V11a5 5 0 0 1 5-5h12" stroke="#e8e6e3" stroke-width="3.5" stroke-linecap="round"/><path d="M9 16.5h9" stroke="#e8e6e3" stroke-width="3.5" stroke-linecap="round"/><circle cx="23.5" cy="16.5" r="3" fill="#f5b83d"/></svg></template>
+<!-- Ink strokes and a deeper amber for light grounds. -->
+<template id="mark-dark"><svg viewBox="0 0 32 32" fill="none"><title>FluxIQ</title><path d="M9 26V11a5 5 0 0 1 5-5h12" stroke="#0c0d0f" stroke-width="3.5" stroke-linecap="round"/><path d="M9 16.5h9" stroke="#0c0d0f" stroke-width="3.5" stroke-linecap="round"/><circle cx="23.5" cy="16.5" r="3" fill="#e0a21f"/></svg></template>
+
+<!-- Profile picture: safe inside a circle crop. -->
+<div class="asset ink center" id="fluxiq-avatar-1024" style="width:1024px;height:1024px"><span data-mark="light" style="width:600px;height:600px"></span></div>
+
+<!-- Transparent marks. -->
+<div class="asset clear center" id="fluxiq-mark-on-dark-1024" style="width:1024px;height:1024px"><span data-mark="light" style="width:1024px;height:1024px"></span></div>
+<div class="asset clear center" id="fluxiq-mark-on-light-1024" style="width:1024px;height:1024px"><span data-mark="dark" style="width:1024px;height:1024px"></span></div>
+
+<!-- Transparent lockups. -->
+<div class="asset clear center" id="fluxiq-lockup-on-dark" style="width:1800px;height:520px"><div class="lockup" style="font-size:240px;color:#e8e6e3"><span data-mark="light"></span>FluxIQ</div></div>
+<div class="asset clear center" id="fluxiq-lockup-on-light" style="width:1800px;height:520px"><div class="lockup" style="font-size:240px;color:#0c0d0f"><span data-mark="dark"></span>FluxIQ</div></div>
+
+<!-- X / Twitter header, 1500 x 500. The avatar overlaps the bottom left, so
+     the content sits right of centre and inside the middle 360 px. -->
+<div class="asset ink" id="x-header-1500x500" style="width:1500px;height:500px">
+  <div style="position:absolute;left:520px;top:110px;right:80px">
+    <div class="lockup" style="font-size:34px"><span data-mark="light"></span>FluxIQ</div>
+    <p class="head" style="font-size:58px;margin-top:34px">Only pay AI for what<br><span>FluxIQ doesn’t already know.</span></p>
+  </div>
+  <div class="mono" style="position:absolute;right:80px;bottom:56px;font-size:20px">getfluxiq.com</div>
+</div>
+
+<!-- LinkedIn cover, 1584 x 396. The profile photo overlaps the bottom left. -->
+<div class="asset ink" id="linkedin-cover-1584x396" style="width:1584px;height:396px">
+  <div style="position:absolute;left:520px;top:70px;right:80px">
+    <div class="lockup" style="font-size:30px"><span data-mark="light"></span>FluxIQ</div>
+    <p class="head" style="font-size:46px;margin-top:26px">Only pay AI for what<br><span>FluxIQ doesn’t already know.</span></p>
+  </div>
+  <div class="mono" style="position:absolute;right:80px;bottom:44px;font-size:18px">getfluxiq.com · <span class="amber">framework · browser extension</span></div>
+</div>
+
+<!-- GitHub repository social preview, 1280 x 640. -->
+<div class="asset ink" id="github-social-preview-1280x640" style="width:1280px;height:640px;padding:84px 96px;display:flex;flex-direction:column;justify-content:space-between">
+  <div class="lockup" style="font-size:40px"><span data-mark="light"></span>FluxIQ</div>
+  <p class="head" style="font-size:72px">Only pay AI for what<br><span>FluxIQ doesn’t already know.</span></p>
+  <div class="mono" style="display:flex;justify-content:space-between;font-size:22px"><span>github.com/aidens113/FluxIQ</span><span class="amber">TypeScript · source-available</span></div>
+</div>
+
+<!-- Square post, 1080 x 1080, for announcements. -->
+<div class="asset ink" id="post-square-1080" style="width:1080px;height:1080px;padding:96px;display:flex;flex-direction:column;justify-content:space-between">
+  <div class="lockup" style="font-size:44px"><span data-mark="light"></span>FluxIQ</div>
+  <p class="head" style="font-size:96px">Only pay AI for what <span>FluxIQ doesn’t already know.</span></p>
+  <div class="mono" style="font-size:26px">getfluxiq.com</div>
+</div>
+
+<script>
+  for (const slot of document.querySelectorAll("[data-mark]")) {
+    slot.innerHTML = document.getElementById(`mark-${slot.dataset.mark}`).innerHTML;
+    slot.style.display = "block";
+    slot.firstElementChild.style.width = slot.firstElementChild.style.height = "100%";
+  }
+</script>
+</body>
+</html>
