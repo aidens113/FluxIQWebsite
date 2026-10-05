@@ -3,7 +3,7 @@
 Status: Active
 Status detail: Home and extension pages are built and validated; the logo, further copy changes, and deployment to main await the user.
 Created: 2026-10-04
-Last updated: 2026-10-04
+Last updated: 2026-10-05
 Owner: Senior supervisor agent
 Scope: Replace the gradient-glow landing page with design direction B (dark, one amber accent), rewrite the copy against FluxIQ Core and Web Extension dev, and add an /extension/ page; excludes choosing the final logo and changing the hosting setup.
 Paired document: none
@@ -39,9 +39,8 @@ three lines.
 **Not done.**
 - The logo is not decided. "Settle" is a placeholder.
 - The user plans another round of design and copy changes.
-- Committed on `claude/fluxiq-website-redesign-0dpyy6` but not pushed: GitHub
-  refused the push with a 403 because Claude has no GitHub access to this
-  repository. Nothing is deployed.
+- Pushed to `claude/fluxiq-website-redesign-0dpyy6` on 2026-10-05, after
+  GitHub access was fixed. Not merged to `dev` or `main`; nothing is deployed.
 
 **Next.** The user's review round, then a logo decision, then merge toward
 `dev` and `main` with the user's approval.
@@ -87,7 +86,7 @@ dashboards or analytics, and pause or takeover from the panel.
 - Why: The user approved the v2 design on the canvas and asked for it to be built and pushed.
 - Validation: `pnpm check` -> structure passed (69 files), working-docs passed, Biome clean, tsc clean; `pnpm test` -> 86 pass, 0 fail; `pnpm build` -> 10 static pages; `pnpm test:site` -> passed (128.4 KB gzip JS); Playwright at 1440 and 375 px with reduced motion -> no horizontal overflow on either page, layouts inspected by screenshot.
 - Outcome: Accepted
-- Follow-up: Push once GitHub access is fixed; then the user's review round and the logo decision.
+- Follow-up: Pushed 2026-10-05 once GitHub access was fixed; next, the user's review round and the logo decision.
 
 ---
 
