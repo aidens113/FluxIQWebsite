@@ -86,6 +86,9 @@
 /opengraph-image.png
   Cache-Control: public, max-age=86400
 
+/papers/*
+  Cache-Control: public, max-age=86400
+
 /robots.txt
   Cache-Control: public, max-age=0, must-revalidate
 
