@@ -53,8 +53,23 @@
 /apple-icon.png
   Cache-Control: public, max-age=86400
 
-/brand/*
-  Cache-Control: public, max-age=86400
+/extension/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/extension/__next._full.txt
+  Cache-Control: public, max-age=0, must-revalidate
+
+/extension/__next._tree.txt
+  Cache-Control: public, max-age=0, must-revalidate
+
+/extension/__next.extension.__PAGE__.txt
+  Cache-Control: public, max-age=0, must-revalidate
+
+/extension/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/extension/index.txt
+  Cache-Control: public, max-age=0, must-revalidate
 
 /favicon.ico
   Cache-Control: public, max-age=86400
