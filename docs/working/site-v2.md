@@ -1,7 +1,7 @@
 # Site v2: Redesign And Rewritten Copy
 
 Status: Active
-Status detail: Home and extension pages are built, validated, and on main; the logo and further copy changes await the user.
+Status detail: Home and extension pages are live on main; the extension is marked coming soon and the new F-and-node mark is in place.
 Created: 2026-10-04
 Last updated: 2026-10-05
 Owner: Senior supervisor agent
@@ -17,9 +17,13 @@ Related: [AGENTS.md](../../AGENTS.md), [site architecture](../architecture/READM
 
 - `/`: hero with an illustrative run history, why, two parts (framework and
   extension), how it works, where it's going, status, footer.
-- `/extension/`: hero with a side-panel sketch, what it does, setup.
-- Brand: ink `#0c0d0f`, amber `#f5b83d`, Geist and Geist Mono, the "Settle"
-  wave mark as a stand-in logo. Icons, favicon, and the Open Graph image were
+- `/extension/`: hero with a side-panel sketch, what it's built to do, setup.
+  It says "Coming soon" and "Not released yet" (user, 2026-10-05); the main
+  button is "See GitHub". The home page's extension card and status row say
+  the same. `site-check` no longer retires the phrase "coming soon".
+- Brand: ink `#0c0d0f`, amber `#f5b83d`, Geist and Geist Mono. The mark is
+  an F whose middle bar ends in an amber node (2026-10-05), replacing the
+  "Settle" wave the user rejected. Icons, favicon, and the Open Graph image were
   regenerated from new masters in `design/brand/`. The old neon "F" masters
   and `public/brand/fluxiq-logo.webp` were removed; git history keeps them.
 - Every product claim was checked against Core `f6ef9f4` and Extension
@@ -37,13 +41,12 @@ Home v2 and Extension v2, including the user's one edit: the why heading on
 three lines.
 
 **Not done.**
-- The logo is not decided. "Settle" is a placeholder.
 - The user plans another round of design and copy changes.
 - Pushed on 2026-10-05 and fast-forwarded to `dev` and `main` at the
   user's request. CI publishes the `deploy` branch from `main`; the live
   host was not checked from here.
 
-**Next.** The user's review round, then a logo decision.
+**Next.** The user's review of the new mark and any further copy changes.
 
 ---
 
@@ -88,10 +91,18 @@ dashboards or analytics, and pause or takeover from the panel.
 - Outcome: Accepted
 - Follow-up: Pushed 2026-10-05 once GitHub access was fixed; next, the user's review round and the logo decision.
 
+
+### 2026-10-05 — Extension coming soon, new mark
+- Agent: supervisor
+- Changed: `src/content/{extension,parts,status,types}.ts`, `src/components/extension/hero.tsx`, `src/app/extension/page.tsx`, `src/components/ui/logo-mark.tsx`, `design/brand/`, generated icons and Open Graph image, `scripts/site-check.mjs` and its test, `docs/architecture/README.md`
+- Why: The user asked for the extension page to say it is coming soon with a "See GitHub" button, and for a better logo than the wave.
+- Validation: `pnpm check` -> passed; `pnpm test` -> all pass; `pnpm build` -> 10 pages; `pnpm test:site` -> passed (128.4 KB gzip JS); Playwright at 1440 and 375 px -> no horizontal overflow, notice and mark inspected.
+- Outcome: Accepted
+- Follow-up: none
+
 ---
 
 ## Open Questions
 
-- Which logo concept replaces the "Settle" placeholder? Owner: user.
 - Should the site stay one framework page plus `/extension/`, or split
   further? Owner: user.

@@ -19,6 +19,9 @@ export function ExtensionHero() {
             <span className="text-dim">{EXTENSION.title.muted}</span>
           </h1>
           <p className="mt-6 max-w-[520px] text-lg leading-relaxed text-muted">{EXTENSION.lede}</p>
+          <p className="mt-6 max-w-[520px] rounded-lg border border-amber-edge bg-amber-wash px-4 py-3 text-[15px] leading-relaxed text-soft">
+            <strong className="font-semibold text-amber">{EXTENSION.notice.title}</strong> {EXTENSION.notice.body}
+          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             {EXTENSION.actions.map((action) => (
               <LinkButton key={action.href} action={action} />

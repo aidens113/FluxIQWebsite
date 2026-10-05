@@ -9,14 +9,20 @@ import type { ExtensionContent } from "./types";
 // data only to the paired runtime in README.md; unpacked install, Connect, and
 // approve-the-code pairing in docs/user/install.md and quickstart.md; the
 // DeepSeek key lives in FluxIQ's Secret Keys. The panel sketch mirrors the
-// shipped Automations tab; its automation names are made up.
+// shipped Automations tab; its automation names are made up. Release: the
+// extension is unreleased (0.1.0, no store listing), so the page says it is
+// coming soon, per the user on 2026-10-05.
 export const EXTENSION: ExtensionContent = {
-  kicker: "FluxIQ Web Extension · 0.1 · Chrome, Edge, Firefox",
+  kicker: "FluxIQ Web Extension · Coming soon",
+  notice: {
+    title: "Not released yet.",
+    body: "The extension is in active development for Chrome, Edge, and Firefox. There is no store listing or download yet. Follow along on GitHub, where the source is public.",
+  },
   title: { lead: "Do it once in your browser.", muted: "Never do it by hand again." },
   lede: "Record a task, or point at the data you want. The extension hands it to FluxIQ, which turns it into a Flow and runs it back on the real page, without calling AI every time.",
   actions: [
-    { ...LINKS.extensionRepo, label: "Get the extension", variant: "primary" },
-    { label: "How setup works", href: "#setup", external: false, variant: "ghost" },
+    { ...LINKS.extensionRepo, label: "See GitHub", variant: "primary" },
+    { label: "How it will work", href: "#setup", external: false, variant: "ghost" },
   ],
   panel: {
     tabs: ["Chat", "Automations"],
@@ -32,7 +38,7 @@ export const EXTENSION: ExtensionContent = {
   },
   features: {
     id: "features",
-    title: "What it does",
+    title: "What it’s built to do",
     points: [
       {
         title: "Records what you do",
@@ -55,10 +61,10 @@ export const EXTENSION: ExtensionContent = {
   setup: {
     id: "setup",
     title: "It works with FluxIQ, not instead of it.",
-    lede: "The extension is the hands. The FluxIQ framework on your machine is the brain that builds, stores, and repairs your Flows.",
+    lede: "The extension is the hands. The FluxIQ framework on your machine is the brain that builds, stores, and repairs your Flows. Until release, developers can build both from source and try it early.",
     steps: [
       "Run FluxIQ on your computer. It needs Node 22.",
-      "Load the extension in Chrome, Edge, or Firefox. It isn’t in the browser stores yet, so it installs unpacked.",
+      "Build the extension from source and load it unpacked in Chrome, Edge, or Firefox.",
       "Press Connect. Approve the matching code in FluxIQ, and the two are paired.",
       "Add your DeepSeek key in FluxIQ for the moments AI is needed.",
     ],

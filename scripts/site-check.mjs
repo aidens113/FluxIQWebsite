@@ -72,7 +72,6 @@ export const CANONICAL_URL = PAGES[0].canonical;
 // "any model" and "mastodon" does not match "todo". "policy" is a whole word
 // at both ends, so "policies" and "policyholder" pass.
 export const RETIRED_PHRASES = [
-  { phrase: "coming soon", pattern: /\bcoming\s+soon/i },
   { phrase: "policy", pattern: /\bpolicy\b/i },
   { phrase: "learns from your demonstrations", pattern: /\blearns\s+from\s+your\s+demonstrations/i },
   { phrase: "patches the flow", pattern: /\bpatches\s+the\s+flow/i },

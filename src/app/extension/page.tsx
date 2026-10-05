@@ -9,7 +9,7 @@ import { SiteHeader } from "@/components/site-header/site-header";
 import { EXTENSION_NAV } from "@/content/navigation";
 
 const DESCRIPTION =
-  "The FluxIQ Web Extension records what you do in Chrome, Edge, or Firefox, runs your Flows on real pages, and pulls data out of lists. It pairs with FluxIQ on your machine.";
+  "Coming soon: the FluxIQ Web Extension records what you do in Chrome, Edge, or Firefox, runs your Flows on real pages, and pulls data out of lists. It pairs with FluxIQ on your machine.";
 
 // Read from the generated alt file so the two stay in step.
 const OG_ALT = readFileSync(path.join(process.cwd(), "src/app/opengraph-image.alt.txt"), "utf8");

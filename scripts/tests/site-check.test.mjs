@@ -187,19 +187,21 @@ test("head-meta fails each missing or malformed head field", () => {
 
 test("retired-phrase finds each phrase in visible text and meta content", () => {
   const html = mutate(
-    ["<p>In progress</p>", "<p>Coming <em>Soon</em>. Our policy. Lorem ipsum. It patches the  Flow. ToDo.</p>"],
+    [
+      "<p>In progress</p>",
+      "<p>Coming <em>Soon</em> is allowed. Our policy. Lorem ipsum. It patches the  Flow. ToDo.</p>",
+    ],
     [
       "<p>Reviewed adaptations, never silent ones.</p>",
       "<p>It learns from your demonstrations with any model, under an execution grant of $2.</p>",
     ],
-    ['content="summary_large_image"', 'content="Coming soon"'],
+    ['content="summary_large_image"', 'content="Our policy"'],
   );
   const findings = checkHtml(html);
   const messages = findings.map((finding) => finding.message);
   assert.deepEqual(new Set(rulesOf(findings)), new Set(["retired-phrase"]));
-  assert.equal(findings.length, 10);
+  assert.equal(findings.length, 9);
   for (const phrase of [
-    "coming soon",
     "policy",
     "lorem",
     "patches the flow",

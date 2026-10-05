@@ -3,7 +3,7 @@
 // rewrites the same bytes, so it is safe to rerun at any time.
 //
 // Masters:
-//   design/brand/fluxiq-mark.svg         the app icon: the wave mark on an ink tile
+//   design/brand/fluxiq-mark.svg         the app icon: the F-and-node mark on an ink tile
 //   design/brand/og-banner-master.png    2400 x 1260, rendered from og-banner.html
 //
 // Outputs:
@@ -29,8 +29,7 @@ const MAX_BYTES = 300 * 1024;
 const MASTER_SIZE = 512;
 
 const OG_SIZE = { width: 1200, height: 630 };
-const OG_ALT =
-  "The FluxIQ wave mark and wordmark above the headline: Only pay AI for what FluxIQ doesn’t already know.";
+const OG_ALT = "The FluxIQ mark and wordmark above the headline: Only pay AI for what FluxIQ doesn’t already know.";
 
 const PNG_OPTIONS = { compressionLevel: 9, effort: 10, palette: true, quality: 95 };
 

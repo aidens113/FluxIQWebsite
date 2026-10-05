@@ -143,6 +143,8 @@ export type PanelItem = { name: string; detail: string; tone: Tone };
 
 export type ExtensionContent = {
   kicker: string;
+  /** The release status, shown in its own notice under the lede. */
+  notice: { title: string; body: string };
   title: SplitTitle;
   lede: string;
   actions: readonly ActionLink[];

@@ -109,10 +109,9 @@ Adopted on 2026-10-04 from design direction B of the redesign
   passing results. Every text colour is at least 5.4:1 on ink.
 - Fonts: Geist (400, 500, 600) for everything, Geist Mono (400, 500) for
   labels, tables, and code-like detail. Both are self-hosted by `next/font`.
-- Mark: "Settle", a wave that straightens into a line, for uncertain
-  behaviour becoming a reliable Flow. Amber stroke, light end dot. It is a
-  stand-in until the logo is decided; the concepts are on the design canvas
-  linked from the working document.
+- Mark: an F whose middle bar ends in an amber node, for a Flow and the
+  point where it calls on intelligence. Light strokes, amber node. Adopted on
+  2026-10-05, replacing the "Settle" wave placeholder.
 - No gradients, glows, or icon tiles. Hierarchy comes from type weight,
   muted second lines, and hairline rules.
 
@@ -126,10 +125,10 @@ reveal on `[data-reveal]` driven by `animation-timeline: view()`.
 
 Masters in `design/brand/`, never served:
 
-- `fluxiq-mark.svg`: the app icon, the mark on a rounded ink tile.
+- `fluxiq-mark.svg`: the app icon, the F-and-node mark on a rounded ink tile.
 - `og-banner.html` and its render `og-banner-master.png` (2400 × 1260): the
   social card. Render the HTML at 1200 × 630 with device scale 2 in a headless
-  browser that has the Geist fonts (the 2026-10-04 render loaded the built
+  browser that has the Geist fonts (the 2026-10-05 render loaded the built
   site's CSS), then run `pnpm brand:assets`.
 
 `pnpm brand:assets` (`scripts/brand-assets.mjs`) regenerates every

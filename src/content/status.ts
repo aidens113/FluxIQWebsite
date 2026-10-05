@@ -11,7 +11,10 @@ export const STATUS: StatusContent = {
   title: "Early, and built in the open.",
   lede: "Everything is public on GitHub. Here’s what that means today.",
   rows: [
-    { label: "Install", body: "Build from source. Not on npm or the browser stores yet." },
+    {
+      label: "Install",
+      body: "Build the framework from source; it isn’t on npm yet. The browser extension is coming soon.",
+    },
     { label: "AI provider", body: "Bring your own DeepSeek key, the only provider for now." },
     { label: "Runs on", body: "Your machine. Node 22+, Chrome, Edge, or Firefox." },
     {

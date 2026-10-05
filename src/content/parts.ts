@@ -26,9 +26,9 @@ export const PARTS: PartsContent = {
       link: { ...LINKS.coreRepo, label: "Framework on GitHub" },
     },
     {
-      kicker: "Extension · 0.1 · Chrome, Edge, Firefox",
+      kicker: "Extension · Coming soon",
       title: "The hands",
-      body: "A browser extension that records what you do, runs Flows on real pages, and pulls data out of lists, page after page.",
+      body: "A browser extension, in development, that records what you do, runs Flows on real pages, and pulls data out of lists, page after page.",
       items: [
         "Record a task once from the side panel",
         "Point at one item, get the whole list",
