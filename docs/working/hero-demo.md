@@ -349,6 +349,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Pacing retuned
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user found recording and FluxIQ's automation steps a little too fast; only the opening should be quick.
+- Design: the opening is unchanged (typing at 0.35 s, sent by about 1.6 s). Recorded actions now hold 1.1 to 1.4 s, FluxIQ's actions 1.1 to 1.8 s, endings 2.4 to 2.6 s. Loop: Tell it 10.9 s, Record it 10.7 s, It adapts 15 s.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
