@@ -530,6 +530,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `node dctest/sim2.js` -> no errors; canvas runtime probe sampled every 30 ms, before the final gap increase -> loading starts about 450 ms into Tell it's Search and Calgary steps and about 700 ms into Record it's Search and Calgary steps, results follow it, and the second run keeps "24 results in Calgary" until its click.
 - Outcome: Accepted
 - Follow-up: The user's review.
+
+### 2026-10-07 — It adapts opens on the redesigned site and replays the saved Flow
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`, `Frames.dc.html`; this document
+- Why: The user found the redesign happening mid-example jarring, and wanted It adapts to open on the already-changed site, replaying the Flow built in the first two examples.
+- Design: the redesigned layout is in place from the title card on (the layout switch happens under the card), so the reload transition is gone. FluxIQ replays the saved steps: types "roofing" (works), tries Search (red, "Can’t find the Search button"), scans the new layout (blue), finds and clicks Search (green), clicks the Calgary filter (61 results narrow to 24), reads the rows, and finishes; the second run clicks Search and reads with no AI. The title card now reads "Later, the site gets a redesign. FluxIQ replays your saved automation and fixes only what broke, using AI just for that." The Calgary chip's label now hangs below the chip so it no longer covers the search box (all three examples). The storyboard's It adapts frame moved to step 2 (the scan).
+- Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime screenshots of every It adapts step (title card, fail, scan, found and click, Calgary click before and after, reading, finished, second-run click, done) -> as designed; Calgary label clear of the search box.
+- Outcome: Accepted
+- Follow-up: The user's review.
 ---
 
 ## Open Questions
