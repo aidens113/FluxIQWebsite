@@ -548,6 +548,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime: phone hero captured across the full loop at 375 x 812 (every example: typing, clicks, filter, reading, fail, scan, found) and Record it step 0 captured at +80, +400, +760, +1250 and +2600 ms on phone and desktop -> cursor reaches the record button, press, then banner and message; results clipped inside the site on the phone.
 - Outcome: Accepted
 - Follow-up: The user's review. Building the widget into the real site must cover both layouts (switch to compact below about 800 px).
+
+### 2026-10-07 — Phone layout becomes a tabbed Website / FluxIQ view
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user found the stacked phone layout too cramped (too little of the page visible) and suggested switching between the example site and the chat.
+- Design: on a phone the widget is 343 x 470 and shows one view at a time on a sliding strip (450 ms slide). A "Website / FluxIQ" segmented switch sits above it with the step count (ring + "4/9") on the right; the old in-stage step chip and status pill are hidden. The view follows the action (the panel while the person types the request, clicks record or Stop, and at each example's end; the site otherwise). A view the person picks holds until the action moves to the other view. While the site shows, a bar at its bottom summarises FluxIQ's latest message ("Type · Search box Working on it", "Fixing your Flow …"); tapping it opens the chat, and the FluxIQ tab carries an amber dot. The cursor reaches panel controls by travelling across the strip (panel targets offset by 343 px, measured).
+- Validation: `node dctest/sim2.js` -> no errors; canvas runtime at 375 x 812: the full loop captured (every example, both views, the slide between them, the peek bar's text per step); tap test -> tapping FluxIQ slides to the chat and holds, tapping Website and then the peek bar opens the chat; the hidden step chip confirmed not rendered.
+- Outcome: Accepted
+- Follow-up: The user's review.
 ---
 
 ## Open Questions
