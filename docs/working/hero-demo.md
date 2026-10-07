@@ -295,6 +295,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Tell it first, either/or
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`, `HeroV3.dc.html`, `Frames.dc.html`; this document
+- Why: The user wants chat first (how most people will start) and the two ways to start shown as alternatives.
+- Design: tab order Tell it, "or" Record it, It adapts; narration opens "One way to start…", "Or, instead of typing…", "Either way, you get a saved automation…"; hero lede "Tell it what you want in plain words, or show it once. Either way…".
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review, then build.
+
 ---
 
 ## Open Questions
