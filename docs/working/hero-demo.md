@@ -404,6 +404,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Living highlights
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants FluxIQ's action highlights to feel alive while a step holds.
+- Design: FluxIQ's amber outline breathes (glow in and out, 1.6 s); a soft light band sweeps across the element every 1.8 s; its tag carries a blinking live dot. The red "can't find" box pulses faster (0.9 s). Recorded (user) outlines stay static and dashed. In the build, all of this sits inside `prefers-reduced-motion: no-preference`.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
