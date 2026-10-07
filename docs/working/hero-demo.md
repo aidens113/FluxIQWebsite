@@ -367,6 +367,16 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Countdowns, click to skip, slower pace
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants longer title cards with a visible countdown, the option to click a card or any step to skip it, and everything a little slower.
+- Design: title cards hold 2.6 s (first) and 3.2 s (later) with a draining amber bar and "Click to continue". A 2 px amber bar fills along the stage bottom for each step. A transparent full-stage button ("Skip to the next step") advances one card or step per click, then the timer resumes. Step durations rose about 25 %. A hint "Click the demo to skip ahead" sits at the right of the caption row. Loop is now about 54 s.
+- Build notes: the skip control must be a real button with an accessible name; the countdowns restart by alternating keyframe names per tick.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
