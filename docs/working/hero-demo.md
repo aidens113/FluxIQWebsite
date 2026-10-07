@@ -458,6 +458,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review; offer an identical colour if they want no difference at all.
 
+### 2026-10-07 — Crosshair on FluxIQ clicks only
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user did not ask for a crosshair on recorded clicks; the previous entry over-applied it.
+- Design: every click presses in and ripples (amber for FluxIQ, red for the person). Only FluxIQ's clicks get the crosshair.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
