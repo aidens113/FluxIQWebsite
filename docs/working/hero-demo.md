@@ -340,6 +340,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Faster, per-moment pacing
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user found some steps too slow, especially at the start; the hero has to catch attention at once.
+- Design: per-moment durations replace the flat 1.6 s. Tell it starts typing after 0.35 s and sends at about 1.6 s; clicks and typing hold 0.6 to 1.1 s; only the redesign, the fix, and each ending linger (1.3 to 2.6 s). Loop: Tell it 8.9 s, Record it 8.4 s, It adapts 11.1 s. Idle tail frames were cut. Tab bars fill in step with the real timing.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
