@@ -494,6 +494,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Results wait for their click; one typing step
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`, `Frames.dc.html`; this document
+- Why: The user saw results (rows loading, a filter switching on) appear before the click that caused them, and wanted the chat request typed in one step, not two.
+- Design: what a click causes is held back until it lands: 950 ms for the person's clicks (cursor travel + click), 400 ms for FluxIQ's. Rows fade in with that delay; a filter switches on with a delayed transition. In It adapts the results now load after each Search click (both runs, the second replaying the load) instead of only at the read step. The record search box caret shows only while typing. Tell it is now 9 steps; the request types in one step sized to its length.
+- Validation: `node dctest/sim2.js` -> no errors; canvas runtime render of Record it step 3 at +250 ms (no results) and +1.65 s (results) -> as designed.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
