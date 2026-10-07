@@ -539,6 +539,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime screenshots of every It adapts step (title card, fail, scan, found and click, Calgary click before and after, reading, finished, second-run click, done) -> as designed; Calgary label clear of the search box.
 - Outcome: Accepted
 - Follow-up: The user's review.
+
+### 2026-10-07 — Record it opens with the record click; phone layout
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`, new `HeroMobile.dc.html` board, `canvas.json`; this document
+- Why: The user saw Record it's first step as dead (only a chat line appeared) and asked for a mobile version.
+- Design: Record it step 0 is now the person clicking the extension's record button: the cursor rests during the title card, glides to the button, presses, and once the click lands the recording banner and "I’m recording…" appear (the panel shows its empty state until then). A `compact` prop gives the phone layout: 343 px wide, the site (330 px tall) stacked over the extension panel (290 px), the status pill hidden (the panel sits right below and says the same), the step chip at the bottom of the site, the results list clipped with a fade at the bottom of the site, tab hints and the "click to skip" note hidden, narration at 14 px. Cursor targets for both layouts were measured from the rendered widget (search box, Search, Calgary, Stop, record button). The chat column now fades out at the top instead of cutting messages off hard (both layouts). New canvas board `HeroMobile.dc.html` shows the hero at 375 px with the widget under the buttons.
+- Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime: phone hero captured across the full loop at 375 x 812 (every example: typing, clicks, filter, reading, fail, scan, found) and Record it step 0 captured at +80, +400, +760, +1250 and +2600 ms on phone and desktop -> cursor reaches the record button, press, then banner and message; results clipped inside the site on the phone.
+- Outcome: Accepted
+- Follow-up: The user's review. Building the widget into the real site must cover both layouts (switch to compact below about 800 px).
 ---
 
 ## Open Questions
