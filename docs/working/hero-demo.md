@@ -1,7 +1,7 @@
 # Hero Demo: An Animated Extension Walkthrough
 
 Status: Active
-Status detail: Planned; awaiting the user's choice of concept and demo site before any build.
+Status detail: Revised plan: three example widgets (record, chat, page change); awaiting the user's go-ahead to storyboard.
 Created: 2026-10-07
 Last updated: 2026-10-07
 Owner: Senior supervisor agent
@@ -15,23 +15,66 @@ Related: [site v2](./site-v2.md), [site architecture](../architecture/README.md)
 
 **True now.** The hero is the headline, lede, two buttons, and an
 illustrative run-history table (`src/components/hero/run-history.tsx`). The
-user finds the table weak: it "doesn't really demonstrate anything". Nothing
-in this plan is built yet.
+user finds the table weak. Nothing in this plan is built yet.
 
-**Decided.** The hero becomes a short title column on the left and, on the
-right, a fake website in a browser frame with the FluxIQ extension panel
-docked beside it, playing a scripted loop of realistic UI motion. It is an
-illustration, labelled as one, never a live demo.
+**Decided (user, 2026-10-07).** The hero shows **three example widgets**,
+not a faithful replay of the real product:
 
-**Not decided (user).** Which concept below, and what kind of fake website.
-The recommendation is concept E with a fictional lead-list site.
+1. **Record:** someone does a task on a small fake site; FluxIQ captures the
+   steps.
+2. **Chat:** someone types what they want; FluxIQ turns it into steps and
+   does them.
+3. **Page change:** the site changes under a saved automation; FluxIQ
+   notices, fixes it once with AI, and goes back to running without it.
 
-**Next.** The user picks a concept. Then phase 1: static storyboard frames on
-the design canvas for approval before any code.
+They are stylised examples that borrow the extension's look (dark panel,
+pill, step list) without copying every screen. Each is a short loop of 6 to
+10 seconds. The earlier concepts A to E below are superseded.
+
+**Next.** Storyboard the three widgets as still frames on the design canvas
+for the user, then build.
 
 ---
 
-## Source: The Real Extension UI
+## The Three Widgets
+
+Each widget is one card: a mini browser (a small fictional site) on top or
+left, a compact FluxIQ panel beside it, and a one-line label. Same stage size
+for all three so they can swap in place.
+
+### 1. Record it (about 8 s)
+- Panel shows a red "Recording" chip and a step list that grows as the cursor
+  works the site: "Click Search", "Type 'roofing'", "Click Filter: Alberta",
+  "Read 24 results".
+- Ends with "Saved as an automation" and a "Run" button glowing once.
+
+### 2. Tell it (about 9 s)
+- Panel is a chat. A message types itself: "Get every roofing company in
+  Calgary with a phone number".
+- FluxIQ answers with a short plan (3 steps) that ticks off while the site in
+  the mini browser scrolls, filters, and highlights rows.
+- Ends with a small table "24 rows" and "CSV".
+
+### 3. It adapts (about 10 s)
+- A saved Flow runs: steps tick, "No AI needed".
+- The mini site redesigns (the Search button jumps, colours shift).
+- The step it was on turns amber: "Page changed, fixing". A tiny "AI · 1
+  call" badge appears; the step goes green: "Fixed. Future runs updated."
+- Next run ticks through clean with "No AI needed" again.
+
+### Presentation in the hero
+- **Recommended:** one stage on the right of the title with three tabs under
+  it ("Record it", "Tell it", "It adapts"). It auto-advances through all
+  three, and a click jumps to one. The tab label is the caption.
+- **Alternative:** all three as smaller cards in a row beneath a centred
+  title, each playing its own loop. Busier; three moving things at once.
+
+Caption under the stage: "Examples of what FluxIQ does. The browser
+extension is coming soon."
+
+---
+
+## Style Reference: The Real Extension UI
 
 Catalogued from FluxIQ Web Extension `b27893f` (dev, 2026-10-07). The repo has
 no screenshots, so the demo is rebuilt from code. Strings below were
@@ -69,7 +112,9 @@ spot-checked by the supervisor in the files named.
 
 ---
 
-## Concepts
+## Superseded Concepts (2026-10-07)
+
+Kept for the record; the user chose the three widgets above instead.
 
 Each is a 20 to 30 second loop in the same stage: a browser frame (fictional
 site, minimal chrome, an `.example` address) with the real panel docked on
@@ -142,8 +187,7 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 
 - **Desktop (≥ 1024 px):** two columns. Left, about 40 %: a shorter title
   and lede, the two buttons, the paper banner above. Right, about 60 %: the
-  stage, 16:10, browser frame with the panel docked as in Chrome. Chapter
-  labels sit under the stage.
+  widget stage with its three tabs under it.
 - **Tablet and phone:** the title stack first, the stage below at full
   width. The stage is designed at a fixed 960 × 600 and scaled to its
   container, so every pixel of the script stays where it was placed. Below
@@ -156,7 +200,7 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 ## Technical Approach
 
 - **One small client component**, `HeroDemo`, the site's first. A timeline
-  of cues (time, state) lives in `src/content/hero-demo.ts`, so every string
+  of cues (time, state) per widget lives in `src/content/hero-demo.ts`, so every string
   shown is in `content/` with its source comment, and markup stays in
   components: `browser-frame`, `demo-site`, `extension-panel`, `status-pill`,
   `demo-cursor`, `chapter-controls`, in `src/components/hero-demo/`.
@@ -184,8 +228,8 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 
 ## Phases
 
-1. **Storyboard.** Five to seven still frames of the chosen concept on the
-   design canvas, at desktop and phone sizes, for the user's approval.
+1. **Storyboard.** Three or four still frames per widget on the design
+   canvas, at desktop and phone sizes, for the user's approval.
 2. **Static stage.** Build the frame, site, panel, and pill as server
    components at one fixed state; screenshot against the storyboard.
 3. **Timeline.** The client component, cues, cursor, chapter controls,
@@ -199,9 +243,9 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 
 ## Risks
 
-- **Over-claiming.** The extension is unreleased and repair through its UI
-  is unproven live. Mitigation: the caption, the "Coming soon" wording, and
-  strings copied verbatim from `b27893f`.
+- **Over-claiming.** The extension is unreleased, and chat-to-Flow and
+  repair through its UI are unproven live. These are examples by the user's
+  decision; the caption says so and says the extension is coming soon.
 - **The real UI changes.** Strings live in one content file with their
   source, so a refresh is one edit.
 - **Heavy hero on phones.** Fixed-stage scaling keeps one layout; motion
@@ -219,13 +263,18 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's choice of concept and site.
 
+### 2026-10-07 — Revise to three example widgets
+- Agent: supervisor
+- Changed: this document
+- Why: The user wants three illustrative widgets (record, chat, page change), not a faithful product walkthrough.
+- Validation: not validated (plan only).
+- Outcome: Accepted
+- Follow-up: Storyboard frames on the canvas.
+
 ---
 
 ## Open Questions
 
-- Which concept: A, B, C, E (recommended), or a mix? Owner: user.
-- Which fake site: lead directory (recommended), supplier portal, or shop?
-  Owner: user.
-- Should the panel use the extension's real blue accent (faithful) or the
-  site's amber (on-brand)? Recommendation: real blue, since it depicts the
-  real product. Owner: user.
+- One tabbed stage (recommended) or three cards in a row? Owner: user.
+- Fake site: a fictional lead directory (recommended, matches the vision
+  paper's example), a supplier portal, or a shop? Owner: user.
