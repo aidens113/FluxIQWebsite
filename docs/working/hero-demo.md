@@ -386,6 +386,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Standard timing
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user asked for faster regular steps, slower title cards, and consistent timing.
+- Design: every regular step holds 1.5 s; the last step of each example holds 2.5 s; every title card holds 4 s. Loop: Tell it 4 + 14.5, Record it 4 + 13, It adapts 4 + 16 = about 56 s. These three constants are the whole timing model for the build.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
