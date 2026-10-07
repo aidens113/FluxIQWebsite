@@ -331,6 +331,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Click crosshair
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants FluxIQ's clicks marked by a crosshair in the middle of the outline.
+- Design: an amber crosshair (ring, four ticks, centre dot) pops into the centre of the outlined element with a short scale-in when FluxIQ clicks: the Calgary filter in Tell it and the Search button in It adapts. Typing and reading keep the outline only; Record it keeps the person's cursor.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
