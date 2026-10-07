@@ -467,6 +467,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Action-based pacing
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants the steps to flow rather than tick at one fixed period.
+- Design: each step's length now comes from its action: typing = characters × speed + 450 ms; a click 1.0 to 1.15 s; reading = the row sweep (5 × 240 ms + 650 ms); a chat line 500 ms + 22 ms per character (0.9 to 2.4 s); endings 2.8 s; title cards 1.6 s + 24 ms per character of body (3.2 to 5 s). Step counts are unchanged.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
