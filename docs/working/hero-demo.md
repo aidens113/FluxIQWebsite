@@ -440,6 +440,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Tell it clicks Search
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`, `Frames.dc.html`; this document
+- Why: The user wants FluxIQ to click the Search button after typing the search term in the first example.
+- Design: Tell it is now 10 steps: type "roofing" (amber Typing), click Search (crosshair, ripple, press; results appear), click Calgary, read rows (blue, two steps), done (rows green, data card). New chat line "Searching for “roofing”." with a Click · Search card; the pill counts 4 steps. The storyboard's Tell it end frame moved to step 9.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
