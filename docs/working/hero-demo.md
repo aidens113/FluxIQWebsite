@@ -377,6 +377,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Visible step countdown
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user found the per-step timer hard to see.
+- Design: the stage-bottom bar is now 4 px with a faint amber track and glow; a dark chip at the site's bottom-left shows an amber ring filling over the step, "Step N of M", and "click to skip". Both hide during title cards.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
