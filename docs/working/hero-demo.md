@@ -476,6 +476,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Render check; pill clears the step chip
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user reported the animations broken (later: a problem on their side). The supervisor checked the design with the canvas's own runtime.
+- Validation: `node dctest/sim2.js Stage.dc.html` (logic with fake timers) -> all three examples loop, typing, skip and tab clicks run without error; the canvas runtime (`artifact-type/dc-runtime.js`) served over HTTP with Playwright, Stage and HeroV3 rendered at several times -> animates as designed, no page errors. One real defect seen: the step chip overlapped the "Running your Flow" pill at the stage bottom.
+- Fix: pill width 236 -> 204 px so it clears the chip; script comments use curly apostrophes only.
+- Outcome: Accepted
+- Follow-up: none
+
 ---
 
 ## Open Questions
