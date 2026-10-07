@@ -413,6 +413,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Pulsing outlines, one click effect
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user disliked the light sweep, wants every outline to pulse, and wants clicks more obvious and consistent.
+- Design: the sweep is gone. Every outline pulses: FluxIQ amber (1.6 s), recorded dashed red (1.6 s), "can't find" red (0.9 s). One click effect for all clicks: the control presses in (scale 0.92, 420 ms) and two rings ripple out (700 ms, second 160 ms later). FluxIQ's clicks ripple amber from the element's centre and keep the crosshair; the person's clicks ripple red from the cursor tip, and the cursor dips. Keyframe names alternate per tick so each click replays.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
