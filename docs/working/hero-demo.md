@@ -313,6 +313,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review, then build.
 
+### 2026-10-07 — User cursor versus FluxIQ highlights
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants it obvious which actions are the person's and which are FluxIQ's.
+- Design: a mouse cursor appears only in Record it, where the person acts; each recorded action gets a dashed red "● Recorded" box. In Tell it and It adapts there is no cursor: FluxIQ's target gets a solid amber outline with a tag ("FluxIQ · Typing", "FluxIQ · Clicking", "FluxIQ · Reading") that glides between targets; a missing target shows a red "Can’t find Search" box at the old spot, then the amber box moves to the new one. The real extension draws no per-action outline (only the pill); this is example stagecraft by the user's request.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review, then build.
+
 ---
 
 ## Open Questions
