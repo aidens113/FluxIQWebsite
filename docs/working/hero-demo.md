@@ -286,6 +286,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Chat-first panel, narration, cleanup
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html` (rewritten), `HeroV3.dc.html`, `Frames.dc.html`, `canvas.json`; this document
+- Why: The user asked for a cleaner widget, a chat that matches the real chat-first extension (ChatGPT-style messages plus an action card per step), and a clearer demo.
+- Design: the panel uses the extension's dark tokens and real strings ("What can FluxIQ do for you?", "Message FluxIQ", "Recording · N steps", "Stop recording", "Working on it", "Done: 24 rows", "Didn’t work: it wasn’t on the page", "Last run: Completed in 6.2s · No AI needed", "AI activated once · Learned 1 new page variation · Future runs updated", the "Running your Flow" / "Fixing your Flow" / "Run finished" pill). A one-line narration under the stage explains each beat; the pace is 1.6 s per beat.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
