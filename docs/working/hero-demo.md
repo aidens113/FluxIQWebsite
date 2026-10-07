@@ -512,6 +512,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime probe sampled every 40 ms -> in all three examples the press precedes its results (Tell it Search press 10.39 s, results 10.65 s; Calgary press 11.88 s, narrowed 12.15 s; Record Search press 27.82 s, results 28.04 s); cursor sampled gliding rest -> search in about 650 ms, arriving before the press; screenshots of It adapts redesign, blue scan, green found, and Tell it Calgary aim reviewed.
 - Outcome: Accepted
 - Follow-up: The user's review.
+
+### 2026-10-07 — Transitions when the example site updates
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wanted a visible transition whenever the example site's UI changes.
+- Design: on every step that loads something (Search, the Calgary filter, the redesign, the second run's Search) a thin blue loading bar runs under the address bar for the click's land time plus 300 ms. While it runs, the results area dims to 40% with a 1 px blur, then the new rows slide up one after another (60 ms apart) and the count line fades in. The redesign plays as a page reload: the page fades to 15% with a 2 px blur, swaps layout while faded (500 ms), and fades back in over 420 ms. Also fixed the FluxIQ tag on the Search button being clipped at the right edge; it now anchors to the button's right side on the original layout.
+- Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime screenshots at Tell it Search (+300, +600, +850 ms), Calgary (+350, +800 ms), the It adapts redesign (+150, +600, +900 ms) and the second-run Search -> bar, dim, staggered rows and reload fade as designed, tags unclipped.
+- Outcome: Accepted
+- Follow-up: The user's review.
 ---
 
 ## Open Questions
