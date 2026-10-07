@@ -358,6 +358,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Guided title cards
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants a transition screen before each example ("OR record it", and so on) with guided text on what is happening and what FluxIQ can do.
+- Design: a blurred overlay card fades in over the stage before each example: "01 · Tell it · Type what you want in plain words. FluxIQ works out the steps and does them on the page."; "OR · Record it · Rather show than tell? Do the task once…"; "THEN · It adapts · Either way, you get an automation. When the site changes, FluxIQ fixes what broke, using AI only for that." The first card holds 1.3 s, later ones 1.7 s; the lines rise in with a short stagger. Clicking a tab plays that example's card first. Static frames (autoplay off) skip the cards.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
