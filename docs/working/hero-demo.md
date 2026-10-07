@@ -503,6 +503,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+
+### 2026-10-07 — Smoothing pass: clicks land first, filter narrows, cursor travels
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`, `Frames.dc.html`; this document
+- Why: The user saw search results and the Calgary filter take effect before their click, wanted results from several cities that the Calgary click narrows, wanted the recording cursor to visibly travel to the search box with the click on its tip, and wanted It adapts to scan in blue and turn green on finding the moved button.
+- Design: each click step has two phases (`landed`): the press first, then everything it causes at once. FluxIQ aims for 450 ms (outline and crosshair), presses, and results follow 300 ms later; the person's cursor glides 600 ms from where it rests, presses at 700 ms, results at 950 ms. Search shows "61 results" across Calgary, Edmonton, Red Deer and Lethbridge; the Calgary click narrows to "24 results in Calgary". The hidden cursor parks at its rest spot, so it never flies in from the corner, and returns there after Stop. The "Type roofing" captured card waits for the last letter. In It adapts the redesign now happens before the first Search attempt; the search row glows blue ("Scanning the new layout"), then the found button turns green and is clicked.
+- Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime probe sampled every 40 ms -> in all three examples the press precedes its results (Tell it Search press 10.39 s, results 10.65 s; Calgary press 11.88 s, narrowed 12.15 s; Record Search press 27.82 s, results 28.04 s); cursor sampled gliding rest -> search in about 650 ms, arriving before the press; screenshots of It adapts redesign, blue scan, green found, and Tell it Calgary aim reviewed.
+- Outcome: Accepted
+- Follow-up: The user's review.
 ---
 
 ## Open Questions
