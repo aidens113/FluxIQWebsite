@@ -322,6 +322,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review, then build.
 
+### 2026-10-07 — Highlights attached to their elements
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user saw the action and recorded outlines sitting off their targets; they were placed by hard-coded coordinates.
+- Design: each outline is now a child of the element it marks (search box, Search button, Calgary chip, results list, or the whole search row for "Can’t find the Search button"), inset 5 px, so it follows the element through the redesign. Outlines fade rather than glide. The user's cursor in Record it is still placed by coordinates. In the build, measure targets from the DOM instead.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
