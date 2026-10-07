@@ -304,6 +304,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review, then build.
 
+### 2026-10-07 — FluxIQ narrates in the chat
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants the simulated chat to read like the real extension, which narrates what it is doing between action cards.
+- Design: assistant messages between cards in all three examples, e.g. "Searched for “roofing”. Now narrowing it to Calgary.", "The Search button isn’t where it used to be. This page has been redesigned.", "Run finished. AI was used once, only for the part that changed." Older messages scroll off the top, as a chat does. Narration wording is illustrative; real wording comes from Core at runtime.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review, then build.
+
 ---
 
 ## Open Questions
