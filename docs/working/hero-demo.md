@@ -431,6 +431,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Rows turn green on success
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants the read rows to turn green at the moment the chat card reports them read.
+- Design: when the "Read · Results list" card switches to "Done: 24 rows", every row gets a green outline, glow, and tint (#3bc982, the extension's success green). In It adapts the read card now shows "Working on it" while rows are read and turns done on the next step, for both runs, so card and rows change together. Green joins the colour key: success.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
