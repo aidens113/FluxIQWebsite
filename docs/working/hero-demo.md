@@ -521,6 +521,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime screenshots at Tell it Search (+300, +600, +850 ms), Calgary (+350, +800 ms), the It adapts redesign (+150, +600, +900 ms) and the second-run Search -> bar, dim, staggered rows and reload fade as designed, tags unclipped.
 - Outcome: Accepted
 - Follow-up: The user's review.
+
+### 2026-10-07 — Loading starts at the press, not the step
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user still saw the initial search results react before the click.
+- Design: the loading bar and the results dimming were starting at the beginning of the step, before FluxIQ's aim (450 ms) or the person's cursor travel (700 ms) finished, so the page reacted before the press. Both now start at the press (animation and transition delays). In It adapts' second run the first run's results stay, still green, until the click lands, instead of vanishing at the step start. The press-to-results gap is now 450 ms for both FluxIQ's and the person's clicks.
+- Validation: `node dctest/sim2.js` -> no errors; canvas runtime probe sampled every 30 ms, before the final gap increase -> loading starts about 450 ms into Tell it's Search and Calgary steps and about 700 ms into Record it's Search and Calgary steps, results follow it, and the second run keeps "24 results in Calgary" until its click.
+- Outcome: Accepted
+- Follow-up: The user's review.
 ---
 
 ## Open Questions
