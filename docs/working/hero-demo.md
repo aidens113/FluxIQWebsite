@@ -485,6 +485,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: none
 
+### 2026-10-07 — Cleaner reading finish, clicks wait for the cursor
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user saw a stray amber outline when the rows turned green, wanted the reading label to stay and turn green, and saw recorded click effects fire before the cursor arrived.
+- Design: the results list never takes a box outline, so nothing flashes amber; its label sits right-aligned on the "24 results" line (it used to cover the filters) and turns green, "✓ Read 24 rows successfully", when the read card reports done. The person's click effect, Recorded outline, and captured card wait 700 ms for the cursor to arrive; those steps are 700 ms longer. The status pill moves its step count to the second line ("Reading the results · 4/4") so it fits beside the step chip.
+- Validation: `node dctest/sim2.js` -> no errors, skip and tab clicks fine; canvas runtime rendered with Playwright at Tell it steps 7 and 9 and Record it step 3 -> green label on the results line, no amber flash, no stray tag, pill on two clean lines, Recorded outline on Search under the cursor.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
