@@ -422,6 +422,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Real typing, row-by-row reading in blue
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants typing to look like typing, and reading to light up each result row in turn, with a glimmer used only there, in a different colour.
+- Design: typing runs a character at a time with a blinking caret: the chat request (42 ms per character, spanning two steps), "roofing" typed by the person (120 ms) and by FluxIQ (110 ms). Text never flashes in full before typing starts. Reading: the results list loses its box outline and keeps a blue "FluxIQ · Reading" tag; each row in turn (240 ms apart) gets a blue outline and one blue light sweep. Blue (#5e9eea, the extension's own accent) means reading; amber means FluxIQ clicking or typing; red means the person or a failure.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
