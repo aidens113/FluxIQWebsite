@@ -1,7 +1,7 @@
 # Hero Demo: An Animated Extension Walkthrough
 
 Status: Active
-Status detail: Revised plan: three example widgets (record, chat, page change); awaiting the user's go-ahead to storyboard.
+Status detail: Three-widget hero designed on the canvas (v3 row); awaiting the user's review before building.
 Created: 2026-10-07
 Last updated: 2026-10-07
 Owner: Senior supervisor agent
@@ -31,8 +31,15 @@ They are stylised examples that borrow the extension's look (dark panel,
 pill, step list) without copying every screen. Each is a short loop of 6 to
 10 seconds. The earlier concepts A to E below are superseded.
 
-**Next.** Storyboard the three widgets as still frames on the design canvas
-for the user, then build.
+**Designed (2026-10-07).** The canvas
+(`https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS`, row "v3") holds
+`HeroV3` (the hero with the auto-playing, tabbed widget; press Play),
+`Frames` (two key frames per widget), and `Stage` (the widget component).
+Choices made in the design, open to the user: one tabbed stage; a fictional
+lead directory, "Ridgeline Leads"; the panel in the site's ink and amber
+rather than the extension's blue, since these are examples; a shorter lede.
+
+**Next.** The user reviews the design; then build per the phases below.
 
 ---
 
@@ -270,6 +277,14 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: not validated (plan only).
 - Outcome: Accepted
 - Follow-up: Storyboard frames on the canvas.
+
+### 2026-10-07 — Design the three widgets
+- Agent: supervisor
+- Changed: canvas files `Stage.dc.html`, `HeroV3.dc.html`, `Frames.dc.html`, `canvas.json`; this document
+- Why: The user approved the three-widget plan and asked for a design.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
 
 ---
 
