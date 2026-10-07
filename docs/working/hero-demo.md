@@ -395,6 +395,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — Ring chip only
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user found the stage-bottom bar cluttered; the ring chip is enough.
+- Design: regular steps show only the bottom-left chip (filling amber ring, "Step N of M · click to skip"); the stage-bottom bar is gone. Title cards keep their own draining bar.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review.
+
 ---
 
 ## Open Questions
