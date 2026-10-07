@@ -38,7 +38,7 @@ The site has two pages: `/` (the framework, and the overview of both parts)
 and `/extension/` (the Web Extension). What exists in `src/` today:
 
 - `app/layout.tsx`: the root layout. It loads the fonts, sets the site-wide
-  metadata (title template `%s — FluxIQ`, description, canonical `/`, Open
+  metadata (title template `%s | FluxIQ`, default "FluxIQ: Only pay AI for what it doesn’t already know", description, canonical `/`, Open
   Graph, Twitter `summary_large_image` for `@GetFluxIQ`, theme colour), and
   renders a "Skip to content" link to `#main`. Each page owns its header,
   `<main id="main">`, and footer.
