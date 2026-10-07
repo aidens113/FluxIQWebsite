@@ -449,6 +449,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Outcome: Accepted
 - Follow-up: The user's review.
 
+### 2026-10-07 — One click effect for every click
+- Agent: supervisor
+- Changed: canvas `Stage.dc.html`; this document
+- Why: The user wants every click, automated or the simulated person's, to look the same.
+- Design: every click plays the same effect on the clicked control: it presses in (scale 0.92, 420 ms), two rings ripple from its centre (700 ms, second 160 ms later), and a crosshair snaps onto its centre (600 ms). This now covers the person clicking the search box and "Stop recording" too. The cursor no longer has its own ripple or dip; it only travels to the target. Only the colour differs, matching the outline: amber for FluxIQ, red for the person.
+- Validation: not validated; the canvas type asks not to render-check unless the user asks.
+- Outcome: Accepted
+- Follow-up: The user's review; offer an identical colour if they want no difference at all.
+
 ---
 
 ## Open Questions
