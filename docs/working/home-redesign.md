@@ -117,8 +117,8 @@ framework mock's Flow names are examples. The generated-app mock keeps its
   - The app's chart line draws in and the newest lead row flashes.
   - The paper cover floats.
   - The closing band's light drifts.
-  - `prefers-reduced-motion` stops all of it.
-- "Two parts" now has a left-aligned heading with the lede beside it, as the other sections do. The pairing line runs edge to edge, and the extension mock fills its card.
+  - Earlier, a reduced-motion rule switched all of it off. That hid every loop from the user, whose system has reduce motion on, so the rule is removed and the loops play for everyone, as the hero demo does.
+- "Two parts" now has a left-aligned heading with its lede underneath, at the user's request. The pairing line runs edge to edge, and the extension mock fills its card.
 - Validation: rendered with the canvas runtime at 1440 px at two moments: motion visible, layout unchanged, and no page errors.
 - Outcome: Accepted, pending the user's review
-- Follow-up: In the build, keep the reduced-motion guard. Start loops only when a section scrolls into view.
+- Follow-up: In the build, start loops only when a section scrolls into view. Ask the user whether reduced motion should slow the loops rather than stop them.
