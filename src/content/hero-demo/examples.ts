@@ -28,8 +28,6 @@ export const DEMO_LABELS = {
   description:
     "An animated illustration of the FluxIQ browser extension on an example lead directory. Tell it: you ask in plain words and FluxIQ searches, filters to Calgary, and reads 24 rows. Record it: you do the task once and FluxIQ captures each step as an automation. It adapts: after a redesign moves the Search button, FluxIQ uses AI once to find it, then runs again without AI.",
   caption: "An illustration of the FluxIQ browser extension, which is coming soon.",
-  clickToSkip: "Click to skip",
-  tapToSkip: "Tap to skip",
   skipStep: "Skip to the next step",
   pause: "Pause",
   play: "Play",

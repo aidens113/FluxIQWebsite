@@ -11,7 +11,7 @@ import { recordItScene } from "./scenes/record-it";
 import type { SceneContext } from "./scenes/scene";
 import { tellItScene } from "./scenes/tell-it";
 import { Stage } from "./stage";
-import { focusOf, landDelay, loads, pressAt, stepMs } from "./timeline";
+import { focusOf, landDelay, loads, pressAt } from "./timeline";
 import { typedSoFar, useDemoPlayer, type View } from "./use-demo-player";
 import { useMediaQuery } from "./use-media-query";
 import { ViewSwitch } from "./view-switch";
@@ -34,7 +34,7 @@ export function HeroDemo() {
     () => false,
   );
   const { state, running, paused, setPaused, skip, pickTab, pin } = useDemoPlayer(root);
-  const { tab, step, landed, tick } = state;
+  const { tab, step, landed } = state;
 
   // The phone stage fills the column, within limits.
   const [phoneWidth, setPhoneWidth] = useState(343);
@@ -67,8 +67,6 @@ export function HeroDemo() {
       ? state.pin.view
       : focus
     : "site";
-  const ms = stepMs(tab, step);
-  const runKey = `${tick}-${running}`;
   const pauseButton = <PauseButton paused={paused} onToggle={() => setPaused(!paused)} />;
 
   return (
@@ -82,9 +80,6 @@ export function HeroDemo() {
           view={view}
           onPick={(v) => pin(v, focus)}
           chatNews={view === "site" && scene.panel.messages.length > 0}
-          ms={ms}
-          runKey={runKey}
-          running={running}
           pause={pauseButton}
         />
       )}
@@ -97,9 +92,6 @@ export function HeroDemo() {
             compact={compact}
             phoneWidth={phoneWidth}
             view={view}
-            running={running}
-            ms={ms}
-            runKey={runKey}
             onSkip={skip}
             onOpenChat={() => pin("panel", focus)}
           />

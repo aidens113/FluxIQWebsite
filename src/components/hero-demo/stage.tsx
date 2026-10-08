@@ -5,7 +5,6 @@ import { DirectorySite, type SiteMotion } from "./directory-site";
 import { ExtensionPanel } from "./extension-panel";
 import { Pointer } from "./pointer";
 import type { Scene } from "./scenes/scene";
-import { StepChip } from "./step-chip";
 import { isQuiet } from "./timeline";
 import type { PlayerState, View } from "./use-demo-player";
 
@@ -17,10 +16,6 @@ export type StageProps = {
   /** The phone stage's width; the desktop stage is always 760 px. */
   phoneWidth: number;
   view: View;
-  running: boolean;
-  /** How long the current step lasts. */
-  ms: number;
-  runKey: string;
   onSkip: () => void;
   onOpenChat: () => void;
 };
@@ -31,7 +26,7 @@ export type StageProps = {
  * time. Clicking anywhere on the stage skips to the next step.
  */
 export function Stage(props: StageProps) {
-  const { state, scene, motion, compact, phoneWidth, view, running, ms, runKey } = props;
+  const { state, scene, motion, compact, phoneWidth, view } = props;
   const width = compact ? phoneWidth : 760;
   const [x, y] = cursorPoint(scene.cursor ?? "rest", compact, phoneWidth);
   const latest = scene.panel.messages.at(-1);
@@ -77,7 +72,6 @@ export function Stage(props: StageProps) {
           spotlight={spotlight && latest.kind !== "user"}
         />
       )}
-      {!compact && <StepChip ms={ms} runKey={runKey} running={running} visible />}
       <button
         type="button"
         tabIndex={-1}

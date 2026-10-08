@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { FOCUS_RING } from "@/components/ui/focus-ring";
 import { LogoMark } from "@/components/ui/logo-mark";
 import { DEMO_LABELS } from "@/content/hero-demo/examples";
-import { ProgressRing } from "./progress-ring";
 import type { View } from "./use-demo-player";
 
 export type ViewSwitchProps = {
@@ -10,14 +9,11 @@ export type ViewSwitchProps = {
   onPick: (view: View) => void;
   /** True when the chat has messages the site view is not showing. */
   chatNews: boolean;
-  ms: number;
-  runKey: string;
-  running: boolean;
   pause: ReactNode;
 };
 
 /** Phone: switches the stage between the example website and the FluxIQ panel. */
-export function ViewSwitch({ view, onPick, chatNews, ms, runKey, running, pause }: ViewSwitchProps) {
+export function ViewSwitch({ view, onPick, chatNews, pause }: ViewSwitchProps) {
   const tab = (v: View) =>
     `inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 text-[13px] font-semibold transition-colors ${FOCUS_RING} ${
       view === v ? "bg-[#2a2d33] text-fg" : "text-dim"
@@ -50,11 +46,7 @@ export function ViewSwitch({ view, onPick, chatNews, ms, runKey, running, pause 
           {chatNews && <span className="size-1.5 rounded-full bg-amber" />}
         </button>
       </div>
-      <span className="ml-auto inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-muted">
-        <ProgressRing ms={ms} runKey={runKey} running={running} size={14} />
-        {DEMO_LABELS.tapToSkip}
-      </span>
-      {pause}
+      <span className="ml-auto">{pause}</span>
     </div>
   );
 }

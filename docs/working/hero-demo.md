@@ -625,6 +625,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (146.4 KB gzip JS) -> passed. Playwright on `pnpm preview`: the loop still takes 33.6 s, with It adapts starting at 20.5 s as before; no console errors.
 - Outcome: Accepted
 - Follow-up: The user's review; main needs their approval.
+
+### 2026-10-08 — Step timer chip removed
+- Agent: supervisor
+- Changed: `src/components/hero-demo/` (`step-chip.tsx` and `progress-ring.tsx` removed; `stage`, `view-switch`, `hero-demo`), `src/content/hero-demo/examples.ts`; `docs/architecture/README.md`; this document
+- Why: The user asked to remove the "Click to skip" widget in the stage's bottom-left corner, ring included.
+- Design: no step chip on desktop; on a phone the same ring and "Tap to skip" are gone from the switch row, which now holds the view switch and Pause. Clicking or tapping the stage still skips a step.
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (145.7 KB gzip JS) -> passed. Playwright on `pnpm preview` at 1440 and 375 px: no "to skip" text in the widget, layout intact, no console errors.
+- Outcome: Accepted
+- Follow-up: none
 ---
 
 ## Open Questions

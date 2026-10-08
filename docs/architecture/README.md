@@ -142,8 +142,7 @@ linked there.
   work on the site, no cursor, no typing, and not an example's first or
   last step) FluxIQ's newest chat message pulses amber; on a phone the
   message bar over the site pulses too. Today that is Tell it's planning
-  step, Record it's build step, and It adapts' "AI was used once". The step chip shows only a timer ring and "Click to
-  skip" ("Tap to skip" on a phone).
+  step, Record it's build step, and It adapts' "AI was used once". There is no step timer or skip label; clicking the stage still skips a step.
 - **A click has two phases**: until it lands only the press shows (FluxIQ
   aims for 450 ms; the person's cursor travels for 700 ms); then everything
   it causes appears together. Loading bars and dimming start at the press,
