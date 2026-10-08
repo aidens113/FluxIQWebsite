@@ -31,15 +31,13 @@ export function tellItScene(rawStep: number, ctx: SceneContext): Scene {
       });
     if (s >= 4) m.push({ id: "plan", kind: "text", text: TELL_IT.plan });
     if (s >= 4) m.push(card("type", actions.type, targets.searchBox, 4, 0, outcomes.done));
-    if (s >= 5) m.push({ id: "searching", kind: "text", text: TELL_IT.searching });
     if (s >= 5) m.push(card("search", actions.click, targets.search, 5, 0, outcomes.done));
-    if (s >= 6) m.push({ id: "narrowing", kind: "text", text: TELL_IT.narrowing });
     if (s >= 6) m.push(card("city", actions.click, targets.city, 6, 0, outcomes.done));
-    if (s >= 7) m.push({ id: "reading", kind: "text", text: TELL_IT.reading });
     if (s >= 7) m.push(card("read", actions.read, targets.results, 7, 8, outcomes.rows));
     if (s >= 9) m.push({ id: "done", kind: "text", text: TELL_IT.done });
     if (s >= 9) m.push({ id: "data", kind: "data" });
-    panel.messages = m.slice(-6);
+    // Cards carry the play-by-play; FluxIQ speaks only to plan and to report.
+    panel.messages = m.slice(-4);
   }
 
   const target: Target | null =
@@ -54,7 +52,6 @@ export function tellItScene(rawStep: number, ctx: SceneContext): Scene {
             : s >= 9
               ? { name: "results", kind: "done", tag: tags.read }
               : null;
-  const n = s === 4 ? 1 : s === 5 ? 2 : s === 6 ? 3 : 4;
   const filtered = s > 6 || (s === 6 && ctx.landed);
 
   return {
@@ -69,12 +66,6 @@ export function tellItScene(rawStep: number, ctx: SceneContext): Scene {
       target,
     },
     panel,
-    pill:
-      s >= 9
-        ? { kind: "done", detail: outcomes.rows }
-        : s >= 4
-          ? { kind: "running", detail: TELL_IT.pillSteps[n - 1] ?? "", step: `${n}/4` }
-          : null,
     cursor: null,
   };
 }

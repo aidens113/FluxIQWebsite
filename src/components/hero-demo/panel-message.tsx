@@ -30,7 +30,7 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
     );
   if (m.kind === "text")
     return (
-      <p className="relative text-[12.5px] leading-normal text-[#eef4fb]" style={rise}>
+      <p className="relative text-[12.5px] leading-[1.55] text-[#d9e3ee]" style={rise}>
         {glow}
         {m.text}
       </p>
@@ -52,7 +52,7 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
   if (m.kind === "data")
     return (
       <div
-        className="relative flex items-center justify-between rounded-[10px] bg-[#172231] px-[11px] py-[9px] text-[11.5px]"
+        className="relative flex items-center justify-between rounded-[10px] border border-[#1f2e3f] bg-[#142030] px-2.5 py-2 text-[11.5px]"
         style={rise}
       >
         {glow}
@@ -64,14 +64,14 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
   const alarm = m.state === "fixing" || m.state === "failed";
   return (
     <div
-      className="relative flex items-center gap-2.5 rounded-[10px] bg-[#172231] px-2.5 py-[9px]"
-      style={{ ...rise, border: `1px solid ${alarm ? `${tone}66` : "#26384a"}`, transition: "border-color 300ms ease" }}
+      className="relative flex items-center gap-2.5 rounded-[10px] bg-[#142030] px-2.5 py-[7px]"
+      style={{ ...rise, border: `1px solid ${alarm ? `${tone}66` : "#1f2e3f"}`, transition: "border-color 300ms ease" }}
     >
       {glow}
       <span
-        className="inline-flex size-7 flex-none items-center justify-center rounded-full font-bold"
+        className="inline-flex size-[22px] flex-none items-center justify-center rounded-full font-bold"
         style={{
-          fontSize: m.state === "captured" ? 8 : 13,
+          fontSize: m.state === "captured" ? 7 : 11,
           color: tone,
           background: `${tone}22`,
           transition: "all 300ms ease",
@@ -80,10 +80,10 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
         {mark}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[12.5px] font-semibold">
+        <span className="block text-xs leading-4 font-semibold">
           {m.name} <span className="font-normal text-[#93a4b6]">· {m.target}</span>
         </span>
-        <span className="mt-0.5 block text-[11.5px]" style={{ color: tone }}>
+        <span className="block text-[11px] leading-4" style={{ color: tone }}>
           {m.outcome}
         </span>
       </span>

@@ -38,7 +38,6 @@ export function recordItScene(step: number, ctx: SceneContext): Scene {
   if (done(1)) m.push(captured("box", actions.click, targets.searchBox));
   if (done(2)) m.push(captured("typed", actions.type, targets.typed));
   if (done(3)) m.push(captured("search", actions.click, targets.search));
-  if (done(3)) m.push({ id: "understood", kind: "text", text: RECORD_IT.understood });
   if (done(4)) m.push(captured("city", actions.click, targets.city));
   if (step >= 6) m.push({ id: "building", kind: "text", text: RECORD_IT.building });
   if (step === 6)
@@ -50,7 +49,7 @@ export function recordItScene(step: number, ctx: SceneContext): Scene {
       detail: RECORD_IT.checking.detail,
     });
   if (step >= 7) m.push({ id: "saved", kind: "text", text: RECORD_IT.saved });
-  panel.messages = m.slice(-6);
+  panel.messages = m.slice(-4);
   if (step >= 7) panel.strip = { runLabel: PANEL.run, text: RECORD_IT.ready, tone: "green" };
 
   const targetName = TARGET[step] ?? null;
@@ -66,7 +65,6 @@ export function recordItScene(step: number, ctx: SceneContext): Scene {
       target: targetName ? { name: targetName, kind: "user", tag: tags.recorded, click: CLICKS.includes(step) } : null,
     },
     panel,
-    pill: null,
     cursor: CURSOR[Math.min(step, CURSOR.length - 1)] ?? null,
   };
 }

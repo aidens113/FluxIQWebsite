@@ -8,7 +8,7 @@ export type ExampleTabsProps = {
   step: number;
   running: boolean;
   onPick: (tab: number) => void;
-  /** The pause control, at the row's end; on a phone it sits with the narration instead. */
+  /** The pause control, at the row's end; on a phone it sits in the view switch row instead. */
   pause?: ReactNode;
 };
 

@@ -3,15 +3,7 @@
 // button, finishes, and the next run needs no AI.
 import { DIRECTORY } from "@/content/hero-demo/directory";
 import { IT_ADAPTS, PANEL } from "@/content/hero-demo/panel";
-import {
-  type CardState,
-  emptyPanel,
-  type Message,
-  type PillScene,
-  type Scene,
-  type SceneContext,
-  type Target,
-} from "./scene";
+import { type CardState, emptyPanel, type Message, type Scene, type SceneContext, type Target } from "./scene";
 
 const { outcomes, targets, actions, tags } = PANEL;
 
@@ -26,15 +18,6 @@ function target(step: number): Target | null {
   if (step === 5 || step === 8) return { name: "results", kind: "auto", tag: tags.reading };
   if (step === 6 || step === 9) return { name: "results", kind: "done", tag: tags.read };
   return null;
-}
-
-function pill(step: number): PillScene {
-  if (step === 1) return { kind: "running", detail: IT_ADAPTS.pill.looking, step: "2/4" };
-  if (step === 2) return { kind: "fixing", detail: IT_ADAPTS.pill.changed, step: "2/4" };
-  if (step === 6) return { kind: "done", detail: outcomes.rows };
-  if (step === 9) return { kind: "done", detail: IT_ADAPTS.pill.noAi };
-  const n = ({ 0: 1, 3: 2, 4: 3, 5: 4, 7: 2, 8: 4 } as Record<number, number>)[step] ?? 1;
-  return { kind: "running", detail: IT_ADAPTS.pill.steps, step: `${n}/4` };
 }
 
 export function itAdaptsScene(step: number, ctx: SceneContext): Scene {
@@ -58,7 +41,6 @@ export function itAdaptsScene(step: number, ctx: SceneContext): Scene {
       m.push({ id: "moved", kind: "text", text: IT_ADAPTS.moved });
     }
     if (step === 2) m.push({ id: "fixing", kind: "live", ...IT_ADAPTS.fixing });
-    if (step >= 3) m.push({ id: "fixed", kind: "text", text: IT_ADAPTS.fixed });
     if (step >= 4)
       m.push(card("city", actions.click, targets.city, step === 4 ? "working" : "done", working(4, outcomes.done)));
     if (step >= 5)
@@ -74,7 +56,7 @@ export function itAdaptsScene(step: number, ctx: SceneContext): Scene {
   }
 
   const panel = emptyPanel();
-  panel.messages = m.slice(-5);
+  panel.messages = m.slice(-4);
   panel.strip = {
     runLabel: step === 6 ? PANEL.run : PANEL.running,
     text:
@@ -103,7 +85,6 @@ export function itAdaptsScene(step: number, ctx: SceneContext): Scene {
       target: target(step),
     },
     panel,
-    pill: pill(step),
     cursor: null,
   };
 }

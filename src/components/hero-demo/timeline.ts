@@ -2,7 +2,6 @@
 // takes rather than a fixed clock: typing as long as its letters, a click long
 // enough to press and show its result, reading as long as the row sweep, chat
 // lines in proportion to their length, endings a little longer.
-import { DEMO_EXAMPLES } from "@/content/hero-demo/examples";
 import { IT_ADAPTS, TELL_IT } from "@/content/hero-demo/panel";
 
 /** How long the person's cursor takes to reach a target. */
@@ -54,7 +53,7 @@ export const STEP_MS: number[][] = [
     typing("roofing", TYPING_SPEED.search),
     line(IT_ADAPTS.moved) + 400,
     1900,
-    Math.max(CLICK + 800, line(IT_ADAPTS.fixed)),
+    CLICK + 800,
     CLICK + 600,
     READ,
     line(IT_ADAPTS.finished),
@@ -64,8 +63,6 @@ export const STEP_MS: number[][] = [
   ],
 ];
 
-/** The example shown on a tab. */
-export const exampleOf = (tab: number) => DEMO_EXAMPLES[tab] ?? DEMO_EXAMPLES[0];
 export const stepsOf = (tab: number): number[] => STEP_MS[tab] ?? [];
 export const stepCount = (tab: number) => stepsOf(tab).length;
 export const stepMs = (tab: number, step: number) => stepsOf(tab)[step] ?? 1200;

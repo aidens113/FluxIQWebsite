@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { FOCUS_RING } from "@/components/ui/focus-ring";
 import { LogoMark } from "@/components/ui/logo-mark";
 import { DEMO_LABELS } from "@/content/hero-demo/examples";
@@ -12,16 +13,17 @@ export type ViewSwitchProps = {
   ms: number;
   runKey: string;
   running: boolean;
+  pause: ReactNode;
 };
 
 /** Phone: switches the stage between the example website and the FluxIQ panel. */
-export function ViewSwitch({ view, onPick, chatNews, ms, runKey, running }: ViewSwitchProps) {
+export function ViewSwitch({ view, onPick, chatNews, ms, runKey, running, pause }: ViewSwitchProps) {
   const tab = (v: View) =>
-    `inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3.5 text-[13px] font-semibold transition-colors ${FOCUS_RING} ${
+    `inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 text-[13px] font-semibold transition-colors ${FOCUS_RING} ${
       view === v ? "bg-[#2a2d33] text-fg" : "text-dim"
     }`;
   return (
-    <div className="mb-2.5 flex items-center gap-2.5">
+    <div className="mb-2.5 flex items-center gap-2">
       <div
         role="tablist"
         aria-label={DEMO_LABELS.viewSwitch}
@@ -48,10 +50,11 @@ export function ViewSwitch({ view, onPick, chatNews, ms, runKey, running }: View
           {chatNews && <span className="size-1.5 rounded-full bg-amber" />}
         </button>
       </div>
-      <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-muted">
+      <span className="ml-auto inline-flex items-center gap-1.5 text-xs whitespace-nowrap text-muted">
         <ProgressRing ms={ms} runKey={runKey} running={running} size={14} />
         {DEMO_LABELS.tapToSkip}
       </span>
+      {pause}
     </div>
   );
 }

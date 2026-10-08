@@ -11,7 +11,7 @@ import { recordItScene } from "./scenes/record-it";
 import type { SceneContext } from "./scenes/scene";
 import { tellItScene } from "./scenes/tell-it";
 import { Stage } from "./stage";
-import { exampleOf, focusOf, landDelay, loads, pressAt, stepMs } from "./timeline";
+import { focusOf, landDelay, loads, pressAt, stepMs } from "./timeline";
 import { typedSoFar, useDemoPlayer, type View } from "./use-demo-player";
 import { useMediaQuery } from "./use-media-query";
 import { ViewSwitch } from "./view-switch";
@@ -69,9 +69,7 @@ export function HeroDemo() {
     : "site";
   const ms = stepMs(tab, step);
   const runKey = `${tick}-${running}`;
-  const example = exampleOf(tab);
   const pauseButton = <PauseButton paused={paused} onToggle={() => setPaused(!paused)} />;
-  const narration = example.lines[Math.min(step, example.lines.length - 1)];
 
   return (
     <div
@@ -87,6 +85,7 @@ export function HeroDemo() {
           ms={ms}
           runKey={runKey}
           running={running}
+          pause={pauseButton}
         />
       )}
       <div className="relative">
@@ -107,15 +106,7 @@ export function HeroDemo() {
         </div>
       </div>
       <ExampleTabs tab={tab} step={step} running={running} onPick={pickTab} pause={compact ? undefined : pauseButton} />
-      {/* What is happening now, in one calm line; two lines are reserved on a phone so nothing jumps. */}
-      <p
-        className={`mt-3 flex gap-2.5 leading-snug text-soft ${compact ? "min-h-[2.75rem] text-sm" : "min-h-6 text-[15px]"}`}
-      >
-        <span aria-hidden="true" className="mt-[0.45em] size-1.5 flex-none rounded-full bg-amber" />
-        <span className="flex-1">{narration}</span>
-        {compact && <span className="-mt-1.5">{pauseButton}</span>}
-      </p>
-      <p className="mt-2 text-xs text-dim">{DEMO_LABELS.caption}</p>
+      <p className="mt-3 text-xs text-dim">{DEMO_LABELS.caption}</p>
     </div>
   );
 }

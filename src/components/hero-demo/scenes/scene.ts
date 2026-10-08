@@ -1,5 +1,5 @@
 // The shape every example step produces: what the example site, the
-// extension panel, the status pill, and the person's cursor show. Scenes are
+// extension panel, and the person's cursor show. Scenes are
 // plain data; the components decide how each part looks and moves.
 
 /** Elements on the example site that can carry a highlight. */
@@ -52,12 +52,10 @@ export type PanelScene = {
   messages: Message[];
 };
 
-export type PillScene = { kind: "running" | "fixing" | "done"; detail: string; step?: string } | null;
-
 /** Where the person's cursor points, or null when it is hidden. */
 export type CursorSpot = "rest" | "search" | "button" | "calgary" | "stop" | "record" | null;
 
-export type Scene = { site: SiteScene; panel: PanelScene; pill: PillScene; cursor: CursorSpot };
+export type Scene = { site: SiteScene; panel: PanelScene; cursor: CursorSpot };
 
 /** What a scene builder may know about playback. */
 export type SceneContext = {

@@ -589,6 +589,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (146.9 KB gzip JS) -> passed. Playwright on `pnpm preview`, the narration line and the pulse sampled every 60 ms through a full loop: the pulse shows only at "FluxIQ plans the steps.", "FluxIQ turns your steps into an automation.", and "AI was used once, only for what changed."; Record it's first step now lasts about 2.1 s.
 - Outcome: Accepted
 - Follow-up: The user's review; main needs their approval.
+
+### 2026-10-08 — Status pill and narration removed; chat decluttered
+- Agent: supervisor
+- Changed: `src/components/hero-demo/` (`status-pill.tsx` removed; scenes, `stage`, `hero-demo`, `view-switch`, `panel-message`, `extension-panel`, `example-tabs`, `palette`, `timeline`), `src/content/hero-demo/{examples,panel}.ts`; `docs/architecture/README.md`; this document
+- Why: The user found the floating "Running your Flow / Run finished" pill cluttering, asked to remove the line of text under the demo and the "Click the demo to skip ahead" hint (already gone since the previous deploy), and to declutter the chat and make it look better.
+- Design: no status pill. Under the stage only the example tabs (with Pause on desktop) and the caption remain; on a phone Pause sits in the view-switch row beside "Tap to skip". Chat: FluxIQ's lines that only repeated the next card are gone ("Searching for roofing", "Now narrowing it to Calgary", "That leaves 24 companies", "Got it: a search for roofing", "Found it. I've updated the automation"); the chat keeps its last four messages; cards are slimmer (22 px mark, 12/11 px text, quieter border and fill), text is softer, and messages have more space between them.
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (145.6 KB gzip JS) -> passed. Playwright on `pnpm preview`: a full loop at 1440 px (24 frames) and 375 px (30 frames) -> no pill, no narration, chat at most four messages; the phone switch row stays on one line at 375 and 360 px with no horizontal overflow; no console errors.
+- Outcome: Accepted
+- Follow-up: The user's review; main needs their approval.
 ---
 
 ## Open Questions

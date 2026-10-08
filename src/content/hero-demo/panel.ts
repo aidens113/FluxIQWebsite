@@ -28,7 +28,6 @@ export const PANEL = {
     typed: "“roofing”",
   },
   actions: { click: "Click", type: "Type", read: "Read" },
-  pill: { running: "Running your Flow", fixing: "Fixing your Flow", done: "Run finished" },
   /** Labels on the page while FluxIQ or the person acts. */
   tags: {
     typing: "FluxIQ · Typing",
@@ -46,16 +45,11 @@ export const TELL_IT = {
   ask: "Find every roofing company in Calgary and get their phone numbers",
   planning: { headline: "Building your Flow", detail: "Planning the steps" },
   plan: "Sure. I’ll search the directory for roofing, filter to Calgary, then read each name and phone number.",
-  searching: "Searching for “roofing”.",
-  narrowing: "Now narrowing it to Calgary.",
-  reading: "That leaves 24 companies. Reading their details.",
   done: "All done. I found 24 roofing companies in Calgary, each with a phone number. Export them below.",
-  pillSteps: ["Typing into Search", "Clicking Search", "Clicking Calgary", "Reading the results"],
 };
 
 export const RECORD_IT = {
   started: "I’m recording. Do the task once and I’ll write down each step.",
-  understood: "Got it: a search for roofing companies.",
   building: "That’s 4 steps. Turning them into an automation now.",
   checking: { headline: "Building the automation…", detail: "Checking each step" },
   saved: "Saved as “Roofing leads, Calgary”. Next time it runs on its own, with no AI needed.",
@@ -71,7 +65,6 @@ export const IT_ADAPTS = {
   finding: "Finding it again…",
   found: "Done: found it in the new layout",
   fixing: { headline: "Fixing your Flow", step: "Step 2 of 4", detail: "Using AI once to find it in the new layout" },
-  fixed: "Found it. I’ve updated the automation, so future runs know the new layout.",
   finished: "Run finished. AI was used once, only for the part that changed.",
   finishedAgain: "Run finished. No AI needed: the new layout is already known.",
   strip: {
@@ -79,11 +72,5 @@ export const IT_ADAPTS = {
     learned: "AI activated once · Learned 1 new page variation · Future runs updated",
     again: "Running again on the new layout",
     after: "Last run: Completed in 5.9s · No AI needed",
-  },
-  pill: {
-    looking: "Looking for Search",
-    changed: "The page changed",
-    steps: "Running saved steps",
-    noAi: "No AI needed",
   },
 };

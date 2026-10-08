@@ -119,12 +119,13 @@ user's decision, captioned as such; the design and its history are in
 [hero-demo](../working/hero-demo.md), and the canvas it was designed on is
 linked there.
 
-- **Copy** lives in `content/hero-demo/`: `examples.ts` (tabs, title cards,
-  narration, labels), `panel.ts` (everything the panel and the page labels
+- **Copy** lives in `content/hero-demo/`: `examples.ts` (tabs and labels), `panel.ts` (everything the panel and the page labels
   say), `directory.ts` (the example site and its rows).
 - **Logic** is plain data. `scenes/tell-it.ts`, `record-it.ts`, and
   `it-adapts.ts` turn a step into a `Scene` (`scenes/scene.ts`): what the
-  site, panel, status pill, and cursor show. `timeline.ts` holds the pacing
+  site, panel, and cursor show. The chat keeps its last four messages, and
+  FluxIQ speaks only to plan and to report; the action cards carry the
+  play-by-play. `timeline.ts` holds the pacing
   (steps last as long as their action), when a click lands, which steps
   load, the typing moments, and the phone view's focus. `cursor-targets.ts`
   holds the measured cursor positions.

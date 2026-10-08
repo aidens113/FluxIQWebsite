@@ -5,7 +5,6 @@ import { DirectorySite, type SiteMotion } from "./directory-site";
 import { ExtensionPanel } from "./extension-panel";
 import { Pointer } from "./pointer";
 import type { Scene } from "./scenes/scene";
-import { StatusPill } from "./status-pill";
 import { StepChip } from "./step-chip";
 import { isQuiet } from "./timeline";
 import type { PlayerState, View } from "./use-demo-player";
@@ -62,7 +61,6 @@ export function Stage(props: StageProps) {
           <div key={state.tab} className="h-full" style={{ animation: "demo-fade 450ms ease both" }}>
             <DirectorySite site={scene.site} motion={motion} compact={compact} tick={state.tick} />
           </div>
-          {!compact && scene.pill && <StatusPill pill={scene.pill} />}
           <Pointer x={x} y={y} visible={scene.cursor !== null} />
         </div>
         <div className="h-full flex-none border-l border-[#26384a]" style={{ width: compact ? width : 300 }}>

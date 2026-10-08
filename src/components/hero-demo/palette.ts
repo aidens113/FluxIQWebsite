@@ -20,7 +20,5 @@ export const CARD: Record<CardState, { tone: string; mark: string }> = {
   captured: { tone: "#93a4b6", mark: "●" },
 };
 
-export const PILL = { running: "#7cb2fb", fixing: "#f5b94a", done: "#5fdf8e" };
-
 export const READ_BLUE = "#5e9eea";
 export const RECORD_RED = "#fa6571";
