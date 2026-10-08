@@ -9,14 +9,13 @@ export type ViewSwitchProps = {
   onPick: (view: View) => void;
   /** True when the chat has messages the site view is not showing. */
   chatNews: boolean;
-  stepShort: string;
   ms: number;
   runKey: string;
   running: boolean;
 };
 
 /** Phone: switches the stage between the example website and the FluxIQ panel. */
-export function ViewSwitch({ view, onPick, chatNews, stepShort, ms, runKey, running }: ViewSwitchProps) {
+export function ViewSwitch({ view, onPick, chatNews, ms, runKey, running }: ViewSwitchProps) {
   const tab = (v: View) =>
     `inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3.5 text-[13px] font-semibold transition-colors ${FOCUS_RING} ${
       view === v ? "bg-[#2a2d33] text-fg" : "text-dim"
@@ -49,9 +48,9 @@ export function ViewSwitch({ view, onPick, chatNews, stepShort, ms, runKey, runn
           {chatNews && <span className="size-1.5 rounded-full bg-amber" />}
         </button>
       </div>
-      <span className="ml-auto inline-flex items-center gap-1.5 font-mono text-xs text-muted">
+      <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-muted">
         <ProgressRing ms={ms} runKey={runKey} running={running} size={14} />
-        {stepShort}
+        {DEMO_LABELS.tapToSkip}
       </span>
     </div>
   );

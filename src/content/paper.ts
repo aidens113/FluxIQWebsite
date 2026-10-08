@@ -30,5 +30,5 @@ export const PAPER: PaperContent = {
     height: 828,
     alt: "Cover of the FluxIQ Technical Vision & Architecture paper, draft v0.9.",
   },
-  banner: { tag: "New", text: "Technical Vision & Architecture, draft v0.9", cta: "Read the paper" },
+  banner: { tag: "New", text: "Vision paper, draft v0.9", cta: "Read it" },
 };

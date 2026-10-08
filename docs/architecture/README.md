@@ -130,12 +130,16 @@ linked there.
   holds the measured cursor positions.
 - **Playback** is `use-demo-player.ts`: it advances steps, lands clicks,
   types a character at a time, and runs only while the widget is on screen,
-  the tab is visible, and the visitor has not paused. Under
-  `prefers-reduced-motion: reduce` nothing plays until the visitor presses
-  "Play the demo": each example shows its final frame, the tabs switch
-  between them, and `hero-demo.css` turns off every animation unless
-  `data-motion="on"`. The server renders Tell it's final frame, so the hero
-  is complete before (or without) JavaScript.
+  the tab is visible, and the visitor has not paused. It plays for every
+  visitor, including those who prefer reduced motion (the user's decision;
+  the Pause button stops it). There are no title cards between examples;
+  the site and panel fade in when the example changes. The server renders
+  Tell it's final frame, so the hero is complete before (or without)
+  JavaScript.
+- **Attention**: while FluxIQ acts on its own (no cursor on screen), its
+  newest chat message pulses amber; on a phone the message bar over the
+  site pulses too. The step chip shows only a timer ring and "Click to
+  skip" ("Tap to skip" on a phone).
 - **A click has two phases**: until it lands only the press shows (FluxIQ
   aims for 450 ms; the person's cursor travels for 700 ms); then everything
   it causes appears together. Loading bars and dimming start at the press,

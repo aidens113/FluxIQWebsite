@@ -3,12 +3,10 @@ import { ChatPeek } from "./chat-peek";
 import { cursorPoint } from "./cursor-targets";
 import { DirectorySite, type SiteMotion } from "./directory-site";
 import { ExtensionPanel } from "./extension-panel";
-import { IntroCard } from "./intro-card";
 import { Pointer } from "./pointer";
 import type { Scene } from "./scenes/scene";
 import { StatusPill } from "./status-pill";
 import { StepChip } from "./step-chip";
-import { exampleOf } from "./timeline";
 import type { PlayerState, View } from "./use-demo-player";
 
 export type StageProps = {
@@ -20,11 +18,9 @@ export type StageProps = {
   phoneWidth: number;
   view: View;
   running: boolean;
-  animate: boolean;
-  /** How long the current step or title card lasts. */
+  /** How long the current step lasts. */
   ms: number;
   runKey: string;
-  stepLabel: string;
   onSkip: () => void;
   onOpenChat: () => void;
 };
@@ -35,10 +31,12 @@ export type StageProps = {
  * time. Clicking anywhere on the stage skips to the next step.
  */
 export function Stage(props: StageProps) {
-  const { state, scene, motion, compact, phoneWidth, view, running, animate, ms, runKey, stepLabel } = props;
+  const { state, scene, motion, compact, phoneWidth, view, running, ms, runKey } = props;
   const width = compact ? phoneWidth : 760;
   const [x, y] = cursorPoint(scene.cursor ?? "rest", compact, phoneWidth);
   const latest = scene.panel.messages.at(-1);
+  // With no cursor on screen, FluxIQ is acting on its own: point the eye at what it says.
+  const spotlight = scene.cursor === null;
   return (
     <div
       className="relative h-[470px] overflow-hidden rounded-[14px] border border-edge bg-[#0b1016] font-sans shadow-[0_50px_100px_-40px_rgba(0,0,0,0.8)]"
@@ -57,31 +55,36 @@ export function Stage(props: StageProps) {
         }
       >
         <div className="relative h-full flex-none bg-[#f6f7f9] text-[#1d232b]" style={{ width: compact ? width : 460 }}>
-          <DirectorySite site={scene.site} motion={motion} compact={compact} tick={state.tick} />
-          {!compact && scene.pill && !state.intro && <StatusPill pill={scene.pill} />}
+          {/* Each example starts on a fresh page: the site and panel fade in when the example changes. */}
+          <div key={state.tab} className="h-full" style={{ animation: "demo-fade 450ms ease both" }}>
+            <DirectorySite site={scene.site} motion={motion} compact={compact} tick={state.tick} />
+          </div>
+          {!compact && scene.pill && <StatusPill pill={scene.pill} />}
           <Pointer x={x} y={y} visible={scene.cursor !== null} />
         </div>
         <div className="h-full flex-none border-l border-[#26384a]" style={{ width: compact ? width : 300 }}>
-          <ExtensionPanel panel={scene.panel} tick={state.tick} />
+          <div key={state.tab} className="h-full" style={{ animation: "demo-fade 450ms ease both" }}>
+            <ExtensionPanel panel={scene.panel} tick={state.tick} spotlight={spotlight} />
+          </div>
         </div>
       </div>
-      {compact && view === "site" && !state.intro && latest && (
-        <ChatPeek key={latest.id} message={latest} onOpen={props.onOpenChat} />
-      )}
-      <IntroCard example={exampleOf(state.tab)} show={state.intro} ms={ms} runKey={runKey} running={running} />
-      {!compact && (
-        <StepChip label={stepLabel} ms={ms} runKey={runKey} running={running} visible={animate && !state.intro} />
-      )}
-      {animate && (
-        <button
-          type="button"
-          tabIndex={-1}
-          onClick={props.onSkip}
-          aria-label={DEMO_LABELS.skipStep}
-          title={DEMO_LABELS.skipStep}
-          className="absolute inset-0 z-30 cursor-pointer"
+      {compact && view === "site" && latest && (
+        <ChatPeek
+          key={latest.id}
+          message={latest}
+          onOpen={props.onOpenChat}
+          spotlight={spotlight && latest.kind !== "user"}
         />
       )}
+      {!compact && <StepChip ms={ms} runKey={runKey} running={running} visible />}
+      <button
+        type="button"
+        tabIndex={-1}
+        onClick={props.onSkip}
+        aria-label={DEMO_LABELS.skipStep}
+        title={DEMO_LABELS.skipStep}
+        className="absolute inset-0 z-30 cursor-pointer"
+      />
     </div>
   );
 }

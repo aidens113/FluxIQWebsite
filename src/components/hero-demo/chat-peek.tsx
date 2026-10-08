@@ -5,7 +5,7 @@ import { PANEL } from "@/content/hero-demo/panel";
 import { CARD } from "./palette";
 import type { Message } from "./scenes/scene";
 
-export type ChatPeekProps = { message: Message; onOpen: () => void };
+export type ChatPeekProps = { message: Message; onOpen: () => void; spotlight: boolean };
 
 function summary(m: Message): { lead: string; text: string; color: string } {
   if (m.kind === "card") return { lead: `${m.name} · ${m.target}`, text: m.outcome, color: CARD[m.state].tone };
@@ -15,7 +15,7 @@ function summary(m: Message): { lead: string; text: string; color: string } {
 }
 
 /** Phone: FluxIQ's latest message over the bottom of the example site. Tapping it opens the chat. */
-export function ChatPeek({ message, onOpen }: ChatPeekProps) {
+export function ChatPeek({ message, onOpen, spotlight }: ChatPeekProps) {
   const { lead, text, color } = summary(message);
   return (
     <button
@@ -23,7 +23,7 @@ export function ChatPeek({ message, onOpen }: ChatPeekProps) {
       onClick={onOpen}
       aria-label={DEMO_LABELS.openChat}
       className={`absolute right-2.5 bottom-2.5 left-2.5 z-[31] flex min-h-11 items-center gap-2 rounded-xl border border-white/14 bg-[rgba(17,25,35,0.96)] px-3 text-left text-xs text-[#eef4fb] shadow-[0_12px_30px_-10px_rgba(0,0,0,0.5)] ${FOCUS_RING}`}
-      style={{ animation: "demo-in 300ms ease both" }}
+      style={{ animation: `demo-in 300ms ease both${spotlight ? ", demo-spot 1.6s 300ms ease-in-out infinite" : ""}` }}
     >
       <LogoMark className="size-4 flex-none" />
       <span className="min-w-0 flex-1 truncate">

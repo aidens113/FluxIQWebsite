@@ -7,7 +7,12 @@ import { PanelMessage } from "./panel-message";
 import type { PanelScene, StripTone } from "./scenes/scene";
 import { TRAVEL_MS } from "./timeline";
 
-export type ExtensionPanelProps = { panel: PanelScene; tick: number };
+export type ExtensionPanelProps = {
+  panel: PanelScene;
+  tick: number;
+  /** True while FluxIQ acts on its own; its newest message then pulses. */
+  spotlight: boolean;
+};
 
 const STRIP_TONE: Record<StripTone, string> = { muted: "#93a4b6", amber: "#f5b94a", green: "#3bc982" };
 
@@ -16,7 +21,7 @@ const STRIP_TONE: Record<StripTone, string> = { muted: "#93a4b6", amber: "#f5b94
  * a recording banner, a saved automation's run strip, the chat, and the
  * composer. The person's clicks on it wait for their cursor to arrive.
  */
-export function ExtensionPanel({ panel, tick }: ExtensionPanelProps) {
+export function ExtensionPanel({ panel, tick, spotlight }: ExtensionPanelProps) {
   return (
     <div className="flex h-full flex-col bg-[#111923] text-[#eef4fb]">
       <div className="flex h-11 flex-none items-center gap-2 border-b border-[#26384a] px-2.5">
@@ -78,8 +83,12 @@ export function ExtensionPanel({ panel, tick }: ExtensionPanelProps) {
             <p className="mx-3 mt-2 text-[11.5px] leading-normal text-[#93a4b6]">{PANEL.emptyBody}</p>
           </div>
         )}
-        {panel.messages.map((message) => (
-          <PanelMessage key={message.id} message={message} />
+        {panel.messages.map((message, i) => (
+          <PanelMessage
+            key={message.id}
+            message={message}
+            spotlight={spotlight && i === panel.messages.length - 1 && message.kind !== "user"}
+          />
         ))}
       </div>
 

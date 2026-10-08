@@ -63,7 +63,6 @@ export type Scene = { site: SiteScene; panel: PanelScene; pill: PillScene; curso
 export type SceneContext = {
   /** False between a click and the moment it lands. */
   landed: boolean;
-  intro: boolean;
   /** The part of `full` typed so far for a typing moment, or all of it. */
   typed: (key: string, full: string) => string;
 };

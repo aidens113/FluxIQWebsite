@@ -1,6 +1,5 @@
-/* Motion for the hero's example widgets. Under `prefers-reduced-motion:
-   reduce` the widget shows still frames and nothing below runs, until the
-   visitor chooses to play it. */
+/* Motion for the hero's example widgets. The demo plays for every visitor
+   (the user's decision); its Pause button stops it. */
 
 @keyframes demo-in {
   from {
@@ -90,6 +89,20 @@
     box-shadow:
       0 0 0 6px rgba(94, 158, 234, 0.1),
       0 0 28px rgba(94, 158, 234, 0.5);
+  }
+}
+/* FluxIQ's newest message, while it works on its own. */
+@keyframes demo-spot {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(245, 184, 61, 0.35),
+      0 0 0 0 rgba(245, 184, 61, 0);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(245, 184, 61, 0.7),
+      0 0 18px 2px rgba(245, 184, 61, 0.28);
   }
 }
 @keyframes demo-alarm {
@@ -196,17 +209,5 @@
   }
   to {
     stroke-dashoffset: 0;
-  }
-}
-
-/* Unless the visitor presses Play, which sets data-motion="on". */
-@media (prefers-reduced-motion: reduce) {
-  .hero-demo:not([data-motion="on"]) *,
-  .hero-demo:not([data-motion="on"]) *::before,
-  .hero-demo:not([data-motion="on"]) *::after {
-    /* biome-ignore lint/complexity/noImportantStyles: the widget sets its animations inline, which only !important overrides */
-    animation: none !important;
-    /* biome-ignore lint/complexity/noImportantStyles: as above, for inline transitions */
-    transition: none !important;
   }
 }

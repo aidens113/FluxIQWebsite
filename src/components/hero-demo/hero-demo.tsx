@@ -2,16 +2,16 @@
 
 import "./hero-demo.css";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { FOCUS_RING } from "@/components/ui/focus-ring";
 import { DEMO_LABELS } from "@/content/hero-demo/examples";
 import { PHONE_MAX, PHONE_MIN } from "./cursor-targets";
 import { ExampleTabs } from "./example-tabs";
+import { PauseButton } from "./pause-button";
 import { itAdaptsScene } from "./scenes/it-adapts";
 import { recordItScene } from "./scenes/record-it";
 import type { SceneContext } from "./scenes/scene";
 import { tellItScene } from "./scenes/tell-it";
 import { Stage } from "./stage";
-import { exampleOf, focusOf, introMs, landDelay, loads, pressAt, stepCount, stepMs } from "./timeline";
+import { exampleOf, focusOf, landDelay, loads, pressAt, stepMs } from "./timeline";
 import { typedSoFar, useDemoPlayer, type View } from "./use-demo-player";
 import { useMediaQuery } from "./use-media-query";
 import { ViewSwitch } from "./view-switch";
@@ -28,18 +28,13 @@ const subscribeNothing = () => () => {};
 export function HeroDemo() {
   const root = useRef<HTMLDivElement>(null);
   const compact = useMediaQuery("(max-width: 799px)");
-  // A visitor who prefers reduced motion sees still frames and a Play
-  // button; pressing it plays the demo for them.
-  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const [playAnyway, setPlayAnyway] = useState(false);
-  const animate = !reduceMotion || playAnyway;
   const mounted = useSyncExternalStore(
     subscribeNothing,
     () => true,
     () => false,
   );
-  const { state, running, paused, setPaused, skip, pickTab, pin } = useDemoPlayer(root, animate);
-  const { tab, step, intro, landed, tick } = state;
+  const { state, running, paused, setPaused, skip, pickTab, pin } = useDemoPlayer(root);
+  const { tab, step, landed, tick } = state;
 
   // The phone stage fills the column, within limits.
   const [phoneWidth, setPhoneWidth] = useState(343);
@@ -53,15 +48,15 @@ export function HeroDemo() {
     return () => observer.disconnect();
   }, []);
 
-  const ctx: SceneContext = { landed, intro, typed: (key, full) => (animate ? typedSoFar(state, key, full) : full) };
+  const ctx: SceneContext = { landed, typed: (key, full) => typedSoFar(state, key, full) };
   const scene = (SCENES[tab] ?? tellItScene)(step, ctx);
-  const loading = animate && !intro && loads(tab, step);
+  const loading = loads(tab, step);
   const press = pressAt(tab);
   const motion = {
     loading,
     pending: loading && !landed,
     pressAt: press,
-    loadMs: landDelay(tab, step, false) - press + 300,
+    loadMs: landDelay(tab, step) - press + 300,
   };
 
   // On a phone the view follows the action; a view the person picks holds
@@ -72,15 +67,15 @@ export function HeroDemo() {
       ? state.pin.view
       : focus
     : "site";
-  const ms = intro ? introMs(tab) : stepMs(tab, step);
+  const ms = stepMs(tab, step);
   const runKey = `${tick}-${running}`;
   const example = exampleOf(tab);
-  const narration = intro ? example.introLine : example.lines[Math.min(step, example.lines.length - 1)];
+  const pauseButton = <PauseButton paused={paused} onToggle={() => setPaused(!paused)} />;
+  const narration = example.lines[Math.min(step, example.lines.length - 1)];
 
   return (
     <div
       ref={root}
-      data-motion={animate ? "on" : "off"}
       className={`hero-demo mx-auto w-full ${compact ? "max-w-[400px]" : "max-w-[760px]"} ${mounted ? "" : "max-[799px]:invisible"}`}
     >
       <p className="sr-only">{DEMO_LABELS.description}</p>
@@ -89,27 +84,12 @@ export function HeroDemo() {
           view={view}
           onPick={(v) => pin(v, focus)}
           chatNews={view === "site" && scene.panel.messages.length > 0}
-          stepShort={`${step + 1}/${stepCount(tab)}`}
           ms={ms}
           runKey={runKey}
-          running={running && !intro}
+          running={running}
         />
       )}
       <div className="relative">
-        {!animate && (
-          <button
-            type="button"
-            onClick={() => setPlayAnyway(true)}
-            className={`absolute inset-0 z-40 flex items-center justify-center rounded-[14px] bg-ink/40 ${FOCUS_RING}`}
-          >
-            <span className="inline-flex min-h-12 items-center gap-2.5 rounded-full bg-amber px-6 text-[15px] font-semibold text-ink shadow-[0_12px_30px_-10px_rgba(0,0,0,0.6)]">
-              <svg viewBox="0 0 12 12" aria-hidden="true" className="size-3">
-                <path d="M2.5 1.5v9l8-4.5z" fill="currentColor" />
-              </svg>
-              {DEMO_LABELS.playDemo}
-            </span>
-          </button>
-        )}
         <div aria-hidden="true">
           <Stage
             state={state}
@@ -119,34 +99,23 @@ export function HeroDemo() {
             phoneWidth={phoneWidth}
             view={view}
             running={running}
-            animate={animate}
             ms={ms}
             runKey={runKey}
-            stepLabel={`Step ${step + 1} of ${stepCount(tab)}`}
             onSkip={skip}
             onOpenChat={() => pin("panel", focus)}
           />
         </div>
       </div>
-      <div className={`flex items-baseline ${compact ? "mt-3 min-h-11 gap-2" : "mt-4 min-h-[26px] gap-3"}`}>
-        <span className="flex-none font-mono text-xs text-amber">{example.beat}</span>
-        <span className={`${compact ? "text-sm" : "text-base"} leading-[1.4] text-fg`}>{narration}</span>
-        <span className="ml-auto flex flex-none items-baseline gap-3">
-          {!compact && animate && <span className="text-xs text-[#6f6d69]">{DEMO_LABELS.skipHint}</span>}
-          {animate && (
-            <button
-              type="button"
-              onClick={() => setPaused(!paused)}
-              aria-pressed={paused}
-              className={`min-h-9 rounded-md border border-edge px-3 text-xs font-medium text-soft hover:text-fg ${FOCUS_RING}`}
-            >
-              {paused ? DEMO_LABELS.play : DEMO_LABELS.pause}
-            </button>
-          )}
-        </span>
-      </div>
-      <ExampleTabs tab={tab} step={step} intro={intro} running={running} compact={compact} onPick={pickTab} />
-      <p className="mt-4 text-xs text-dim">{DEMO_LABELS.caption}</p>
+      <ExampleTabs tab={tab} step={step} running={running} onPick={pickTab} pause={compact ? undefined : pauseButton} />
+      {/* What is happening now, in one calm line; two lines are reserved on a phone so nothing jumps. */}
+      <p
+        className={`mt-3 flex gap-2.5 leading-snug text-soft ${compact ? "min-h-[2.75rem] text-sm" : "min-h-6 text-[15px]"}`}
+      >
+        <span aria-hidden="true" className="mt-[0.45em] size-1.5 flex-none rounded-full bg-amber" />
+        <span className="flex-1">{narration}</span>
+        {compact && <span className="-mt-1.5">{pauseButton}</span>}
+      </p>
+      <p className="mt-2 text-xs text-dim">{DEMO_LABELS.caption}</p>
     </div>
   );
 }

@@ -30,7 +30,7 @@ already-redesigned site and replays the saved automation; title cards with
 a skip, per-step timers, two-phase clicks, blue reading and scanning, green
 success, a cursor only for the person; on phones one view at a time.
 
-**Reduced motion** shows a still frame with a "Play the demo" button; the
+**Plays for everyone**, reduced motion included, with no title cards; the
 server renders Tell it's finished frame, so the hero is complete without
 JavaScript.
 
@@ -571,6 +571,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm build`, `pnpm test:site` (147.9 KB gzip JS) -> passed. Playwright on `pnpm preview` at 1440 px: normal motion plays (step 1 at 0.5 s, step 2 at 6 s); reduced motion shows the finished frame with "Play the demo", and after pressing it, step 2 at 6 s; JavaScript disabled shows the finished frame (step 9 of 9, "Done: 24 rows").
 - Outcome: Accepted, pending the user's check of the live page.
 - Follow-up: if it still does not play live, find out which still frame the user sees: the finished frame with no Play button would mean the scripts are not running on the host.
+
+### 2026-10-08 — Autoplay for all, no title cards, cleaner footer, attention pulse
+- Agent: supervisor
+- Changed: `src/components/hero-demo/` (player hook rewritten without title cards or the reduced-motion path; `intro-card.tsx` removed; new `pause-button.tsx`; `example-tabs`, `step-chip`, `view-switch`, `stage`, `panel-message`, `extension-panel`, `chat-peek`, `hero-demo.css`, scene `record-it`), `src/content/hero-demo/examples.ts`, `src/components/hero/paper-banner.tsx`, `src/content/paper.ts`; `docs/architecture/README.md`; this document
+- Why: The user wants the demo to play with no click (it had shown a Play button under reduced motion), a tidier area under the stage, the paper banner on one line and clean when it wraps, pulsing highlights where FluxIQ speaks while no cursor is in use, no "Step x of y" text, and no transition screens.
+- Design: playback for every visitor, Pause kept (WCAG 2.2.2); the reduced-motion CSS kill switch is gone. No title cards: an example's last step leads straight into the next example's first, and the site and panel fade in (450 ms) on each example change so the redesigned layout never visibly jumps. Under the stage: the example tabs (progress bar and label only, no hints, no "01 ·" beat), a round Pause button at the row's end (with the narration on a phone, where the row is too narrow), one narration line with an amber dot, then the caption. The step chip is a timer ring and "Click to skip" ("Tap to skip" on a phone). While no cursor is on screen, FluxIQ's newest message (not the person's) pulses amber; the phone's message bar pulses with it. In Record it the cursor now fades out after Stop, so FluxIQ's build messages get the pulse. Paper banner: "New · Vision paper, draft v0.9 · Read it →", one line from 360 px up; when it wraps (320 px) the tag stays top-left and the text and link flow as a paragraph in a 18 px-radius box.
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (146.8 KB gzip JS) -> passed. Playwright on `pnpm preview` with reduced motion on: a full loop at 1440 px (24 frames) and 375 px (30 frames) -> autoplays, no title cards, examples flow into each other, newest FluxIQ message pulsing, none while recording; banner 38 px tall (one line) at 1440, 1024, and 375 px, two tidy lines at 320 px; the phone tab row fits with Pause beside the narration; no console errors.
+- Outcome: Accepted
+- Follow-up: The user's review; main needs their approval.
 ---
 
 ## Open Questions

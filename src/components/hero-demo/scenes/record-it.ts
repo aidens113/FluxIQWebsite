@@ -6,9 +6,10 @@ import { type CursorSpot, emptyPanel, type Message, type Scene, type SceneContex
 
 const { outcomes, targets, actions, tags } = PANEL;
 
-// The cursor rests lower on the page during the title card, then travels to
-// each target: the record button, the site, Stop; afterwards it drifts back.
-const CURSOR: CursorSpot[] = ["record", "search", "search", "button", "calgary", "stop", "rest", "rest"];
+// The cursor travels to each target: the record button, the site, Stop.
+// After Stop the person is done; the cursor fades out while FluxIQ builds the
+// automation.
+const CURSOR: CursorSpot[] = ["record", "search", "search", "button", "calgary", "stop", null, null];
 const TARGET: (TargetName | null)[] = [null, "search", "search", "button", "calgary"];
 const CLICKS = [1, 3, 4];
 
@@ -66,6 +67,6 @@ export function recordItScene(step: number, ctx: SceneContext): Scene {
     },
     panel,
     pill: null,
-    cursor: ctx.intro ? "rest" : (CURSOR[Math.min(step, CURSOR.length - 1)] ?? "rest"),
+    cursor: CURSOR[Math.min(step, CURSOR.length - 1)] ?? null,
   };
 }

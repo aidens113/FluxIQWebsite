@@ -69,16 +69,12 @@ export const stepsOf = (tab: number): number[] => STEP_MS[tab] ?? [];
 export const stepCount = (tab: number) => stepsOf(tab).length;
 export const stepMs = (tab: number, step: number) => stepsOf(tab)[step] ?? 1200;
 
-/** Title cards hold long enough to read their text. */
-export const introMs = (tab: number) => Math.min(5000, Math.max(3200, 1600 + exampleOf(tab).intro.body.length * 24));
-
 /**
  * A click step has two phases: until the click lands only the action shows;
  * once it lands, everything it causes appears together. Zero means the step
  * has no click to wait for.
  */
-export function landDelay(tab: number, step: number, intro: boolean): number {
-  if (intro) return 0;
+export function landDelay(tab: number, step: number): number {
   if (tab === 0 && (step === 4 || step === 5)) return AFTER_AUTO_CLICK;
   if (tab === 1 && step <= 5 && step !== 2) return AFTER_USER_CLICK;
   if (tab === 2 && (step === 3 || step === 4 || step === 7)) return AFTER_AUTO_CLICK;
@@ -100,8 +96,7 @@ export const pressAt = (tab: number) => (tab === 1 ? TRAVEL_MS : AIM_MS);
 export type TypingSpec = { key: string; text: string; speed: number };
 
 /** The typing moment of a step, if it has one. */
-export function typingSpec(tab: number, step: number, intro: boolean): TypingSpec | null {
-  if (intro) return null;
+export function typingSpec(tab: number, step: number): TypingSpec | null {
   if (tab === 0 && step === 1) return { key: "ask", text: TELL_IT.ask, speed: TYPING_SPEED.ask };
   if (tab === 0 && step === 3) return { key: "chat-search", text: "roofing", speed: TYPING_SPEED.search };
   if (tab === 1 && step === 2) return { key: "recorded", text: "roofing", speed: TYPING_SPEED.recorded };

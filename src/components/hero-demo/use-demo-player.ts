@@ -1,15 +1,13 @@
 "use client";
 
 import { type RefObject, useCallback, useEffect, useState } from "react";
-import { introMs, landDelay, stepCount, stepMs, typingSpec } from "./timeline";
+import { landDelay, stepCount, stepMs, typingSpec } from "./timeline";
 
 export type View = "site" | "panel";
 
 export type PlayerState = {
   tab: number;
   step: number;
-  /** True while an example's title card shows. */
-  intro: boolean;
   /** Bumped on every step, so one-shot animations replay. */
   tick: number;
   /** False between a click and the moment it lands. */
@@ -19,33 +17,30 @@ export type PlayerState = {
   pin: { view: View; focus: View; tab: number } | null;
 };
 
-function enter(s: PlayerState, tab: number, step: number, intro: boolean): PlayerState {
-  const spec = typingSpec(tab, step, intro);
+function enter(s: PlayerState, tab: number, step: number): PlayerState {
+  const spec = typingSpec(tab, step);
   return {
-    ...s,
     tab,
     step,
-    intro,
     tick: s.tick + 1,
-    landed: landDelay(tab, step, intro) === 0,
+    landed: landDelay(tab, step) === 0,
     typed: { key: spec?.key ?? null, count: 0 },
     pin: tab === s.tab ? s.pin : null,
   };
 }
 
+/** The next step; after an example's last step, the next example begins. */
 function next(s: PlayerState): PlayerState {
-  if (s.intro) return enter(s, s.tab, s.step, false);
-  if (s.step < stepCount(s.tab) - 1) return enter(s, s.tab, s.step + 1, false);
-  return enter(s, (s.tab + 1) % 3, 0, true);
+  if (s.step < stepCount(s.tab) - 1) return enter(s, s.tab, s.step + 1);
+  return enter(s, (s.tab + 1) % 3, 0);
 }
 
 // The server renders Tell it's finished frame, so the hero reads as a
 // complete picture before (or without) JavaScript; playback starts from the
-// first title card once the page is interactive.
+// first step once the page is interactive.
 const INITIAL: PlayerState = {
   tab: 0,
   step: stepCount(0) - 1,
-  intro: false,
   tick: 0,
   landed: true,
   typed: { key: null, count: 0 },
@@ -53,17 +48,15 @@ const INITIAL: PlayerState = {
 };
 
 /**
- * Plays the three examples in a loop. Playback runs only while `animate` is
- * true (no reduced-motion preference), the stage is on screen, the tab is
- * visible, and the person has not paused. With motion off, each example
- * shows its final frame.
+ * Plays the three examples in a loop, for every visitor. Playback runs while
+ * the stage is on screen, the tab is visible, and the person has not paused.
  */
-export function useDemoPlayer(root: RefObject<HTMLElement | null>, animate: boolean) {
+export function useDemoPlayer(root: RefObject<HTMLElement | null>) {
   const [state, setState] = useState<PlayerState>(INITIAL);
   const [paused, setPaused] = useState(false);
   const [onScreen, setOnScreen] = useState(true);
   const [pageVisible, setPageVisible] = useState(true);
-  const running = animate && !paused && onScreen && pageVisible;
+  const running = !paused && onScreen && pageVisible;
 
   useEffect(() => {
     const el = root.current;
@@ -80,57 +73,40 @@ export function useDemoPlayer(root: RefObject<HTMLElement | null>, animate: bool
     };
   }, [root]);
 
-  // Start from the first title card when motion is on; with it off, show
-  // the final frame of the current example.
+  // Once interactive, start from the first step.
   useEffect(() => {
-    setState((s) =>
-      animate
-        ? { ...enter(s, 0, 0, true), pin: null }
-        : { ...s, step: stepCount(s.tab) - 1, intro: false, landed: true, typed: { key: null, count: 0 } },
-    );
-  }, [animate]);
+    setState((s) => enter(s, 0, 0));
+  }, []);
 
-  const { tab, step, intro, landed, typed } = state;
+  const { tab, step, landed, typed } = state;
 
   // Advance when the step's time is up.
   useEffect(() => {
     if (!running) return;
-    const ms = intro ? introMs(tab) : stepMs(tab, step);
-    const timer = setTimeout(() => setState(next), ms);
+    const timer = setTimeout(() => setState(next), stepMs(tab, step));
     return () => clearTimeout(timer);
-  }, [running, tab, step, intro]);
+  }, [running, tab, step]);
 
   // Land a click once the press has happened.
   useEffect(() => {
     if (!running || landed) return;
-    const timer = setTimeout(() => setState((s) => ({ ...s, landed: true })), landDelay(tab, step, intro));
+    const timer = setTimeout(() => setState((s) => ({ ...s, landed: true })), landDelay(tab, step));
     return () => clearTimeout(timer);
-  }, [running, landed, tab, step, intro]);
+  }, [running, landed, tab, step]);
 
   // Type one character at a time.
   useEffect(() => {
-    const spec = typingSpec(tab, step, intro);
+    const spec = typingSpec(tab, step);
     if (!running || !spec || typed.key !== spec.key || typed.count >= spec.text.length) return;
     const timer = setTimeout(
       () => setState((s) => ({ ...s, typed: { ...s.typed, count: s.typed.count + 1 } })),
       spec.speed,
     );
     return () => clearTimeout(timer);
-  }, [running, tab, step, intro, typed]);
+  }, [running, tab, step, typed]);
 
-  const skip = useCallback(() => {
-    if (animate) setState(next);
-  }, [animate]);
-
-  const pickTab = useCallback(
-    (i: number) =>
-      setState((s) => {
-        const entered = enter(s, i, animate ? 0 : stepCount(i) - 1, animate);
-        return { ...entered, pin: null, landed: true };
-      }),
-    [animate],
-  );
-
+  const skip = useCallback(() => setState(next), []);
+  const pickTab = useCallback((i: number) => setState((s) => ({ ...enter(s, i, 0), pin: null })), []);
   const pin = useCallback(
     (view: View, focus: View) => setState((s) => ({ ...s, pin: { view, focus, tab: s.tab } })),
     [],

@@ -2,12 +2,23 @@ import { PANEL } from "@/content/hero-demo/panel";
 import { CARD } from "./palette";
 import type { Message } from "./scenes/scene";
 
-export type PanelMessageProps = { message: Message };
+export type PanelMessageProps = {
+  message: Message;
+  /** True for FluxIQ's newest message while it works on its own: it pulses to draw the eye. */
+  spotlight?: boolean;
+};
 
 const rise = { animation: "demo-in 300ms ease both" };
 
 /** One entry in the example chat: the person's message, FluxIQ's words, a live status, an action card, or the data. */
-export function PanelMessage({ message: m }: PanelMessageProps) {
+export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
+  const glow = spotlight ? (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute -inset-[5px] rounded-[13px] bg-amber/[0.04]"
+      style={{ animation: "demo-spot 1.6s ease-in-out infinite" }}
+    />
+  ) : null;
   if (m.kind === "user")
     return (
       <div
@@ -19,13 +30,15 @@ export function PanelMessage({ message: m }: PanelMessageProps) {
     );
   if (m.kind === "text")
     return (
-      <p className="text-[12.5px] leading-normal text-[#eef4fb]" style={rise}>
+      <p className="relative text-[12.5px] leading-normal text-[#eef4fb]" style={rise}>
+        {glow}
         {m.text}
       </p>
     );
   if (m.kind === "live")
     return (
-      <div className="flex items-start gap-2" style={rise}>
+      <div className="relative flex items-start gap-2" style={rise}>
+        {glow}
         <span className="mt-1 size-[9px] flex-none rounded-full bg-[#f5b94a] shadow-[0_0_0_4px_#f5b94a33]" />
         <span className="flex-1">
           <span className="flex gap-1.5 text-[12.5px]">
@@ -39,9 +52,10 @@ export function PanelMessage({ message: m }: PanelMessageProps) {
   if (m.kind === "data")
     return (
       <div
-        className="flex items-center justify-between rounded-[10px] bg-[#172231] px-[11px] py-[9px] text-[11.5px]"
+        className="relative flex items-center justify-between rounded-[10px] bg-[#172231] px-[11px] py-[9px] text-[11.5px]"
         style={rise}
       >
+        {glow}
         <span>{PANEL.data.label}</span>
         <span className="font-semibold text-[#5e9eea]">{PANEL.data.formats}</span>
       </div>
@@ -50,9 +64,10 @@ export function PanelMessage({ message: m }: PanelMessageProps) {
   const alarm = m.state === "fixing" || m.state === "failed";
   return (
     <div
-      className="flex items-center gap-2.5 rounded-[10px] bg-[#172231] px-2.5 py-[9px]"
+      className="relative flex items-center gap-2.5 rounded-[10px] bg-[#172231] px-2.5 py-[9px]"
       style={{ ...rise, border: `1px solid ${alarm ? `${tone}66` : "#26384a"}`, transition: "border-color 300ms ease" }}
     >
+      {glow}
       <span
         className="inline-flex size-7 flex-none items-center justify-center rounded-full font-bold"
         style={{
