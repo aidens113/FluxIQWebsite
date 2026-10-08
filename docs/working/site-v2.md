@@ -125,6 +125,15 @@ dashboards or analytics, and pause or takeover from the panel.
 - Validation: `pnpm audit --prod --audit-level high` -> no known vulnerabilities; `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (147.6 KB gzip JS) -> passed; Playwright on `pnpm preview` at 1440, 1024, and 375 px, with and without reduced motion -> no errors, no horizontal overflow.
 - Outcome: Accepted
 - Follow-up: drop the overrides once Next.js depends on the patched versions.
+
+### 2026-10-08 — Fonts ship with the site; Deploy fixed
+- Agent: supervisor
+- Changed: `src/app/layout.tsx`, new `src/app/fonts/{geist-latin.woff2,geist-mono-latin.woff2,OFL.txt}`, `docs/architecture/README.md`
+- Why: Deploy run 37720343576 failed twice (and its re-run) in `next build` at `next/font/google`'s loader: `TypeError: Cannot read properties of null (reading '1')` at `loader.js:122`, where it expects every Google Fonts file URL to end in a font extension. CI had built the same commit minutes earlier, and local builds only passed from the font cache, so Google's responses had changed under Next.js 16.3.8.
+- Design: `next/font/local` with Geist and Geist Mono variable fonts from Vercel's `geist` npm package 1.7.2 (SIL OFL 1.1, license copied beside them), subset to Latin plus the arrows, check mark, and bullets the site uses (`pyftsubset`, woff2, all layout features kept): 34.8 KB and 36.0 KB, both preloaded. One file per family covers every weight. The CSS variables (`--font-geist`, `--font-geist-mono`) are unchanged.
+- Validation: `pnpm check`, `pnpm test` (86 pass) -> passed; `pnpm build` with `.next` cleared and the network proxy pointed at a dead port -> passed (no font download); `pnpm test:site` (145.6 KB gzip JS) -> passed; Playwright on `pnpm preview`: `document.fonts` reports geist and geistMono loaded, no failed requests, hero rendered in Geist as before.
+- Outcome: Accepted
+- Follow-up: none
 ---
 
 ## Open Questions

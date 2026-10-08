@@ -175,7 +175,12 @@ Adopted on 2026-10-04 from design direction B of the redesign
   amber edge, wash, and row tint for highlighted blocks; green `#7fc99b` for
   passing results. Every text colour is at least 5.4:1 on ink.
 - Fonts: Geist (400, 500, 600) for everything, Geist Mono (400, 500) for
-  labels, tables, and code-like detail. Both are self-hosted by `next/font`.
+  labels, tables, and code-like detail. Both ship in the repository under
+  `src/app/fonts/` (SIL Open Font License, `OFL.txt`) and load through
+  `next/font/local`: the variable fonts from Vercel's `geist` package 1.7.2,
+  subset to Latin with `pyftsubset` (about 35 KB each). The build never
+  downloads fonts; `next/font/google` failed on 2026-10-08 when Google
+  Fonts' file URLs stopped matching what Next.js 16.3.8 expects.
 - Mark: an F whose middle bar ends in an amber node, for a Flow and the
   point where it calls on intelligence. Light strokes, amber node. Adopted on
   2026-10-05, replacing the "Settle" wave placeholder.

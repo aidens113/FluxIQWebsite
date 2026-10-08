@@ -1,22 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
 const SITE_TITLE = "FluxIQ: Only pay AI for what it doesn’t already know";
 
-// Self-hosted at build time, so the page makes no request to Google. The
-// variables feed the `font-sans` and `font-mono` tokens in globals.css.
-const geist = Geist({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+// Geist and Geist Mono ship with the site (src/app/fonts, SIL Open Font
+// License in OFL.txt): the variable fonts from Vercel's `geist` package 1.7.2,
+// subset to Latin. A build never downloads fonts, so it cannot fail on Google
+// Fonts, and the page makes no request to Google. The variables feed the
+// `font-sans` and `font-mono` tokens in globals.css.
+const geist = localFont({
+  src: "./fonts/geist-latin.woff2",
+  weight: "100 900",
   display: "swap",
   variable: "--font-geist",
 });
 
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const geistMono = localFont({
+  src: "./fonts/geist-mono-latin.woff2",
+  weight: "100 900",
   display: "swap",
   variable: "--font-geist-mono",
 });

@@ -17,7 +17,7 @@ pairing are defined in
 | [agent-working-doc-protocol.md](./agent-working-doc-protocol.md) | Senior supervisor agent | 242 | How the supervisor and workers use `docs/working/` as durable memory and as the coordination substrate for multi-agent work. | none |
 | [deployment.md](./deployment.md) | Senior supervisor agent | 230 | Make the repository deployable, unchanged, to Hostinger (Git deploy or Node.js web app) and to other CI/CD targets (Docker, Netlify, Cloudflare Pages, Vercel, any static host); excludes choosing or configuring the user's live account. | none |
 | [hero-demo.md](./hero-demo.md) | Senior supervisor agent | 607 | Replace the home page's run-history table with an immediately impressive, scripted demo of a website being automated by the FluxIQ extension; excludes any live or recorded use of the real extension. | none |
-| [site-v2.md](./site-v2.md) | Senior supervisor agent | 133 | Replace the gradient-glow landing page with design direction B (dark, one amber accent), rewrite the copy against FluxIQ Core and Web Extension dev, and add an /extension/ page; excludes choosing the final logo and changing the hosting setup. | none |
+| [site-v2.md](./site-v2.md) | Senior supervisor agent | 142 | Replace the gradient-glow landing page with design direction B (dark, one amber accent), rewrite the copy against FluxIQ Core and Web Extension dev, and add an /extension/ page; excludes choosing the final logo and changing the hosting setup. | none |
 
 ## Complete
 
