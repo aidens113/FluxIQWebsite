@@ -1,4 +1,5 @@
 import { PANEL } from "@/content/hero-demo/panel";
+import { ActionIcon } from "./action-icon";
 import { CARD } from "./palette";
 import type { Message } from "./scenes/scene";
 
@@ -60,7 +61,7 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
         <span className="font-semibold text-[#5e9eea]">{PANEL.data.formats}</span>
       </div>
     );
-  const { tone, mark } = CARD[m.state];
+  const { tone } = CARD[m.state];
   const alarm = m.state === "fixing" || m.state === "failed";
   return (
     <div
@@ -68,17 +69,7 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
       style={{ ...rise, border: `1px solid ${alarm ? `${tone}66` : "#1f2e3f"}`, transition: "border-color 300ms ease" }}
     >
       {glow}
-      <span
-        className="inline-flex size-[22px] flex-none items-center justify-center rounded-full font-bold"
-        style={{
-          fontSize: m.state === "captured" ? 7 : 11,
-          color: tone,
-          background: `${tone}22`,
-          transition: "all 300ms ease",
-        }}
-      >
-        {mark}
-      </span>
+      <ActionIcon name={m.name} state={m.state} tone={tone} />
       <span className="min-w-0 flex-1">
         <span className="block text-xs leading-4 font-semibold">
           {m.name} <span className="font-normal text-[#93a4b6]">· {m.target}</span>

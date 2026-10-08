@@ -607,6 +607,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (145.7 KB gzip JS) -> passed. Playwright on `pnpm preview` at 1440 px sampling every 40 ms: a full loop now takes about 33.6 s (was about 48 s); in every example the loading bar starts before the results change and the filtered list follows it; no console errors.
 - Outcome: Accepted
 - Follow-up: The user's review; main needs their approval.
+
+### 2026-10-08 — Real icons on the chat's action cards
+- Agent: supervisor
+- Changed: new `src/components/hero-demo/action-icon.tsx`; `panel-message.tsx`, `palette.ts`, `hero-demo.css`; this document
+- Why: The user wanted real icons on the action cards instead of text marks.
+- Design: each card opens with a 26 px tile holding an inline SVG for its action (a cursor with click rays for Click, a keyboard for Type, rows for Read), tinted with the card's state colour, and a corner badge for the state: a spinning ring while working or fixing, a check when done, "!" when it failed, a red dot when captured during recording. Drawn in the repo (no icon dependency or third-party artwork).
+- Validation: `pnpm check`, `pnpm build`, `pnpm test:site` (146.4 KB gzip JS) -> passed. Playwright at 2x on `pnpm preview`: the panel captured at eight moments across the loop shows each action and state (working, done, captured, failed, fixing); a close-up confirms the cursor and keyboard read at 16 px; no console errors.
+- Outcome: Accepted
+- Follow-up: The user's review; main needs their approval.
 ---
 
 ## Open Questions

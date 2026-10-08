@@ -12,12 +12,12 @@ export const KIND: Record<TargetKind, { color: string; glow: string; wash: strin
   done: { color: "#3bc982", glow: "rgba(59,201,130,0.18)", wash: "rgba(59,201,130,0.06)", pulse: "none" },
 };
 
-export const CARD: Record<CardState, { tone: string; mark: string }> = {
-  working: { tone: "#5e9eea", mark: "•" },
-  done: { tone: "#3bc982", mark: "✓" },
-  failed: { tone: "#fa6571", mark: "!" },
-  fixing: { tone: "#f5b94a", mark: "↻" },
-  captured: { tone: "#93a4b6", mark: "●" },
+export const CARD: Record<CardState, { tone: string }> = {
+  working: { tone: "#5e9eea" },
+  done: { tone: "#3bc982" },
+  failed: { tone: "#fa6571" },
+  fixing: { tone: "#f5b94a" },
+  captured: { tone: "#93a4b6" },
 };
 
 export const READ_BLUE = "#5e9eea";
