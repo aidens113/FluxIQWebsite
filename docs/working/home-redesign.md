@@ -1,7 +1,7 @@
 # Home Redesign: Below the Hero, Visual First
 
 Status: Active
-Status detail: Design published on the canvas (row "v4", `HomeV4`); awaiting the user's review before building.
+Status detail: Design on the canvas (row "v4", `HomeV4`, now the full page with the hero); awaiting the user's review before building.
 Created: 2026-10-08
 Last updated: 2026-10-08
 Owner: Senior supervisor agent
@@ -19,7 +19,10 @@ user finds it text heavy and not nice to look at (2026-10-08).
 
 **Designed (2026-10-08).** The canvas
 (`https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS`, board `HomeV4`, row
-"v4") redesigns them visual first, reusing the sourced copy, shortened:
+"v4") shows the whole page: the header and hero with the demo, unchanged
+(the board embeds the canvas prototype of the demo, which predates the
+site's later refinements), then the sections below redesigned visual first,
+reusing the sourced copy, shortened:
 
 1. **Why FluxIQ**: the headline "Agents pay for the same thinking every
    run. FluxIQ pays once." beside a chart of AI used per run (an agent: every
@@ -81,3 +84,12 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Validation: rendered with the canvas runtime at 1440 px, every section inspected; the local-connection link and the vision headline adjusted after review.
 - Outcome: Accepted, pending the user's review
 - Follow-up: The user's review, then the build plan above.
+
+### 2026-10-08 — Board shows the full page; loop arrow redrawn
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, `canvas.json`; this document
+- Why: The user read the board as removing the hero demo (it began below the hero) and found the How it works arrow and graphics mangled.
+- Design: the board now opens with the header and the hero, the demo embedded from the canvas `Stage`. How it works is laid out in fixed pixels (four 263 px columns), the track runs through the node centres (amber from run to repair), and the loop is drawn in the row's own coordinate space: a dashed curve from repair over to run with its arrowhead pointing into run, labelled "a fix that works goes back to running".
+- Validation: rendered with the canvas runtime at 1440 px: the hero and demo show at the top; the loop arrow starts at repair and lands on run; no errors.
+- Outcome: Accepted, pending the user's review
+- Follow-up: The user's review, then the build plan.
