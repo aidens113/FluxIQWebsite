@@ -125,8 +125,9 @@ linked there.
   `it-adapts.ts` turn a step into a `Scene` (`scenes/scene.ts`): what the
   site, panel, and cursor show. The chat keeps its last four messages, and
   FluxIQ speaks only to plan and to report; the action cards carry the
-  play-by-play. `timeline.ts` holds the pacing
-  (steps last as long as their action), when a click lands, which steps
+  play-by-play. `timeline.ts` holds the pacing (steps last
+  as long as their action, and one dial, `PACE`, scales every duration in
+  the demo), when a click lands, which steps
   load, the typing moments, and the phone view's focus. `cursor-targets.ts`
   holds the measured cursor positions.
 - **Playback** is `use-demo-player.ts`: it advances steps, lands clicks,
