@@ -93,3 +93,12 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Validation: rendered with the canvas runtime at 1440 px: the hero and demo show at the top; the loop arrow starts at repair and lands on run; no errors.
 - Outcome: Accepted, pending the user's review
 - Follow-up: The user's review, then the build plan.
+
+### 2026-10-08 — Loop arrow aligned, fuller app mock, real cover, full-width closing band
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, new canvas file `paper-cover.webp` (the site's cover image); this document
+- Why: The user found the loop's arrowhead off its dotted line and the track line drawn over the icons, the example application too empty, the paper card missing the real cover, and the closing section narrower than the other bands.
+- Design: the arrowhead is a filled triangle whose base sits on the dotted line's end; the step icons stack above the track. The generated-app mock is now a full screen: a sidebar (Pipeline, Leads, Outreach, Flows, Settings, and "AI this week $0.42 of $5 limit"), four counters with weekly change, a 30-day new-leads chart, a leads table with score and status, and the app's four Flows with their run state; still captioned "Concept". The paper card shows the real cover (`public/papers/fluxiq-technical-vision-v0.9-cover.webp`). The closing call to action is a full-width band.
+- Validation: rendered with the canvas runtime at 1440 px; each fix inspected.
+- Outcome: Accepted, pending the user's review
+- Follow-up: The user's review, then the build plan. Every name and number in the app mock is invented and labelled a concept.
