@@ -4,7 +4,7 @@ import type { Message } from "./scenes/scene";
 
 export type PanelMessageProps = {
   message: Message;
-  /** True for FluxIQ's newest message while it works on its own: it pulses to draw the eye. */
+  /** True for FluxIQ's newest message on a quiet step: it pulses to draw the eye. */
   spotlight?: boolean;
 };
 

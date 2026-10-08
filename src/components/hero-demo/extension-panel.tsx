@@ -10,7 +10,7 @@ import { TRAVEL_MS } from "./timeline";
 export type ExtensionPanelProps = {
   panel: PanelScene;
   tick: number;
-  /** True while FluxIQ acts on its own; its newest message then pulses. */
+  /** True on a quiet step; FluxIQ's newest message then pulses. */
   spotlight: boolean;
 };
 

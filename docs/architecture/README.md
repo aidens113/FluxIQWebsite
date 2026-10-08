@@ -136,9 +136,11 @@ linked there.
   the site and panel fade in when the example changes. The server renders
   Tell it's final frame, so the hero is complete before (or without)
   JavaScript.
-- **Attention**: while FluxIQ acts on its own (no cursor on screen), its
-  newest chat message pulses amber; on a phone the message bar over the
-  site pulses too. The step chip shows only a timer ring and "Click to
+- **Attention**: on a quiet step (`isQuiet` in `timeline.ts`: nothing at
+  work on the site, no cursor, no typing, and not an example's first or
+  last step) FluxIQ's newest chat message pulses amber; on a phone the
+  message bar over the site pulses too. Today that is Tell it's planning
+  step, Record it's build step, and It adapts' "AI was used once". The step chip shows only a timer ring and "Click to
   skip" ("Tap to skip" on a phone).
 - **A click has two phases**: until it lands only the press shows (FluxIQ
   aims for 450 ms; the person's cursor travels for 700 ms); then everything

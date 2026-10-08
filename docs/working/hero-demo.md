@@ -580,6 +580,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (146.8 KB gzip JS) -> passed. Playwright on `pnpm preview` with reduced motion on: a full loop at 1440 px (24 frames) and 375 px (30 frames) -> autoplays, no title cards, examples flow into each other, newest FluxIQ message pulsing, none while recording; banner 38 px tall (one line) at 1440, 1024, and 375 px, two tidy lines at 320 px; the phone tab row fits with Pause beside the narration; no console errors.
 - Outcome: Accepted
 - Follow-up: The user's review; main needs their approval.
+
+### 2026-10-08 — Pulse only on quiet steps; shorter record step
+- Agent: supervisor
+- Changed: `src/components/hero-demo/{timeline.ts,stage.tsx,extension-panel.tsx,panel-message.tsx}`; `docs/architecture/README.md`; this document
+- Why: The user wanted the pulse only where nothing else is happening in an example, never at its start or end, not on every card; and found the wait after the record click too long.
+- Design: `isQuiet(tab, step, siteBusy)`: the site has no target at work (a finished green outline counts as idle unless it is clicking), no cursor, no typing moment, and the step is neither the example's first nor last. Record it's first step is now the click's land time plus 1 s (was land time plus a line-length hold, about 3.6 s in all).
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (146.9 KB gzip JS) -> passed. Playwright on `pnpm preview`, the narration line and the pulse sampled every 60 ms through a full loop: the pulse shows only at "FluxIQ plans the steps.", "FluxIQ turns your steps into an automation.", and "AI was used once, only for what changed."; Record it's first step now lasts about 2.1 s.
+- Outcome: Accepted
+- Follow-up: The user's review; main needs their approval.
 ---
 
 ## Open Questions

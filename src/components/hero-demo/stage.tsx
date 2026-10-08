@@ -7,6 +7,7 @@ import { Pointer } from "./pointer";
 import type { Scene } from "./scenes/scene";
 import { StatusPill } from "./status-pill";
 import { StepChip } from "./step-chip";
+import { isQuiet } from "./timeline";
 import type { PlayerState, View } from "./use-demo-player";
 
 export type StageProps = {
@@ -35,8 +36,10 @@ export function Stage(props: StageProps) {
   const width = compact ? phoneWidth : 760;
   const [x, y] = cursorPoint(scene.cursor ?? "rest", compact, phoneWidth);
   const latest = scene.panel.messages.at(-1);
-  // With no cursor on screen, FluxIQ is acting on its own: point the eye at what it says.
-  const spotlight = scene.cursor === null;
+  // On a quiet step, point the eye at what FluxIQ says.
+  const target = scene.site.target;
+  const siteBusy = scene.cursor !== null || (target !== null && (target.kind !== "done" || target.click === true));
+  const spotlight = isQuiet(state.tab, state.step, siteBusy);
   return (
     <div
       className="relative h-[470px] overflow-hidden rounded-[14px] border border-edge bg-[#0b1016] font-sans shadow-[0_50px_100px_-40px_rgba(0,0,0,0.8)]"

@@ -3,7 +3,7 @@
 // enough to press and show its result, reading as long as the row sweep, chat
 // lines in proportion to their length, endings a little longer.
 import { DEMO_EXAMPLES } from "@/content/hero-demo/examples";
-import { IT_ADAPTS, RECORD_IT, TELL_IT } from "@/content/hero-demo/panel";
+import { IT_ADAPTS, TELL_IT } from "@/content/hero-demo/panel";
 
 /** How long the person's cursor takes to reach a target. */
 export const TRAVEL_MS = 700;
@@ -39,7 +39,8 @@ export const STEP_MS: number[][] = [
   ],
   // Record it: click record, click the box, type, click Search, click Calgary, stop, build, saved
   [
-    CLICK + 700 + line(RECORD_IT.started),
+    // The click lands at 1.1 s; a short beat to read "I'm recording", then on.
+    AFTER_USER_CLICK + 1000,
     CLICK + 700,
     typing("roofing", TYPING_SPEED.recorded),
     CLICK + 850,
@@ -102,6 +103,16 @@ export function typingSpec(tab: number, step: number): TypingSpec | null {
   if (tab === 1 && step === 2) return { key: "recorded", text: "roofing", speed: TYPING_SPEED.recorded };
   if (tab === 2 && step === 0) return { key: "replay", text: "roofing", speed: TYPING_SPEED.search };
   return null;
+}
+
+/**
+ * A quiet step: nothing is happening on the example site (no outline at
+ * work, no cursor, no typing) and it is neither an example's first step nor
+ * its last. FluxIQ's newest message pulses only then, so the eye always has
+ * somewhere to go without every card competing for it.
+ */
+export function isQuiet(tab: number, step: number, siteBusy: boolean): boolean {
+  return !siteBusy && step > 0 && step < stepCount(tab) - 1 && typingSpec(tab, step) === null;
 }
 
 /**
