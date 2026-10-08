@@ -9,7 +9,7 @@ export type PanelMessageProps = {
   spotlight?: boolean;
 };
 
-const rise = { animation: "demo-in 300ms ease both" };
+const rise = { animation: "demo-in 420ms ease both" };
 
 /** One entry in the example chat: the person's message, FluxIQ's words, a live status, an action card, or the data. */
 export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {

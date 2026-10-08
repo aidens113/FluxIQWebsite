@@ -11,6 +11,13 @@ import { IT_ADAPTS, TELL_IT } from "@/content/hero-demo/panel";
  */
 export const PACE = 0.7;
 export const paced = (ms: number) => Math.round(ms * PACE);
+/**
+ * A second dial for how long the visual effects run (ripples, the press,
+ * rows sliding in, the read sweep), independent of the step timing: the
+ * steps and every delay stay at PACE, the effects play longer than that.
+ */
+export const ANIMATION_STRETCH = 1.4;
+export const animated = (ms: number) => Math.round(ms * PACE * ANIMATION_STRETCH);
 
 // Click timing at the original pace.
 const RAW_TRAVEL = 700;
@@ -26,7 +33,8 @@ const AFTER_USER_CLICK = paced(RAW_AFTER_USER_CLICK);
 const AFTER_AUTO_CLICK = paced(RAW_AIM + 450);
 /** The read sweep: rows light up this far apart, each sweep lasting SWEEP_MS. */
 export const ROW_STAGGER_MS = paced(240);
-export const SWEEP_MS = paced(650);
+// The sweep ends before the read step does, so the rows never cut it short.
+export const SWEEP_MS = animated(560);
 
 const BEAT = 450;
 const CLICK = 1000;

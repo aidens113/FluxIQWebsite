@@ -78,7 +78,7 @@ export function ExtensionPanel({ panel, tick, spotlight }: ExtensionPanelProps) 
       {/* The chat fades out at the top instead of cutting messages off. */}
       <div className="flex min-h-0 flex-1 flex-col justify-end gap-2.5 overflow-hidden px-3.5 pt-3.5 pb-2 [mask-image:linear-gradient(to_bottom,transparent,#000_28px)]">
         {panel.empty && (
-          <div className="mt-10 mb-auto text-center" style={{ animation: "demo-in 300ms ease both" }}>
+          <div className="mt-10 mb-auto text-center" style={{ animation: "demo-in 420ms ease both" }}>
             <p className="text-base font-bold">{PANEL.emptyTitle}</p>
             <p className="mx-3 mt-2 text-[11.5px] leading-normal text-[#93a4b6]">{PANEL.emptyBody}</p>
           </div>

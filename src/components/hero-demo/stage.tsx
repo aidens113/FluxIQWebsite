@@ -58,13 +58,13 @@ export function Stage(props: StageProps) {
       >
         <div className="relative h-full flex-none bg-[#f6f7f9] text-[#1d232b]" style={{ width: compact ? width : 460 }}>
           {/* Each example starts on a fresh page: the site and panel fade in when the example changes. */}
-          <div key={state.tab} className="h-full" style={{ animation: "demo-fade 450ms ease both" }}>
+          <div key={state.tab} className="h-full" style={{ animation: "demo-fade 600ms ease both" }}>
             <DirectorySite site={scene.site} motion={motion} compact={compact} tick={state.tick} />
           </div>
           <Pointer x={x} y={y} visible={scene.cursor !== null} />
         </div>
         <div className="h-full flex-none border-l border-[#26384a]" style={{ width: compact ? width : 300 }}>
-          <div key={state.tab} className="h-full" style={{ animation: "demo-fade 450ms ease both" }}>
+          <div key={state.tab} className="h-full" style={{ animation: "demo-fade 600ms ease both" }}>
             <ExtensionPanel panel={scene.panel} tick={state.tick} spotlight={spotlight} />
           </div>
         </div>

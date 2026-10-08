@@ -616,6 +616,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm build`, `pnpm test:site` (146.4 KB gzip JS) -> passed. Playwright at 2x on `pnpm preview`: the panel captured at eight moments across the loop shows each action and state (working, done, captured, failed, fixing); a close-up confirms the cursor and keyboard read at 16 px; no console errors.
 - Outcome: Accepted
 - Follow-up: The user's review; main needs their approval.
+
+### 2026-10-08 — Same step timing, longer effects
+- Agent: supervisor
+- Changed: `src/components/hero-demo/{timeline.ts,results-list.tsx,motion.ts,click-ripple.tsx,panel-message.tsx,chat-peek.tsx,extension-panel.tsx,stage.tsx}`; this document
+- Why: The user wanted the delays kept as short as they are now, with the animations themselves running a bit longer.
+- Design: a second dial, `ANIMATION_STRETCH = 1.4`, applied through `animated()` to effect lengths only: ripples, crosshair, the press, rows sliding in, the row read glow, and the read sweep (sized to finish inside the read step). Message and peek fade-ins 300 -> 420 ms, results fade 260 -> 380 ms, the example-change fade 450 -> 600 ms. Step lengths, typing, cursor travel, aim, click land times, stagger delays, and the cursor glide are unchanged.
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (146.4 KB gzip JS) -> passed. Playwright on `pnpm preview`: the loop still takes 33.6 s, with It adapts starting at 20.5 s as before; no console errors.
+- Outcome: Accepted
+- Follow-up: The user's review; main needs their approval.
 ---
 
 ## Open Questions

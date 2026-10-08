@@ -1,7 +1,7 @@
 import { DIRECTORY } from "@/content/hero-demo/directory";
 import { Highlight } from "./highlight";
 import type { SiteScene } from "./scenes/scene";
-import { paced, ROW_STAGGER_MS, SWEEP_MS } from "./timeline";
+import { animated, paced, ROW_STAGGER_MS, SWEEP_MS } from "./timeline";
 
 export type ResultsListProps = {
   site: SiteScene;
@@ -22,7 +22,7 @@ export function ResultsList({ site, reading, tick }: ResultsListProps) {
     <div
       key={site.rowsLoad}
       className="relative mx-4 flex flex-col gap-1.5"
-      style={{ animation: "demo-fade 260ms ease both" }}
+      style={{ animation: "demo-fade 380ms ease both" }}
     >
       <Highlight target={site.target} name="results" redesigned={site.redesigned} tick={tick} />
       <p className="mb-0.5 text-[11px] text-[#6b7480]">{site.filtered ? DIRECTORY.countCity : DIRECTORY.countAll}</p>
@@ -36,7 +36,7 @@ export function ResultsList({ site, reading, tick }: ResultsListProps) {
             background: site.rowsDone ? "#f2fbf6" : "#ffffff",
             boxShadow: site.rowsDone ? "0 0 0 3px rgba(59,201,130,0.22)" : undefined,
             transition: "all 450ms ease",
-            animation: `demo-rowin ${paced(360)}ms ${i * paced(60)}ms ease-out both${reading ? `, demo-rowread ${paced(350)}ms ${i * ROW_STAGGER_MS}ms ease-out both` : ""}`,
+            animation: `demo-rowin ${animated(360)}ms ${i * paced(60)}ms ease-out both${reading ? `, demo-rowread ${animated(350)}ms ${i * ROW_STAGGER_MS}ms ease-out both` : ""}`,
           }}
         >
           {reading && (
