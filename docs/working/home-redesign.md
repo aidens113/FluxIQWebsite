@@ -102,3 +102,23 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Validation: rendered with the canvas runtime at 1440 px; each fix inspected.
 - Outcome: Accepted, pending the user's review
 - Follow-up: The user's review, then the build plan. Every name and number in the app mock is invented and labelled a concept.
+
+### 2026-10-08 — Ambient motion on every visual; "Two parts" section at full width
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`; this document
+- Why: The user asked for the rest of the visuals to move "like the main demo", then narrowed it: "less animated, not a full demo". They also asked for the "Two parts. One system." section to be as wide as the others.
+- Design: CSS loops only, with no script and no scripted story. Each visual has one quiet motion:
+  - The cost chart's bars rise run by run, then hold; "site changed" breathes.
+  - The tile icons glow in turn.
+  - A light runs along the pairing line.
+  - The repairing Flow row fills a progress line, and the extension's target ring pulses.
+  - A dot travels the How it works track, lighting each step; the loop's dashes flow.
+  - The NOW roadmap dot sends out a halo.
+  - The app's chart line draws in and the newest lead row flashes.
+  - The paper cover floats.
+  - The closing band's light drifts.
+  - `prefers-reduced-motion` stops all of it.
+- "Two parts" now has a left-aligned heading with the lede beside it, as the other sections do. The pairing line runs edge to edge, and the extension mock fills its card.
+- Validation: rendered with the canvas runtime at 1440 px at two moments: motion visible, layout unchanged, and no page errors.
+- Outcome: Accepted, pending the user's review
+- Follow-up: In the build, keep the reduced-motion guard. Start loops only when a section scrolls into view.
