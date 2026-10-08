@@ -1,6 +1,7 @@
 import { DIRECTORY } from "@/content/hero-demo/directory";
 import { Highlight } from "./highlight";
 import type { SiteScene } from "./scenes/scene";
+import { paced, ROW_STAGGER_MS, SWEEP_MS } from "./timeline";
 
 export type ResultsListProps = {
   site: SiteScene;
@@ -35,7 +36,7 @@ export function ResultsList({ site, reading, tick }: ResultsListProps) {
             background: site.rowsDone ? "#f2fbf6" : "#ffffff",
             boxShadow: site.rowsDone ? "0 0 0 3px rgba(59,201,130,0.22)" : undefined,
             transition: "all 450ms ease",
-            animation: `demo-rowin 360ms ${i * 60}ms ease-out both${reading ? `, demo-rowread 350ms ${i * 240}ms ease-out both` : ""}`,
+            animation: `demo-rowin ${paced(360)}ms ${i * paced(60)}ms ease-out both${reading ? `, demo-rowread ${paced(350)}ms ${i * ROW_STAGGER_MS}ms ease-out both` : ""}`,
           }}
         >
           {reading && (
@@ -43,7 +44,7 @@ export function ResultsList({ site, reading, tick }: ResultsListProps) {
               className="pointer-events-none absolute inset-y-0 left-0 w-2/5"
               style={{
                 background: "linear-gradient(100deg, transparent, rgba(94,158,234,0.40), transparent)",
-                animation: `demo-rowsweep 650ms ${i * 240}ms ease-in-out both`,
+                animation: `demo-rowsweep ${SWEEP_MS}ms ${i * ROW_STAGGER_MS}ms ease-in-out both`,
               }}
             />
           )}

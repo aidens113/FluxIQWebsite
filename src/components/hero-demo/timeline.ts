@@ -4,14 +4,29 @@
 // lines in proportion to their length, endings a little longer.
 import { IT_ADAPTS, TELL_IT } from "@/content/hero-demo/panel";
 
+/**
+ * One dial for the whole demo's pace. Every duration in the demo, step
+ * lengths, typing, cursor travel, clicks, and the row sweep, is written at
+ * the original pace and scaled by this, so they stay in step with each other.
+ */
+export const PACE = 0.7;
+export const paced = (ms: number) => Math.round(ms * PACE);
+
+// Click timing at the original pace.
+const RAW_TRAVEL = 700;
+const RAW_AIM = 450;
+const RAW_AFTER_USER_CLICK = RAW_TRAVEL + 400;
+
 /** How long the person's cursor takes to reach a target. */
-export const TRAVEL_MS = 700;
+export const TRAVEL_MS = paced(RAW_TRAVEL);
 /** How long FluxIQ aims (outline and crosshair settle) before it clicks. */
-export const AIM_MS = 450;
-/** The press itself, then the gap before its result appears. */
-const AFTER_PRESS_MS = 450;
-const AFTER_USER_CLICK = TRAVEL_MS + 400;
-const AFTER_AUTO_CLICK = AIM_MS + AFTER_PRESS_MS;
+export const AIM_MS = paced(RAW_AIM);
+/** When a click's result appears: after the press, then a short gap. */
+const AFTER_USER_CLICK = paced(RAW_AFTER_USER_CLICK);
+const AFTER_AUTO_CLICK = paced(RAW_AIM + 450);
+/** The read sweep: rows light up this far apart, each sweep lasting SWEEP_MS. */
+export const ROW_STAGGER_MS = paced(240);
+export const SWEEP_MS = paced(650);
 
 const BEAT = 450;
 const CLICK = 1000;
@@ -20,16 +35,22 @@ const END = 2800;
 const typing = (text: string, speed: number) => text.length * speed + BEAT;
 const line = (text: string) => Math.min(2400, Math.max(900, 500 + text.length * 22));
 
-export const TYPING_SPEED = { ask: 42, search: 110, recorded: 120 };
+// Typing, a character at a time, at the original pace.
+const RAW_TYPING = { ask: 42, search: 110, recorded: 120 };
+export const TYPING_SPEED = {
+  ask: paced(RAW_TYPING.ask),
+  search: paced(RAW_TYPING.search),
+  recorded: paced(RAW_TYPING.recorded),
+};
 
-/** Each example's step durations, in order. */
-export const STEP_MS: number[][] = [
+/** Each example's step durations, in order, written at the original pace. */
+const RAW_STEP_MS: number[][] = [
   // Tell it: empty, type the ask, plan, type, click Search, click Calgary, read, settle, done
   [
     500,
-    typing(TELL_IT.ask, TYPING_SPEED.ask),
+    typing(TELL_IT.ask, RAW_TYPING.ask),
     1100,
-    typing("roofing", TYPING_SPEED.search) + 250,
+    typing("roofing", RAW_TYPING.search) + 250,
     CLICK + 500,
     CLICK + 600,
     READ,
@@ -38,10 +59,10 @@ export const STEP_MS: number[][] = [
   ],
   // Record it: click record, click the box, type, click Search, click Calgary, stop, build, saved
   [
-    // The click lands at 1.1 s; a short beat to read "I'm recording", then on.
-    AFTER_USER_CLICK + 1000,
+    // The click lands; a short beat to read "I'm recording", then on.
+    RAW_AFTER_USER_CLICK + 1000,
     CLICK + 700,
-    typing("roofing", TYPING_SPEED.recorded),
+    typing("roofing", RAW_TYPING.recorded),
     CLICK + 850,
     CLICK + 700,
     CLICK + 700,
@@ -50,7 +71,7 @@ export const STEP_MS: number[][] = [
   ],
   // It adapts: type, Search fails, scan, found and click, Calgary, read, finished, run 2 click, read, done
   [
-    typing("roofing", TYPING_SPEED.search),
+    typing("roofing", RAW_TYPING.search),
     line(IT_ADAPTS.moved) + 400,
     1900,
     CLICK + 800,
@@ -62,6 +83,9 @@ export const STEP_MS: number[][] = [
     END,
   ],
 ];
+
+/** Each example's step durations, in order, at the demo's pace. */
+export const STEP_MS: number[][] = RAW_STEP_MS.map((steps) => steps.map(paced));
 
 export const stepsOf = (tab: number): number[] => STEP_MS[tab] ?? [];
 export const stepCount = (tab: number) => stepsOf(tab).length;

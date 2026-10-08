@@ -1,3 +1,5 @@
+import { paced } from "./timeline";
+
 export type PointerProps = { x: number; y: number; visible: boolean };
 
 /** The person's cursor while recording. It glides to each target; FluxIQ's own actions get no cursor. */
@@ -10,7 +12,8 @@ export function Pointer({ x, y, visible }: PointerProps) {
         left: x,
         top: y,
         opacity: visible ? 1 : 0,
-        transition: "left 600ms cubic-bezier(.45,0,.2,1), top 600ms cubic-bezier(.45,0,.2,1), opacity 250ms ease",
+        // Arrives a little before the press (TRAVEL_MS).
+        transition: `left ${paced(600)}ms cubic-bezier(.45,0,.2,1), top ${paced(600)}ms cubic-bezier(.45,0,.2,1), opacity 250ms ease`,
       }}
     >
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">

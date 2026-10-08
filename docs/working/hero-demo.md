@@ -598,6 +598,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (145.6 KB gzip JS) -> passed. Playwright on `pnpm preview`: a full loop at 1440 px (24 frames) and 375 px (30 frames) -> no pill, no narration, chat at most four messages; the phone switch row stays on one line at 375 and 360 px with no horizontal overflow; no console errors.
 - Outcome: Accepted
 - Follow-up: The user's review; main needs their approval.
+
+### 2026-10-08 — The whole demo 30% faster
+- Agent: supervisor
+- Changed: `src/components/hero-demo/{timeline.ts,results-list.tsx,pointer.tsx,click-ripple.tsx,motion.ts}`; `docs/architecture/README.md`; this document
+- Why: The user asked to speed the entire demo up.
+- Design: one dial, `PACE = 0.7` in `timeline.ts`. Durations stay written at the original pace and are scaled by `paced()`: step lengths, typing speed, cursor travel and FluxIQ's aim, click land times, the press, ripples and crosshair, row slide-in, the read sweep and its stagger, and the cursor glide (still shorter than the travel, so it arrives before the press).
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (145.7 KB gzip JS) -> passed. Playwright on `pnpm preview` at 1440 px sampling every 40 ms: a full loop now takes about 33.6 s (was about 48 s); in every example the loading bar starts before the results change and the filtered list follows it; no console errors.
+- Outcome: Accepted
+- Follow-up: The user's review; main needs their approval.
 ---
 
 ## Open Questions

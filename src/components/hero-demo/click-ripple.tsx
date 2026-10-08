@@ -1,4 +1,5 @@
 import { RIPPLE_GAP_MS } from "./motion";
+import { paced } from "./timeline";
 
 export type ClickRippleProps = {
   color: string;
@@ -15,7 +16,7 @@ export function ClickRipple({ color, delay, crosshair }: ClickRippleProps) {
       className="pointer-events-none absolute top-1/2 left-1/2 size-[26px] rounded-full"
       style={{
         border: `2px solid ${color}`,
-        animation: `demo-ripple 700ms ${delay + offset}ms cubic-bezier(.2,.7,.3,1) both`,
+        animation: `demo-ripple ${paced(700)}ms ${delay + offset}ms cubic-bezier(.2,.7,.3,1) both`,
       }}
     />
   );
@@ -32,7 +33,7 @@ export function ClickRipple({ color, delay, crosshair }: ClickRippleProps) {
           style={{
             color,
             filter: `drop-shadow(0 0 4px ${color}99)`,
-            animation: "demo-aim 600ms cubic-bezier(.3,.7,.2,1) both",
+            animation: `demo-aim ${paced(600)}ms cubic-bezier(.3,.7,.2,1) both`,
           }}
         >
           <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="1.6" />
