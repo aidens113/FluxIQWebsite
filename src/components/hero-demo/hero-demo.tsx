@@ -3,7 +3,7 @@
 import "./hero-demo.css";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { DEMO_LABELS } from "@/content/hero-demo/examples";
-import { PHONE_MAX, PHONE_MIN } from "./cursor-targets";
+import { DESKTOP_WIDTH, PHONE_MAX, PHONE_MIN } from "./cursor-targets";
 import { ExampleTabs } from "./example-tabs";
 import { PauseButton } from "./pause-button";
 import { itAdaptsScene } from "./scenes/it-adapts";
@@ -17,6 +17,7 @@ import { useMediaQuery } from "./use-media-query";
 import { ViewSwitch } from "./view-switch";
 
 const SCENES = [tellItScene, recordItScene, itAdaptsScene];
+const COMPACT_BELOW = 600;
 const subscribeNothing = () => () => {};
 
 /**
@@ -27,7 +28,8 @@ const subscribeNothing = () => () => {};
  */
 export function HeroDemo() {
   const root = useRef<HTMLDivElement>(null);
-  const compact = useMediaQuery("(max-width: 799px)");
+  // Until the column is measured, a media query guesses the layout.
+  const narrowViewport = useMediaQuery("(max-width: 799px)");
   const mounted = useSyncExternalStore(
     subscribeNothing,
     () => true,
@@ -36,17 +38,26 @@ export function HeroDemo() {
   const { state, running, paused, setPaused, skip, pickTab, pin } = useDemoPlayer(root);
   const { tab, step, landed } = state;
 
-  // The phone stage fills the column, within limits.
-  const [phoneWidth, setPhoneWidth] = useState(343);
+  // The layout follows the column the widget sits in, not the window: the
+  // side-by-side stage scales down to fit columns narrower than 760 px, and
+  // below 600 px the phone layout (one view at a time) takes over.
+  const [columnWidth, setColumnWidth] = useState<number | null>(null);
   useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    const fit = () => setPhoneWidth(Math.round(Math.min(PHONE_MAX, Math.max(PHONE_MIN, el.clientWidth))));
+    const column = root.current?.parentElement;
+    if (!column) return;
+    // The content width: the column's padding is not room for the widget.
+    const fit = () => {
+      const style = getComputedStyle(column);
+      setColumnWidth(column.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight));
+    };
     fit();
     const observer = new ResizeObserver(fit);
-    observer.observe(el);
+    observer.observe(column);
     return () => observer.disconnect();
   }, []);
+  const compact = columnWidth === null ? narrowViewport : columnWidth < COMPACT_BELOW;
+  const phoneWidth = Math.round(Math.min(PHONE_MAX, Math.max(PHONE_MIN, columnWidth ?? 343)));
+  const stageScale = compact || columnWidth === null ? 1 : Math.min(1, columnWidth / DESKTOP_WIDTH);
 
   const ctx: SceneContext = { landed, typed: (key, full) => typedSoFar(state, key, full) };
   const scene = (SCENES[tab] ?? tellItScene)(step, ctx);
@@ -91,6 +102,7 @@ export function HeroDemo() {
             motion={motion}
             compact={compact}
             phoneWidth={phoneWidth}
+            scale={stageScale}
             view={view}
             onSkip={skip}
             onOpenChat={() => pin("panel", focus)}

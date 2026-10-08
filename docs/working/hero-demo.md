@@ -634,6 +634,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (145.7 KB gzip JS) -> passed. Playwright on `pnpm preview` at 1440 and 375 px: no "to skip" text in the widget, layout intact, no console errors.
 - Outcome: Accepted
 - Follow-up: none
+
+### 2026-10-08 — Hero scales between phone and wide desktop
+- Agent: supervisor
+- Changed: `src/components/hero-demo/{hero-demo,stage,cursor-targets}`, `src/components/hero/hero.tsx`; `docs/architecture/README.md`; this document
+- Why: On displays smaller than a wide desktop but larger than a phone, the hero did not scale and its copy sat left while the widget was centred.
+- Design: the widget measures its column's content width. From 600 px it is the side-by-side stage, scaled as a whole (`transform: scale`) when the column is under 760 px, so its layout and cursor targets are unchanged; under 600 px it is the phone layout. Stacked (below 1280 px), the copy, banner, and buttons centre over the widget from 640 px up; a phone keeps them left-aligned.
+- Validation: `pnpm check`, `pnpm build`, `pnpm test:site` (146.0 KB gzip JS) -> passed. Playwright on `pnpm preview` at 375, 600, 660, 700, 820, 1024, 1180, 1280, and 1440 px: widget widths 327 (phone), 400 (phone, centred), 612 and 652 (scaled), 760 (full); equal margins on both sides when stacked; no horizontal overflow; no console errors.
+- Outcome: Accepted
+- Follow-up: none
 ---
 
 ## Open Questions

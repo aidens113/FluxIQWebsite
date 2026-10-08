@@ -147,11 +147,14 @@ linked there.
   aims for 450 ms; the person's cursor travels for 700 ms); then everything
   it causes appears together. Loading bars and dimming start at the press,
   never before it.
-- **Layouts**: from 800 px up the site and the panel sit side by side at
-  760 x 470. Below that the stage fills the column (300 to 400 px) and shows
-  one view at a time on a sliding strip, with a Website / FluxIQ switch that
-  follows the action, and a bar showing FluxIQ's latest message over the
-  site. Cursor targets on a phone are computed from the stage width.
+- **Layouts** follow the widget's column, not the window: the site and
+  the panel sit side by side at 760 x 470, scaled down as a whole when the
+  column is narrower (down to 600 px); below 600 px the stage fills the
+  column (300 to 400 px) and shows one view at a time on a sliding strip,
+  with a Website / FluxIQ switch that follows the action, and a bar showing
+  FluxIQ's latest message over the site. Cursor targets on a phone are
+  computed from the stage width. Stacked (below 1280 px), the hero's copy is
+  centred over the widget from 640 px up.
 - **Accessibility**: the stage is `aria-hidden` artwork with a
   screen-reader description; the example tabs, view switch, and Pause are
   real buttons. Clicking the stage skips a step (a mouse convenience, out of

@@ -30,6 +30,8 @@ function phone(width: number): Record<Exclude<CursorSpot, null>, Point> {
 }
 
 /** The phone stage's width range; it fills the column between these. */
+/** The side-by-side stage's natural width; narrower columns scale it down. */
+export const DESKTOP_WIDTH = 760;
 export const PHONE_MIN = 300;
 export const PHONE_MAX = 400;
 
