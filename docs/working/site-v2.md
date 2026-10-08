@@ -116,6 +116,15 @@ dashboards or analytics, and pause or takeover from the panel.
 - Outcome: Accepted
 - Follow-up: none
 
+
+### 2026-10-08 — Dependency audit fixed (Next.js 16.3.8, overrides)
+- Agent: supervisor
+- Changed: `package.json`, `pnpm-lock.yaml`, `docs/architecture/README.md`
+- Why: CI on main had failed since the paper release (run 37258637417) at `pnpm audit --prod --audit-level high`: critical GHSA-vcvr-r3jv-pc5j in `next` < 16.3.6 (`next/og`; not reachable in a static export, but it fails the gate), then high advisories in `source-map-js` < 1.2.2 and `sharp` < 0.35.5, both arriving through Next.js.
+- Design: `next` 16.3.5 -> 16.3.8 (latest patch of the same minor); `pnpm.overrides` pin `source-map-js` ^1.2.2 and `sharp` ^0.35.5; the dev dependency `sharp` moves to ^0.35.5.
+- Validation: `pnpm audit --prod --audit-level high` -> no known vulnerabilities; `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (147.6 KB gzip JS) -> passed; Playwright on `pnpm preview` at 1440, 1024, and 375 px, with and without reduced motion -> no errors, no horizontal overflow.
+- Outcome: Accepted
+- Follow-up: drop the overrides once Next.js depends on the patched versions.
 ---
 
 ## Open Questions

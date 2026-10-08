@@ -13,6 +13,7 @@ plans live in [docs/working/](../working/README.md).
 | Styling | Tailwind CSS 4, tokens in `src/app/globals.css` | The existing site's design is utility-class based and ports directly. |
 | Lint and format | Biome 2 | Matches FluxIQ Core. |
 | Package manager | pnpm 10, Node 22 | Matches the FluxIQ repositories. |
+| Dependency audit | CI runs `pnpm audit --prod --audit-level high`; `pnpm.overrides` in `package.json` pins patched `source-map-js` (>= 1.2.2) and `sharp` (>= 0.35.5), which arrive through Next.js | A high or critical advisory in a shipped dependency fails CI. Drop an override once Next.js itself depends on the patched version. |
 
 Static export rules out route handlers, incremental regeneration, and the image
 optimizer (`images.unoptimized` is set), so images are optimized ahead of time
