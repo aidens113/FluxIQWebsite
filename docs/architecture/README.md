@@ -131,9 +131,11 @@ linked there.
 - **Playback** is `use-demo-player.ts`: it advances steps, lands clicks,
   types a character at a time, and runs only while the widget is on screen,
   the tab is visible, and the visitor has not paused. Under
-  `prefers-reduced-motion: reduce` nothing plays; each example shows its
-  final frame and the tabs switch between them, and `hero-demo.css` turns
-  off every animation.
+  `prefers-reduced-motion: reduce` nothing plays until the visitor presses
+  "Play the demo": each example shows its final frame, the tabs switch
+  between them, and `hero-demo.css` turns off every animation unless
+  `data-motion="on"`. The server renders Tell it's final frame, so the hero
+  is complete before (or without) JavaScript.
 - **A click has two phases**: until it lands only the press shows (FluxIQ
   aims for 450 ms; the person's cursor travels for 700 ms); then everything
   it causes appears together. Loading bars and dimming start at the press,

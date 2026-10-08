@@ -28,7 +28,11 @@ const subscribeNothing = () => () => {};
 export function HeroDemo() {
   const root = useRef<HTMLDivElement>(null);
   const compact = useMediaQuery("(max-width: 799px)");
-  const animate = !useMediaQuery("(prefers-reduced-motion: reduce)");
+  // A visitor who prefers reduced motion sees still frames and a Play
+  // button; pressing it plays the demo for them.
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [playAnyway, setPlayAnyway] = useState(false);
+  const animate = !reduceMotion || playAnyway;
   const mounted = useSyncExternalStore(
     subscribeNothing,
     () => true,
@@ -76,6 +80,7 @@ export function HeroDemo() {
   return (
     <div
       ref={root}
+      data-motion={animate ? "on" : "off"}
       className={`hero-demo mx-auto w-full ${compact ? "max-w-[400px]" : "max-w-[760px]"} ${mounted ? "" : "max-[799px]:invisible"}`}
     >
       <p className="sr-only">{DEMO_LABELS.description}</p>
@@ -90,22 +95,38 @@ export function HeroDemo() {
           running={running && !intro}
         />
       )}
-      <div aria-hidden="true">
-        <Stage
-          state={state}
-          scene={scene}
-          motion={motion}
-          compact={compact}
-          phoneWidth={phoneWidth}
-          view={view}
-          running={running}
-          animate={animate}
-          ms={ms}
-          runKey={runKey}
-          stepLabel={`Step ${step + 1} of ${stepCount(tab)}`}
-          onSkip={skip}
-          onOpenChat={() => pin("panel", focus)}
-        />
+      <div className="relative">
+        {!animate && (
+          <button
+            type="button"
+            onClick={() => setPlayAnyway(true)}
+            className={`absolute inset-0 z-40 flex items-center justify-center rounded-[14px] bg-ink/40 ${FOCUS_RING}`}
+          >
+            <span className="inline-flex min-h-12 items-center gap-2.5 rounded-full bg-amber px-6 text-[15px] font-semibold text-ink shadow-[0_12px_30px_-10px_rgba(0,0,0,0.6)]">
+              <svg viewBox="0 0 12 12" aria-hidden="true" className="size-3">
+                <path d="M2.5 1.5v9l8-4.5z" fill="currentColor" />
+              </svg>
+              {DEMO_LABELS.playDemo}
+            </span>
+          </button>
+        )}
+        <div aria-hidden="true">
+          <Stage
+            state={state}
+            scene={scene}
+            motion={motion}
+            compact={compact}
+            phoneWidth={phoneWidth}
+            view={view}
+            running={running}
+            animate={animate}
+            ms={ms}
+            runKey={runKey}
+            stepLabel={`Step ${step + 1} of ${stepCount(tab)}`}
+            onSkip={skip}
+            onOpenChat={() => pin("panel", focus)}
+          />
+        </div>
       </div>
       <div className={`flex items-baseline ${compact ? "mt-3 min-h-11 gap-2" : "mt-4 min-h-[26px] gap-3"}`}>
         <span className="flex-none font-mono text-xs text-amber">{example.beat}</span>

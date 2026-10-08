@@ -39,10 +39,13 @@ function next(s: PlayerState): PlayerState {
   return enter(s, (s.tab + 1) % 3, 0, true);
 }
 
+// The server renders Tell it's finished frame, so the hero reads as a
+// complete picture before (or without) JavaScript; playback starts from the
+// first title card once the page is interactive.
 const INITIAL: PlayerState = {
   tab: 0,
-  step: 0,
-  intro: true,
+  step: stepCount(0) - 1,
+  intro: false,
   tick: 0,
   landed: true,
   typed: { key: null, count: 0 },
@@ -77,16 +80,14 @@ export function useDemoPlayer(root: RefObject<HTMLElement | null>, animate: bool
     };
   }, [root]);
 
-  // With motion off, show the final frame of the current example.
+  // Start from the first title card when motion is on; with it off, show
+  // the final frame of the current example.
   useEffect(() => {
-    if (!animate)
-      setState((s) => ({
-        ...s,
-        step: stepCount(s.tab) - 1,
-        intro: false,
-        landed: true,
-        typed: { key: null, count: 0 },
-      }));
+    setState((s) =>
+      animate
+        ? { ...enter(s, 0, 0, true), pin: null }
+        : { ...s, step: stepCount(s.tab) - 1, intro: false, landed: true, typed: { key: null, count: 0 } },
+    );
   }, [animate]);
 
   const { tab, step, intro, landed, typed } = state;

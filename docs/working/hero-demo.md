@@ -30,6 +30,10 @@ already-redesigned site and replays the saved automation; title cards with
 a skip, per-step timers, two-phase clicks, blue reading and scanning, green
 success, a cursor only for the person; on phones one view at a time.
 
+**Reduced motion** shows a still frame with a "Play the demo" button; the
+server renders Tell it's finished frame, so the hero is complete without
+JavaScript.
+
 **Not verified.** Real devices (only Chromium via Playwright at 375, 1024,
 and 1440 px); Safari's handling of `mask-image` and the `<details>` menu.
 
@@ -558,6 +562,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `pnpm check` -> passed; `pnpm test` -> passed; `pnpm build` -> passed; `pnpm test:site` -> passed, 147.8 KB gzip JS (was 128 KB; limit 200). Playwright against `pnpm preview`: 1440, 1024, and 375 px with no console errors and no horizontal overflow (only the header's former scrolling nav, now replaced); a full loop captured at 1440 and 375 px (every example: typing, two-phase clicks, filter, reading, fail, scan, found, second run; phone view switching and peek bar); reduced motion at 1440 and 375 px shows the still final frame with no Pause; the phone menu opens, closes on a link (to `#status`), and the header is 61 px tall; the extension page header fits on one row. Every home and extension section scrolled through at 375 px.
 - Outcome: Accepted
 - Follow-up: The user's review; pushing to main needs their approval.
+
+### 2026-10-08 — Live page showed no playback: reduced motion and no-JS fallbacks
+- Agent: supervisor
+- Changed: `src/components/hero-demo/{hero-demo.tsx,use-demo-player.ts,hero-demo.css}`, `src/content/hero-demo/examples.ts`; this document
+- Why: The user reported that on the live site nothing plays. getfluxiq.com is unreachable from the agent's environment, so it could not be inspected directly. The published `deploy` branch (4da3258, from main 9a64a49) served by a plain static server plays normally, and its `.htaccess` (CSP allows the inline scripts, JS served as text/javascript) is consistent with that, so the build is sound. The likely causes on the visitor's side: the OS asks for reduced motion (Windows' "Animation effects" off), which by design showed only a still frame with no hint it could play; or the scripts not running, which left the server-rendered Tell it title card frozen on "Click to continue".
+- Design: under reduced motion the still frame now carries a "Play the demo" button; pressing it plays the demo with full motion (`data-motion="on"` lifts the CSS kill switch). The server now renders Tell it's finished frame rather than its title card, so without JavaScript the hero is a complete picture; playback starts from the first title card once the page is interactive.
+- Validation: `pnpm check`, `pnpm build`, `pnpm test:site` (147.9 KB gzip JS) -> passed. Playwright on `pnpm preview` at 1440 px: normal motion plays (step 1 at 0.5 s, step 2 at 6 s); reduced motion shows the finished frame with "Play the demo", and after pressing it, step 2 at 6 s; JavaScript disabled shows the finished frame (step 9 of 9, "Done: 24 rows").
+- Outcome: Accepted, pending the user's check of the live page.
+- Follow-up: if it still does not play live, find out which still frame the user sees: the finished frame with no Play button would mean the scripts are not running on the host.
 ---
 
 ## Open Questions

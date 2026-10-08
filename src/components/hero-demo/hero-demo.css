@@ -1,5 +1,6 @@
 /* Motion for the hero's example widgets. Under `prefers-reduced-motion:
-   reduce` the widget shows still frames and nothing below runs. */
+   reduce` the widget shows still frames and nothing below runs, until the
+   visitor chooses to play it. */
 
 @keyframes demo-in {
   from {
@@ -198,10 +199,11 @@
   }
 }
 
+/* Unless the visitor presses Play, which sets data-motion="on". */
 @media (prefers-reduced-motion: reduce) {
-  .hero-demo *,
-  .hero-demo *::before,
-  .hero-demo *::after {
+  .hero-demo:not([data-motion="on"]) *,
+  .hero-demo:not([data-motion="on"]) *::before,
+  .hero-demo:not([data-motion="on"]) *::after {
     /* biome-ignore lint/complexity/noImportantStyles: the widget sets its animations inline, which only !important overrides */
     animation: none !important;
     /* biome-ignore lint/complexity/noImportantStyles: as above, for inline transitions */

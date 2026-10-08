@@ -99,6 +99,7 @@ export const DEMO_LABELS = {
   clickToContinue: "Click to continue",
   pause: "Pause",
   play: "Play",
+  playDemo: "Play the demo",
   viewSwitch: "Demo view",
   viewSite: "Website",
   viewPanel: "FluxIQ",
