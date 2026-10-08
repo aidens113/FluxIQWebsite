@@ -122,3 +122,29 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Validation: rendered with the canvas runtime at 1440 px at two moments: motion visible, layout unchanged, and no page errors.
 - Outcome: Accepted, pending the user's review
 - Follow-up: In the build, start loops only when a section scrolls into view. Ask the user whether reduced motion should slow the loops rather than stop them.
+
+### 2026-10-08 — Every graphic loops a short demonstration
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html` (rebuilt below the hero); this document
+- Why: The user found the ambient motion too random to notice: "I want EVERY SINGLE GRAPHIC actually animated on a loop in a usefully demonstrative way." Each graphic is still shorter than the hero demo.
+- Design: one 250 ms clock in the board's component drives a short story for each graphic, with CSS transitions between ticks:
+  - **Cost chart:** a playhead walks runs 1 to 14 and fills both rows as it goes. AI-call counters show the agent at 14 of 14 and FluxIQ at 2 of 14 (run 1 and the site change).
+  - **Pairing line:** a step travels out to the extension in amber, then the result comes back in green, labelled each way.
+  - **Framework mock:** Flows replay in turn. Weekly report stops on a changed page, repairs with one AI call (the "AI calls today" counter goes from 0 to 1), waits for review, and keeps the fix.
+  - **Extension mock:** it runs the Flow on the page: types "roofing", clicks Search, then reads 4 rows. Each step's card checks off as it goes.
+  - **How it works:** a dot takes one Flow through show, build, a first checked run, and three replays with no AI. Then the site changes, the Flow repairs, and the dot rides the loop arc back to run. A caption names each moment.
+  - **App mock:** discover, enrich, qualify, and refresh run in turn. The counters tick up and a new lead row moves from New to Enriched to Qualified. AI spend rises only on the passes where refresh needs a repair.
+  - **Paper:** the contents are walked one section at a time.
+  - **Tile icons:**
+    - replay rewinds;
+    - a bar hits the cap and stops;
+    - the check flashes less and less often;
+    - the autonomy slider steps through three settings;
+    - install drops into its tray;
+    - the key turns;
+    - a run bar fills;
+    - the license writes itself.
+- Claims: nothing new beyond the copy already sourced above. The numbers, names, and the 0.01 repair cost are invented, and the chart and app stay labelled as an illustration and a concept.
+- Validation: rendered with the canvas runtime at 1440 px. Frames captured across a full How it works cycle confirm every phase, including the loop arc. No script errors, and the hero demo still advances alongside.
+- Outcome: Accepted, pending the user's review
+- Follow-up: In the build, each graphic becomes a small client component that runs only while it is on screen.
