@@ -69,11 +69,13 @@ against, so a claim can be audited or corrected without reading markup.
 
 The home page, `app/page.tsx`, in order:
 
-1. `site-header` (sticky; nav `HOME_NAV`)
+1. `site-header` (sticky; nav `HOME_NAV`). From `md` up the page links sit
+   inline (`primary-nav`); below that they open from a Menu button
+   (`mobile-menu`, a native `<details>` that also works without JavaScript).
 2. `hero`: `paper-banner` (a "New" link to the vision paper), headline,
-   lede, actions, and `run-history`, an illustrative table
-   labelled "example". From `md` up it is four columns; on a phone the header
-   row is visually hidden and each row stacks.
+   lede, and actions, beside `hero-demo` from `xl` (1280 px) up and above it
+   otherwise. The hero is 1288 px wide, wider than the content column, so the
+   760 px widget fits beside the copy. `hero-demo` is described below.
 3. `why-fluxiq` (`#why`)
 4. `parts` (`#framework`): the framework and the extension as two cards
 5. `how-it-works` (`#how-it-works`): four steps, the repair step in amber
@@ -100,9 +102,52 @@ both files and the paths in `src/content/links.ts`, `src/content/paper.ts`,
 and `scripts/site-check.mjs`.
 
 Each section is a server component with no props that renders one constant
-from `content/`; its parts sit beside it. No component is a client component,
-so the only JavaScript shipped is the Next.js and React runtime, about 128 KB
-gzip.
+from `content/`; its parts sit beside it. Two components are client
+components: `hero-demo/hero-demo` and `site-header/mobile-menu`. The page
+ships about 148 KB gzip of JavaScript (128 KB of it the Next.js and React
+runtime); the audit limit is 200 KB.
+
+### The hero demo
+
+`components/hero-demo/` plays three example widgets in a loop on a
+fictional lead directory, with the FluxIQ panel beside it: **Tell it** (a
+request in plain words), **or Record it** (the person does the task once),
+and **It adapts** (the site was redesigned; FluxIQ fixes the broken step
+with AI once, and the next run needs none). They are illustrations by the
+user's decision, captioned as such; the design and its history are in
+[hero-demo](../working/hero-demo.md), and the canvas it was designed on is
+linked there.
+
+- **Copy** lives in `content/hero-demo/`: `examples.ts` (tabs, title cards,
+  narration, labels), `panel.ts` (everything the panel and the page labels
+  say), `directory.ts` (the example site and its rows).
+- **Logic** is plain data. `scenes/tell-it.ts`, `record-it.ts`, and
+  `it-adapts.ts` turn a step into a `Scene` (`scenes/scene.ts`): what the
+  site, panel, status pill, and cursor show. `timeline.ts` holds the pacing
+  (steps last as long as their action), when a click lands, which steps
+  load, the typing moments, and the phone view's focus. `cursor-targets.ts`
+  holds the measured cursor positions.
+- **Playback** is `use-demo-player.ts`: it advances steps, lands clicks,
+  types a character at a time, and runs only while the widget is on screen,
+  the tab is visible, and the visitor has not paused. Under
+  `prefers-reduced-motion: reduce` nothing plays; each example shows its
+  final frame and the tabs switch between them, and `hero-demo.css` turns
+  off every animation.
+- **A click has two phases**: until it lands only the press shows (FluxIQ
+  aims for 450 ms; the person's cursor travels for 700 ms); then everything
+  it causes appears together. Loading bars and dimming start at the press,
+  never before it.
+- **Layouts**: from 800 px up the site and the panel sit side by side at
+  760 x 470. Below that the stage fills the column (300 to 400 px) and shows
+  one view at a time on a sliding strip, with a Website / FluxIQ switch that
+  follows the action, and a bar showing FluxIQ's latest message over the
+  site. Cursor targets on a phone are computed from the stage width.
+- **Accessibility**: the stage is `aria-hidden` artwork with a
+  screen-reader description; the example tabs, view switch, and Pause are
+  real buttons. Clicking the stage skips a step (a mouse convenience, out of
+  the tab order).
+- **Restarting animations** uses React keys (a ripple keyed by the step's
+  tick, a results list keyed by its load), not alternating keyframe names.
 
 Grids that hold wide content must set `min-w-0` on their items, or the
 longest line widens the column past a phone screen. The page wrapper's

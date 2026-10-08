@@ -13,7 +13,7 @@ export function HomeLink({ section }: HomeLinkProps) {
   return (
     <a
       href={LINKS.home.href}
-      className={`flex items-center gap-2.5 rounded-sm text-[17px] font-semibold tracking-[-0.01em] text-fg ${FOCUS_RING}`}
+      className={`flex items-center gap-2.5 rounded-sm whitespace-nowrap text-[17px] font-semibold tracking-[-0.01em] text-fg ${FOCUS_RING}`}
     >
       <LogoMark className="size-6.5" />
       {SITE.name}

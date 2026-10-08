@@ -1,9 +1,9 @@
 # Hero Demo: An Animated Extension Walkthrough
 
 Status: Active
-Status detail: Three-widget hero designed on the canvas (v3 row); awaiting the user's review before building.
+Status detail: Built into the site (desktop and phone layouts); on dev, awaiting the user's review and approval for main.
 Created: 2026-10-07
-Last updated: 2026-10-07
+Last updated: 2026-10-08
 Owner: Senior supervisor agent
 Scope: Replace the home page's run-history table with an immediately impressive, scripted demo of a website being automated by the FluxIQ extension; excludes any live or recorded use of the real extension.
 Paired document: none
@@ -13,33 +13,25 @@ Related: [site v2](./site-v2.md), [site architecture](../architecture/README.md)
 
 ## Current State
 
-**True now.** The hero is the headline, lede, two buttons, and an
-illustrative run-history table (`src/components/hero/run-history.tsx`). The
-user finds the table weak. Nothing in this plan is built yet.
+**True now (2026-10-08).** The home page hero plays the three example
+widgets the user approved on the canvas (row "v3", `HeroV3`, `HeroMobile`,
+`Stage` at `https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS`): **Tell it**,
+**or Record it**, **It adapts**, on the fictional "Ridgeline Leads"
+directory. The run-history table is gone. Code: `src/components/hero-demo/`,
+copy: `src/content/hero-demo/`; how it is built is in the
+[architecture](../architecture/README.md#the-hero-demo). Phones get a
+tabbed Website / FluxIQ view; the site header on phones now opens its links
+from a Menu button. The canvas remains the design reference; changes to the
+widget are made in code now, and the canvas only if the user asks.
 
-**Decided (user, 2026-10-07).** The hero shows **three example widgets**,
-not a faithful replay of the real product:
+**Decided (user).** Example widgets, not a faithful product replay; Tell it
+first, then "or" Record it, then It adapts; It adapts opens on the
+already-redesigned site and replays the saved automation; title cards with
+a skip, per-step timers, two-phase clicks, blue reading and scanning, green
+success, a cursor only for the person; on phones one view at a time.
 
-1. **Record:** someone does a task on a small fake site; FluxIQ captures the
-   steps.
-2. **Chat:** someone types what they want; FluxIQ turns it into steps and
-   does them.
-3. **Page change:** the site changes under a saved automation; FluxIQ
-   notices, fixes it once with AI, and goes back to running without it.
-
-They are stylised examples that borrow the extension's look (dark panel,
-pill, step list) without copying every screen. Each is a short loop of 6 to
-10 seconds. The earlier concepts A to E below are superseded.
-
-**Designed (2026-10-07).** The canvas
-(`https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS`, row "v3") holds
-`HeroV3` (the hero with the auto-playing, tabbed widget; press Play),
-`Frames` (two key frames per widget), and `Stage` (the widget component).
-Choices made in the design, open to the user: one tabbed stage; a fictional
-lead directory, "Ridgeline Leads"; the panel in the site's ink and amber
-rather than the extension's blue, since these are examples; a shorter lede.
-
-**Next.** The user reviews the design; then build per the phases below.
+**Not verified.** Real devices (only Chromium via Playwright at 375, 1024,
+and 1440 px); Safari's handling of `mask-image` and the `<details>` menu.
 
 ---
 
@@ -557,6 +549,15 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Validation: `node dctest/sim2.js` -> no errors; canvas runtime at 375 x 812: the full loop captured (every example, both views, the slide between them, the peek bar's text per step); tap test -> tapping FluxIQ slides to the chat and holds, tapping Website and then the peek bar opens the chat; the hidden step chip confirmed not rendered.
 - Outcome: Accepted
 - Follow-up: The user's review.
+
+### 2026-10-08 — Built into the site, with a phone menu
+- Agent: supervisor
+- Changed: `src/components/hero-demo/` (new: player hook, timeline, three scene builders, stage, site, panel, and their parts, `hero-demo.css`), `src/content/hero-demo/` (new), `src/components/hero/hero.tsx`, `src/components/site-header/{site-header,primary-nav,home-link,mobile-menu}.tsx`, `src/content/types.ts`; removed `hero/run-history.tsx` and `content/run-history.ts`; `docs/architecture/README.md`; this document
+- Why: The user approved the canvas design and asked for it on the site, and for the site to be phone friendly.
+- Design: a port of the canvas `Stage` to React: scenes are plain data per step, the player hook owns timers, typing, landing clicks, pausing off screen, in a hidden tab, and on Pause, and reduced motion (final frames, no animation). Animations restart through React keys. The hero is two columns from 1280 px (copy beside the 760 px widget) and stacked below. The phone stage fills the column (300 to 400 px) with cursor targets computed from its width. On phones the header is one 60 px row (logo, GitHub, Menu) and the page links open from a `<details>` menu that closes on a link or Escape; from `md` up it is unchanged. Cursor targets were re-measured in the site, where Geist shifts them 1 to 4 px from the canvas.
+- Validation: `pnpm check` -> passed; `pnpm test` -> passed; `pnpm build` -> passed; `pnpm test:site` -> passed, 147.8 KB gzip JS (was 128 KB; limit 200). Playwright against `pnpm preview`: 1440, 1024, and 375 px with no console errors and no horizontal overflow (only the header's former scrolling nav, now replaced); a full loop captured at 1440 and 375 px (every example: typing, two-phase clicks, filter, reading, fail, scan, found, second run; phone view switching and peek bar); reduced motion at 1440 and 375 px shows the still final frame with no Pause; the phone menu opens, closes on a link (to `#status`), and the header is 61 px tall; the extension page header fits on one row. Every home and extension section scrolled through at 375 px.
+- Outcome: Accepted
+- Follow-up: The user's review; pushing to main needs their approval.
 ---
 
 ## Open Questions

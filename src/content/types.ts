@@ -46,25 +46,6 @@ export type HeroContent = {
   actions: readonly ActionLink[];
 };
 
-export type RunRow = {
-  run: string;
-  event: string;
-  ai: string;
-  result: string;
-  /** The result's tone; an `attention` row is highlighted as a whole. */
-  tone: Tone;
-  /** True colours the AI column with the accent. */
-  usedAi: boolean;
-};
-
-export type RunHistoryContent = {
-  label: string;
-  /** Says the run history is an illustration, not a recording. */
-  note: string;
-  columns: readonly [string, string, string, string];
-  rows: readonly RunRow[];
-};
-
 /** Home page section anchors, without the leading `#`. */
 export type HomeSectionId = "why" | "framework" | "how-it-works" | "vision" | "paper" | "status";
 

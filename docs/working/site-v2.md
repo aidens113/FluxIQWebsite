@@ -15,7 +15,7 @@ Related: [AGENTS.md](../../AGENTS.md), [site architecture](../architecture/READM
 
 **True now.** The site is two static pages built from the approved v2 design.
 
-- `/`: hero with an illustrative run history, why, two parts (framework and
+- `/`: hero with the animated example widgets (see hero-demo.md; the run history it first had is retired), why, two parts (framework and
   extension), how it works, where it's going, status, footer.
 - `/extension/`: hero with a side-panel sketch, what it's built to do, setup.
   It says "Coming soon" and "Not released yet" (user, 2026-10-05); the main

@@ -5,17 +5,11 @@ export type PrimaryNavProps = {
   items: readonly NavItem[];
 };
 
-/**
- * The page links. From `md` up they sit inline; below that they take their
- * own row under the logo and scroll sideways if they do not fit.
- */
+/** The page links, inline from `md` up; below that they live in the Menu. */
 export function PrimaryNav({ items }: PrimaryNavProps) {
   return (
-    <nav
-      aria-label="Primary"
-      className="order-last -mx-6 w-[calc(100%+3rem)] overflow-x-auto md:order-none md:mx-0 md:ml-auto md:w-auto"
-    >
-      <ul className="flex gap-6 px-6 md:gap-7 md:px-0">
+    <nav aria-label="Primary" className="ml-auto hidden md:block">
+      <ul className="flex gap-7">
         {items.map((item) => (
           <li key={item.href} className="shrink-0">
             <a
