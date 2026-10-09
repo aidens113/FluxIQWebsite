@@ -74,7 +74,7 @@ export function ExtensionPanel({ panel, tick }: ExtensionPanelProps) {
       )}
 
       {/* The chat fades out at the top instead of cutting messages off. */}
-      <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden px-3.5 pt-3.5 pb-2 [mask-image:linear-gradient(to_bottom,transparent,#000_28px)]">
+      <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden px-3.5 *:shrink-0 pt-3.5 pb-2 [mask-image:linear-gradient(to_bottom,transparent,#000_28px)]">
         {panel.empty && (
           <div className="mt-10 mb-auto text-center" style={{ animation: "demo-in 420ms ease both" }}>
             <p className="text-base font-bold">{PANEL.emptyTitle}</p>

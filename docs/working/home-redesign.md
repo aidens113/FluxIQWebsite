@@ -433,3 +433,10 @@ Workers partition by file:
   - At 375 and 1440 px the chat-to-app gap is 16 px; there is no overflow and no page errors.
   - Screenshots at both widths show the record card mid-capture.
 - Outcome: Accepted
+
+### 2026-10-09 — Chat messages no longer squeeze into each other
+
+- Changed: the How it works chat list and the hero demo's chat list give every message `shrink-0` (`*:shrink-0`). The bottom-pinned flex column had been shrinking the recording card (its `overflow-hidden` gives it a zero minimum height) once the chat filled, so its contents ran under the next messages.
+- Why: The user said "the messages are overriding other messages as it scrolls up".
+- Validation: `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass. Sampling the built site every 200 ms for 26 s at 375 and 1440 px found no overlapping messages. The only leftover is the recording card measuring 2 px taller than itself while a step chip rises in; nothing renders outside it.
+- Outcome: Accepted

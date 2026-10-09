@@ -33,6 +33,7 @@ const BADGE_TONE: Record<HowBadge, string> = {
 /**
  * The job as a conversation with FluxIQ. Messages mount as the story reaches
  * them and stack from the bottom; older ones scroll up under a top fade.
+ * No message may shrink, or a full chat squeezes one under the next.
  */
 export function ChatWindow({ chat, frame }: ChatWindowProps) {
   const { beat } = frame;
@@ -52,7 +53,7 @@ export function ChatWindow({ chat, frame }: ChatWindowProps) {
           {chat.badges[frame.badge]}
         </span>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden p-3.5 [mask-image:linear-gradient(transparent,#000_56px)] md:p-[18px]">
+      <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden p-3.5 *:shrink-0 [mask-image:linear-gradient(transparent,#000_56px)] md:p-[18px]">
         {frame.asked ? <UserBubble text={chat.ask} /> : null}
         {beat >= RECORD_BEAT ? <RecordCard record={chat.record} beat={beat} /> : null}
         {beat >= PLAN_BEAT ? <PlanCard chat={chat} beat={beat} searchFixed={frame.searchFixed} /> : null}
