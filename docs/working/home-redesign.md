@@ -601,3 +601,12 @@ Workers partition by file:
   - Built site at 375 and 1440 px: How it works screenshots show both parts and the benefits; no overflow, no page errors.
   - Sampling the savings chart every 0.9 s after the sweep, dot x plus the green clip's right inset came to 100% each time (93+7, 50+50, 25+75, back to 30+70).
 - Outcome: Accepted
+
+### 2026-10-09 — Current-site boards refreshed
+
+- Changed (canvas version 71): re-recorded How it works (concept B) and the savings chart at 1440 and 375 px. The savings clip is cut to exactly one 13 s glide period, starting 7 s in, so the board video loops without snapping back to the opening sweep. The SiteV6 heights became 7028 and 8996, and the concept row moved down to stay clear.
+- Why: The user saw the board's savings video loop back to the start ("DO NOT make the yellow point just snap back… continuous looking looping animation"). On the site itself the dot never snaps; only the recording did.
+- Validation:
+  - `ffprobe` gives the savings clip a duration of 13.000000 s.
+  - `compare -metric RMSE` between its first and last frames gave 0.0166 (one frame apart: 917 vs 941 runs).
+- Outcome: Accepted
