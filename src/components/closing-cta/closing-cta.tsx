@@ -11,7 +11,7 @@ export function ClosingCta() {
   return (
     <section
       aria-labelledby="closing-cta-title"
-      className="snap-start border-y border-amber-edge bg-[linear-gradient(110deg,var(--color-amber-wash),var(--color-ink)_45%,var(--color-amber-row)_75%,var(--color-ink))]"
+      className="border-y border-amber-edge bg-[linear-gradient(110deg,var(--color-amber-wash),var(--color-ink)_45%,var(--color-amber-row)_75%,var(--color-ink))]"
     >
       <Container className="py-20 md:flex md:items-center md:justify-between md:gap-8 md:py-24">
         <div className="min-w-0">

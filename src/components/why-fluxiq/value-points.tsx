@@ -5,7 +5,7 @@ import { ValueIcon } from "./value-icon";
 export function ValuePoints() {
   return (
     <>
-      <ul className="mt-7 flex snap-start flex-col md:hidden">
+      <ul className="mt-7 flex flex-col md:hidden">
         {WHY.points.map((point) => (
           <li key={point.icon} className="flex items-start gap-3.5 border-t border-line py-3.5 first:border-t-0">
             <ValueIcon name={point.icon} />
@@ -16,7 +16,7 @@ export function ValuePoints() {
           </li>
         ))}
       </ul>
-      <ul className="mt-14 hidden snap-start gap-5 md:grid md:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-14 hidden gap-5 md:grid md:grid-cols-2 lg:grid-cols-4">
         {WHY.points.map((point) => (
           <li key={point.icon} className="rounded-[18px] border border-rule bg-panel p-[26px]">
             <ValueIcon name={point.icon} />

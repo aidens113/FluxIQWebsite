@@ -25,7 +25,7 @@ export function SavingsCard() {
   return (
     <div
       ref={ref}
-      className="mt-7 grid snap-start rounded-[18px] border border-rule bg-linear-to-b from-[#131416] to-panel px-4 pt-5 pb-[18px] md:mt-12 md:grid-cols-[200px_minmax(0,1fr)] md:gap-8 md:p-7 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12 lg:p-9"
+      className="mt-7 grid rounded-[18px] border border-rule bg-linear-to-b from-[#131416] to-panel px-4 pt-5 pb-[18px] md:mt-12 md:grid-cols-[200px_minmax(0,1fr)] md:gap-8 md:p-7 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12 lg:p-9"
     >
       <p className="sr-only">{CARD.summary}</p>
 

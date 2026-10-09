@@ -18,14 +18,11 @@ export function PairingStage() {
   const { browserMock, flowsMock, pairingCode, wire } = PARTS;
   const frame = partsFrame(tick, browserMock.results.length);
   return (
-    <div
-      ref={ref}
-      className="mt-7 grid md:mt-12 md:snap-start md:grid-cols-[minmax(0,1fr)_clamp(112px,16vw,184px)_minmax(0,1fr)]"
-    >
+    <div ref={ref} className="mt-7 grid md:mt-12 md:grid-cols-[minmax(0,1fr)_clamp(112px,16vw,184px)_minmax(0,1fr)]">
       <PartCard copy={PARTS.framework}>
         <FlowsMock frame={frame} copy={flowsMock} code={pairingCode} />
       </PartCard>
-      <div className="snap-start md:hidden">
+      <div className="md:hidden">
         <Connector frame={frame} labels={wire} orientation="column" />
       </div>
       <div className="hidden md:block">

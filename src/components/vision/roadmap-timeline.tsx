@@ -18,7 +18,7 @@ const SEGMENT_TONE = { ok: "bg-ok", attention: "bg-[#5a4618]", neutral: "bg-[#2e
  */
 export function RoadmapTimeline({ stages, className }: RoadmapTimelineProps) {
   return (
-    <div className={`relative pl-6 max-md:snap-start md:pl-[26px] ${className ?? ""}`}>
+    <div className={`relative pl-6 md:pl-[26px] ${className ?? ""}`}>
       <ol className="flex flex-col gap-3 md:gap-3.5">
         {stages.map((item, i) => (
           <li key={item.stage} className="relative">

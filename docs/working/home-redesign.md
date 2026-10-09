@@ -695,3 +695,13 @@ Workers partition by file:
   - With the snapper at 1440 px, 3-notch gestures downward settled 300, 860, 1497, 1918, 2118, 2549, 3249, 3689, 3989, 4468, 4644, 5380, 6055 and reached the end: each gesture moved on, and none was pulled back. Upward from the bottom they settled 5768, 5337, 5037, 4600, 4300, 3689 … 0. No page errors.
   - 375 px still computes `scroll-snap-type: y proximity`.
 - Outcome: Accepted
+
+### 2026-10-09 — Scroll snapping undone
+
+- Changed: reverted the code of 8442dc1 (CSS snap points and `data-snap-page`) and 2010f3a (`ui/scroll-snapper`) on both phone and desktop. `scroll-padding-top` is back to 6rem, and the architecture README's snapping paragraph is gone. Their ledger entries above stay as history.
+- Why: The user said "nevermind, undo the scrolling change on both devices".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (179.8 KB) pass.
+  - `grep -rn snap src` finds nothing.
+  - In the built site at 375 and 1440 px, `scroll-snap-type` computes `none`, and five 3-notch wheel gestures landed at 300, 600, 900, 1200, and 1500 (no snapping); no page errors.
+- Outcome: Accepted

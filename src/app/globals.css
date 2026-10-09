@@ -29,27 +29,8 @@
 @layer base {
   html {
     color-scheme: dark;
-    /* Clears the sticky header (60 px, 72 px from md) when an in-page anchor
-       is followed or a snap point is reached, with a little air. */
-    scroll-padding-top: 4.75rem;
-  }
-
-  /* On a phone the home page snaps to its sections and to the blocks inside
-     them (each marked snap-start) whenever a scroll comes to rest near one.
-     Proximity, not mandatory: mandatory snapping traps the scroll inside
-     blocks taller than the screen (the phone hero, measured 2026-10-09). From
-     md, ui/scroll-snapper does the snapping instead: CSS proximity on a
-     desktop either ignored a wheel scroll or pulled it back. */
-  @media (width < 48rem) {
-    html:has([data-snap-page]) {
-      scroll-snap-type: y proximity;
-    }
-  }
-
-  @media (width >= 48rem) {
-    html {
-      scroll-padding-top: 5.5rem;
-    }
+    /* Clears the sticky header when an in-page anchor is followed. */
+    scroll-padding-top: 6rem;
   }
 
   body {

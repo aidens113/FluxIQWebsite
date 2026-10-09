@@ -17,7 +17,7 @@ const FOOTER_LINKS = [
 /** The closing bar: the copyright, then small text links. */
 export function SiteFooter() {
   return (
-    <footer className="snap-end border-t border-line">
+    <footer className="border-t border-line">
       <Container className="flex flex-wrap justify-between gap-4 py-12 text-sm text-dim">
         <p>{SITE.copyright}</p>
         <ul className="flex flex-wrap gap-x-6 gap-y-2">

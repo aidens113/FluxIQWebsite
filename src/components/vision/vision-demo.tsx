@@ -21,7 +21,7 @@ export function VisionDemo({ className }: VisionDemoProps) {
   const { chat, app, caption } = VISION;
   const frame = storyAt(tick * STORY_SPEED, chat.prompt, chat.reply, app.pool);
   return (
-    <figure ref={ref} className={`min-w-0 max-md:snap-start ${className ?? ""}`}>
+    <figure ref={ref} className={`min-w-0 ${className ?? ""}`}>
       <RequestChat chat={chat} frame={frame} />
       <div aria-hidden="true">
         <PhoneApp app={app} frame={frame} className="md:hidden" />

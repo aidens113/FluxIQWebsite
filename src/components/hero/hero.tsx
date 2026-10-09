@@ -24,7 +24,7 @@ export function Hero() {
             {HERO.title.lead} <span className="text-dim">{HERO.title.muted}</span>
           </h1>
         </div>
-        <div className="order-3 mt-8 min-w-0 max-md:snap-start sm:text-center md:order-none md:mt-6 xl:col-start-1 xl:row-start-2 xl:self-start xl:text-left">
+        <div className="order-3 mt-8 min-w-0 sm:text-center md:order-none md:mt-6 xl:col-start-1 xl:row-start-2 xl:self-start xl:text-left">
           <p className="max-w-[620px] text-lg leading-relaxed text-muted sm:mx-auto md:text-[19px] xl:mx-0 xl:text-lg">
             {HERO.lede}
           </p>
