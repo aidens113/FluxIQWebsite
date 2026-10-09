@@ -130,7 +130,9 @@ from `content/`; its parts sit beside it. The looping illustrations are client
 components driven by `ui/use-loop-clock` (a 50 ms tick that runs from the moment
 any part of the element is on screen and the tab is visible, and restarts each
 time it scrolls into view; the savings chart asks for a `smooth` clock that
-advances every animation frame, so its dot glides); each derives its frame
+advances every animation frame, so its dot glides; the savings chart and the
+concept app pass `restart` false, so their opening plays once and they then
+idle: the dot glides along the drawn line, the app is clicked around); each derives its frame
 from a pure timeline module
 beside it. Text in these sections appears whole, with no typing; only the
 hero demo types, and only into its example site (the person's chat request

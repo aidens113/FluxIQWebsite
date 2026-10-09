@@ -5,8 +5,10 @@ import type { ConceptFlowState, ConceptLead, ConceptLeadStatus } from "@/content
  * from the approved v5 board (HomeV4.dc.html `app(t, fine)`). One pass is 500
  * fine ticks (25 s): the request reveals, FluxIQ shows typing dots and
  * answers, the app rises in at story tick 14, and then someone uses it for 84
- * story ticks. Story ticks are 250 ms (five fine ticks). Counters and Flow run
- * counts keep climbing across passes. Every number here is invented.
+ * story ticks. Only the first pass plays the opening: after it the request,
+ * reply, and app stay, and only the 84 ticks of use repeat. Story ticks are
+ * 250 ms (five fine ticks). Counters and Flow run counts keep climbing across
+ * passes. Every number here is invented.
  */
 
 export const PASS = 500;
@@ -14,6 +16,8 @@ export const PASS = 500;
 export const STORY_SPEED = 1.6;
 const INTRO = 16;
 const CARD_AT = 14;
+/** Story ticks of the app in use, the part that repeats after the first pass. */
+const USE = PASS / 5 - INTRO;
 
 /** Places the pointer can rest. Each names an element marked `data-aim`. */
 export type AimKey = "nav-0" | "nav-1" | "nav-2" | "chart" | "lead-0" | "lead-3" | "flow-2" | "flow-3";
@@ -124,10 +128,13 @@ function aimAt(p: number): AimKey {
 /** The whole story at one fine tick of the clock. */
 export function storyAt(fine: number, prompt: string, reply: string, pool: readonly ConceptLead[]): StoryFrame {
   const t = Math.floor(fine / 5);
-  const inPass = fine % PASS;
-  const raw = Math.floor(inPass / 5);
+  const first = fine < PASS;
+  // After the first pass the opening is over for good: every reveal stays.
+  const inPass = first ? fine : PASS - 1;
+  const used = first ? 0 : Math.floor((fine - PASS) / 5);
+  const raw = first ? Math.floor(fine / 5) : INTRO + (used % USE);
   const intro = raw < INTRO;
-  const pass = Math.floor(fine / PASS);
+  const pass = first ? 0 : 1 + Math.floor(used / USE);
   const p = intro ? 0 : raw - INTRO;
   const view: AppView = p < 28 ? 0 : p < 56 ? 1 : 2;
 

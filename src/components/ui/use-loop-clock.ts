@@ -10,6 +10,10 @@ import { type RefObject, useEffect, useRef, useState } from "react";
  * derives its own story from the tick (`tick % cycle`). It plays for every
  * visitor, as the hero demo does (the user's decision).
  *
+ * With `restart` false, the tick carries on from where it stopped instead of
+ * going back to zero, for a story that plays its opening once and then idles
+ * (the savings chart, the concept app).
+ *
  * With `smooth`, the tick is fractional and advances on every animation
  * frame instead of every `stepMs`, for a motion that must glide (the savings
  * chart's dot) rather than step between CSS transitions.
@@ -17,6 +21,7 @@ import { type RefObject, useEffect, useRef, useState } from "react";
 export function useLoopClock<T extends HTMLElement>(
   stepMs = 50,
   smooth = false,
+  restart = true,
 ): { ref: RefObject<T | null>; tick: number } {
   const ref = useRef<T>(null);
   const [tick, setTick] = useState(0);
@@ -43,8 +48,8 @@ export function useLoopClock<T extends HTMLElement>(
   // Each time the illustration scrolls into view, its story starts over, so
   // a visitor always sees it from the beginning.
   useEffect(() => {
-    if (onScreen) setTick(0);
-  }, [onScreen]);
+    if (onScreen && restart) setTick(0);
+  }, [onScreen, restart]);
 
   useEffect(() => {
     if (!onScreen || !pageVisible) return;

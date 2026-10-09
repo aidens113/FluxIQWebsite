@@ -4,7 +4,7 @@
  * job on its first run, then to judge runs (every run at first, tapering to a
  * spot check as the Flow earns trust), and for a fix whenever a site throws up
  * an edge case it has not seen: often early, rarely once they are handled.
- * The chart plots each run's cost, smoothed on the log axis, so fixes show as
+ * The chart plots each run's cost, smoothed on a cube-root axis, so fixes show as
  * bumps that shrink and spread out. It assumes a job deterministic enough for
  * its edge cases to be learned; every price is an assumption, and the card
  * says so.
@@ -31,23 +31,30 @@ for (let r = 1; r <= MAX_RUNS; r++) {
   TOTAL.push((TOTAL[r - 1] ?? 0) + cost);
 }
 
-/** The width of the smoothing, in decades of runs: wide enough to round a fix into a bump. */
-const SMOOTH = 0.07;
-/** A run's cost averaged with its neighbours on the log axis, so later fixes, among many cheap runs, read as ripples. */
-const smoothedCost = (runs: number) => {
-  const at = Math.log10(runs);
+/**
+ * The x axis: the cube root of the runs, 1 at the left and 1,000 at the right.
+ * Like a log axis it spreads out the early runs, where the build and the first
+ * fixes happen, but the savings grow in step with the dot rather than piling
+ * up at the end, so the totals keep pace with the line.
+ */
+export const xForRuns = (runs: number) => Math.cbrt((runs - 1) / (MAX_RUNS - 1));
+const runsForX = (x: number) => 1 + (MAX_RUNS - 1) * x ** 3;
+const RUN_X = RUN_COST.map((_, r) => xForRuns(Math.max(1, r)));
+
+/** The width of the smoothing, as a share of the axis: enough to round a fix into a bump. */
+const SMOOTH = 0.018;
+/** Each run's cost averaged with its neighbours on the axis, so later fixes, among many cheap runs, read as ripples. */
+const smoothedCost = (x: number) => {
   let sum = 0;
   let weight = 0;
   for (let r = 1; r <= MAX_RUNS; r++) {
-    const w = Math.exp(-((Math.log10(r) - at) ** 2) / (2 * SMOOTH * SMOOTH));
+    const w = Math.exp(-(((RUN_X[r] ?? 0) - x) ** 2) / (2 * SMOOTH * SMOOTH));
     sum += w * (RUN_COST[r] ?? 0);
     weight += w;
   }
   return sum / weight;
 };
 
-/** Decades on the log axis: 1 to 1,000 runs. */
-const DECADES = Math.log10(MAX_RUNS);
 /** The cost at the top of the plot. */
 const YMAX = 0.12;
 
@@ -58,10 +65,15 @@ const PLOT_H = 200;
 /** Headroom above the highest value, in viewBox units. */
 const TOP_PAD = 8;
 
-/** The loop, in ticks of the shared 50 ms clock. */
-const CYCLE = 150;
+/**
+ * The motion, in ticks of the shared 50 ms clock. The opening sweep draws the
+ * line once; after it the line stays and the dot glides back and forth over
+ * the last three quarters of it, so the totals rise and fall with it.
+ */
 const SWEEP = 104;
-const HIDE_AT = 138;
+const GLIDE = 260;
+/** The glide's ends, as fractions of the line: from a quarter of the way in to the end. */
+const GLIDE_LOW = 0.25;
 
 const yFor = (cost: number) => PLOT_H - (cost / YMAX) * (PLOT_H - TOP_PAD);
 const point = (x: number, y: number) => `${x.toFixed(1)} ${y.toFixed(1)}`;
@@ -72,8 +84,7 @@ export const AGENT_Y = yFor(AGENT_PER_RUN);
 const SAMPLES = 300;
 const curve = Array.from({ length: SAMPLES + 1 }, (_, i) => {
   const x = (i / SAMPLES) * VIEW_W;
-  const runs = 10 ** ((x / VIEW_W) * DECADES);
-  return { x, y: yFor(smoothedCost(runs)) };
+  return { x, y: yFor(smoothedCost(x / VIEW_W)) };
 });
 
 /** FluxIQ's cost per run, from 1 to 1,000 runs. */
@@ -109,17 +120,24 @@ export type SavingsFrame = {
   /** The dot's position, as percentages of the plot box. */
   xPct: number;
   yPct: number;
-  /** The last ticks of a loop, when the line and the notes fade out. */
-  hidden: boolean;
+  /** How much of the line is drawn, as a percentage: it follows the dot only during the opening sweep. */
+  lineXPct: number;
+  /** True once the opening sweep is over: every note stays. */
+  settled: boolean;
 };
 
 /** The chart's state at one tick of the shared clock; the tick may be fractional. */
 export function savingsFrame(tick: number): SavingsFrame {
-  const c = tick % CYCLE;
-  const q = Math.min(1, c / SWEEP);
-  // Ease in and out so the dot starts and settles gently on the curve.
-  const f = q < 0.5 ? 2 * q * q : 1 - (-2 * q + 2) ** 2 / 2;
-  const exact = 10 ** (DECADES * f);
+  const settled = tick >= SWEEP;
+  const q = Math.min(1, tick / SWEEP);
+  // The sweep eases in and out; the glide is a cosine that starts at the end
+  // of the line, where the sweep stopped, so the two join without a jump.
+  const f = settled
+    ? GLIDE_LOW + ((1 - GLIDE_LOW) / 2) * (1 + Math.cos((2 * Math.PI * (tick - SWEEP)) / GLIDE))
+    : q < 0.5
+      ? 2 * q * q
+      : 1 - (-2 * q + 2) ** 2 / 2;
+  const exact = runsForX(f);
   const runs = Math.max(1, Math.floor(exact + 1e-9));
   const agentSpent = AGENT_PER_RUN * runs;
   const fluxSpent = TOTAL[runs] ?? 0;
@@ -130,6 +148,7 @@ export function savingsFrame(tick: number): SavingsFrame {
     saved: agentSpent - fluxSpent,
     xPct: f * 100,
     yPct: (curveY(f * VIEW_W) / VIEW_H) * 100,
-    hidden: c >= HIDE_AT,
+    lineXPct: settled ? 100 : f * 100,
+    settled,
   };
 }

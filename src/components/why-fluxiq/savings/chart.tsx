@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { WHY } from "@/content/why";
-import { AGENT_Y, CURVE_PATH, GAP_PATH, type SavingsFrame, VIEW_H, VIEW_W } from "./model";
+import { AGENT_Y, CURVE_PATH, GAP_PATH, type SavingsFrame, VIEW_H, VIEW_W, xForRuns } from "./model";
 
 export type SavingsChartProps = {
   frame: SavingsFrame;
@@ -8,6 +8,9 @@ export type SavingsChartProps = {
 
 const CARD = WHY.card;
 const VIEW_BOX = `0 0 ${VIEW_W} ${VIEW_H}`;
+/** Where 10 and 100 runs fall on the cube-root axis. */
+const TEN = `${xForRuns(10) * 100}%`;
+const HUNDRED = `${xForRuns(100) * 100}%`;
 /** Gridlines at 0.10 and 0.025 a run, and the baseline, as on the board. */
 const GRID_PATH = `M0 40.5H${VIEW_W}M0 160.5H${VIEW_W}`;
 const BASE_PATH = `M0 200.5H${VIEW_W}`;
@@ -19,25 +22,21 @@ function noteClass(on: boolean, tone: string, place: string) {
 
 /**
  * FluxIQ's average cost per run against an agent's flat price, drawn in one
- * viewBox stretched to the card's width. The line is revealed up to the dot,
- * and the dot and notes are placed in percentages, so the dot stays on the
+ * viewBox stretched to the card's width. The opening sweep reveals the line
+ * up to the dot; after it the whole line stays while the dot glides. The dot
+ * and notes are placed in percentages, so the dot stays on the
  * line at every width.
  */
 export function SavingsChart({ frame }: SavingsChartProps) {
   const gradientId = useId();
-  const { xPct, yPct, hidden, runs } = frame;
-  // The clock moves the line and dot every frame; only the fades transition.
-  const fade = "opacity .4s";
+  const { xPct, yPct, lineXPct, settled, runs } = frame;
+  // The clock moves the line and dot every frame, so nothing transitions.
   const reveal = {
     // Clip at exactly the dot's x; the 10 px above and below keep the glow.
-    clipPath: `inset(-10px ${100 - xPct}% -10px 0)`,
-    opacity: hidden ? 0 : 1,
-    transition: fade,
+    clipPath: `inset(-10px ${100 - lineXPct}% -10px 0)`,
   };
   const dot = {
     transform: `translate(${xPct}cqw, ${yPct}cqh)`,
-    opacity: hidden ? 0 : 1,
-    transition: fade,
   };
 
   return (
@@ -115,17 +114,13 @@ export function SavingsChart({ frame }: SavingsChartProps) {
           style={dot}
         />
         <span
-          className={noteClass(
-            !hidden,
-            "bg-amber/12 text-amber",
-            "top-[1.4%] left-[3.2%] md:top-[5.8%] md:left-[2.4%]",
-          )}
+          className={noteClass(true, "bg-amber/12 text-amber", "top-[1.4%] left-[3.2%] md:top-[5.8%] md:left-[2.4%]")}
         >
           {CARD.notes.learn}
         </span>
         <span
           className={noteClass(
-            runs >= 3 && !hidden,
+            settled || runs >= 3,
             "bg-[#1a1b1f] text-fg",
             "top-[38.4%] left-[48.2%] md:top-[42.7%] md:left-[11.6%]",
           )}
@@ -134,7 +129,7 @@ export function SavingsChart({ frame }: SavingsChartProps) {
         </span>
         <span
           className={noteClass(
-            runs >= 40 && !hidden,
+            settled || runs >= 40,
             "bg-ok/12 text-ok",
             "top-[68.5%] left-[37.9%] md:top-[70.9%] md:left-[44.6%]",
           )}
@@ -145,8 +140,12 @@ export function SavingsChart({ frame }: SavingsChartProps) {
 
       <div className="relative mt-2.5 h-3.5 font-mono text-[10.5px] text-dim md:mt-3 md:text-[11.5px]">
         <span className="absolute left-0">{CARD.axis.first}</span>
-        <span className="absolute left-1/3 -translate-x-1/2">{CARD.axis.ten}</span>
-        <span className="absolute left-2/3 -translate-x-1/2">{CARD.axis.hundred}</span>
+        <span className="absolute -translate-x-1/2" style={{ left: TEN }}>
+          {CARD.axis.ten}
+        </span>
+        <span className="absolute -translate-x-1/2" style={{ left: HUNDRED }}>
+          {CARD.axis.hundred}
+        </span>
         <span className="absolute right-0">
           <span className="md:hidden">{CARD.axis.lastShort}</span>
           <span className="hidden md:inline">{CARD.axis.last}</span>

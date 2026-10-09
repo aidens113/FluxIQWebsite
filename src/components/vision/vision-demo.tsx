@@ -17,7 +17,7 @@ export type VisionDemoProps = {
  * `md` and the desktop app from `md` up; both read the same story frame.
  */
 export function VisionDemo({ className }: VisionDemoProps) {
-  const { ref, tick } = useLoopClock<HTMLElement>();
+  const { ref, tick } = useLoopClock<HTMLElement>(50, false, false);
   const { chat, app, caption } = VISION;
   const frame = storyAt(tick * STORY_SPEED, chat.prompt, chat.reply, app.pool);
   return (

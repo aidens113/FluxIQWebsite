@@ -491,3 +491,21 @@ Workers partition by file:
 - Why: The user said "READING IS BLUE".
 - Validation: `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass. Frames at 375 and 1440 px show a blue "FluxIQ · Reading" on the results.
 - Outcome: Accepted
+
+### 2026-10-09 — Partial loops; the savings counter keeps pace with the line
+
+- Changed:
+  - `ui/use-loop-clock.ts`: a `restart` option (default true). With it false, the tick carries on when the element scrolls back into view.
+  - Savings chart (`why-fluxiq/savings/*`):
+    - It plays its opening sweep once (104 ticks). Then the line and notes stay and the dot glides with a cosine between 25% and 100% of the line over 13 s, so the totals rise and fall with it.
+    - The x axis is now the cube root of the runs instead of log10. The early runs and fix bumps stay spread out, but savings build in step with the dot: halfway along is now about 160 runs and $7, where the log axis gave about 32 runs and $1.50.
+    - Smoothing is a Gaussian 0.018 of the axis wide; "10" and "100" sit at their cube-root positions.
+  - Concept app (`vision/outcome-story.ts`): the first 25 s pass plays the request, reply, and app rising in. After that the request, reply, and app stay, and only the 84 story ticks of the app in use repeat.
+- Why:
+  - The user asked for partial loops: the savings graph should "do the initial appear and go down the line", then move "up and down the line… slowly showing earnings", and "wont disappear again". The future app should "just loop clicking around different parts of it rather than redoing the entire animation".
+  - The user also said the savings numbers "need to actually sync with the line… they happen too far after it".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Sampling the built site every 0.5 s for 28 s at 1440 px: after the sweep the dot stayed between 25 and 100% of the line, and the line's clip stayed at 0 (never hidden). After the first Vision pass the request stayed visible and the app stayed at opacity 1.
+  - Screenshots at 375 and 1440 px show the new axis.
+- Outcome: Accepted

@@ -16,7 +16,7 @@ const money = (value: number) => `$${value.toFixed(2)}`;
  * in a column beside the chart.
  */
 export function SavingsCard() {
-  const { ref, tick } = useLoopClock<HTMLDivElement>(50, true);
+  const { ref, tick } = useLoopClock<HTMLDivElement>(50, true, false);
   const frame = savingsFrame(tick);
   const learning = frame.saved < 0;
   const runs = `${frame.runs.toLocaleString("en-US")} ${frame.runs > 1 ? CARD.runs : CARD.run}`;
