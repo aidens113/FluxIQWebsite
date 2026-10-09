@@ -564,3 +564,28 @@ Workers partition by file:
   - Reports F and G read; their claims are within the claim list.
 - Open: the user picks A, B, or a mix before any site change.
 - Outcome: Accepted
+
+### 2026-10-09 — Concept B chosen; Brief H builds it into the site
+
+- Decision: the user chose concept B ("I like the 2nd design. Implement into full design, push to main"). It replaces the current How it works illustration: the stage list, chat, record card, plan, runs, and fix cards.
+- Validation: not validated at brief time; the supervisor verifies the build after worker H reports.
+
+### Brief: H
+- Repository: this repository
+- Task: Build canvas concept B into the How it works section, at desktop and phone.
+  - Desktop follows `<scratchpad>/canvas/project/HowB.dc.html`: headline and lede; part 1 "Three sentences. Three jobs that keep running." with three request-over-live-Flow cards; part 2 the overnight-redesign split (ordinary recorded script fails, FluxIQ fixes for $0.05); four benefit tiles. The phone follows `HowBMobile.dc.html`: one card at a time with a crossfade, then the split stacked, then a benefit list.
+  - Copy lives in `src/content/how-it-works.ts` (types there), with a sources comment; keep the claim list in the "briefs F and G" entry.
+  - Motion runs on `ui/use-loop-clock` (50 ms ticks). Run counts come from total elapsed ticks, so they never reset. Text appears whole, never typed.
+  - Fix the board's flaw: the listing price must not visibly jump back above $400k when its loop restarts (for example, a new listing fades in).
+  - The illustration is `aria-hidden`, with an `sr-only` description; the headline, part titles, and benefits are real text.
+  - Keep `id="how-it-works"`, `PageSection`, `SectionTitle`, and the eyebrow classes exactly as `how-it-works.tsx` has them. Mobile gaps follow the page rhythm (28 px after a heading block).
+  - Delete the components, `timeline.ts`, and `chat.css` that become unused.
+- Required reads: this entry; `AGENTS.md` "Code Structure"; `src/components/how-it-works/how-it-works.tsx`; `src/content/how-it-works.ts`; `src/components/ui/use-loop-clock.ts`; the two board files; `src/components/why-fluxiq/value-points.tsx` (tile and list pattern).
+- Owns: `src/components/how-it-works/**`, `src/content/how-it-works.ts`.
+- Must not touch: every other file (the supervisor updates the docs).
+- Definition of done:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Playwright on `PORT=4400 pnpm preview` at 375 and 1440 px shows no horizontal overflow and no page errors, with screenshots of each part. Stop the server you start.
+  - No commits.
+- Report to: docs/working/home-redesign/reports/H.md
+- Validation: not validated at brief time; the supervisor records the checks after H reports.
