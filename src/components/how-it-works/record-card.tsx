@@ -7,13 +7,48 @@ export type RecordCardProps = {
 };
 
 const REC = "#fa6571";
-/** The element the person is using rings red while FluxIQ records it. */
-const ring = (on: boolean) => (on ? `0 0 0 2px ${REC}` : "0 0 0 0 transparent");
+
+type MarkProps = { on: boolean; label: string; place: "above" | "below" | "inside" };
+
+/**
+ * The hero demo's recording mark: a dashed red outline with a soft pulse and
+ * a "● Recorded" label, drawn inside the element it marks so it lines up.
+ */
+function RecordedMark({ on, label, place }: MarkProps) {
+  const at =
+    place === "above"
+      ? { left: -2, bottom: "calc(100% + 3px)" }
+      : place === "below"
+        ? { left: -2, top: "calc(100% + 3px)" }
+        : { right: 4, top: 3 };
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute -inset-[3px] z-[2] rounded-lg"
+      style={{
+        border: `2px dashed ${REC}`,
+        opacity: on ? 1 : 0,
+        transition: "opacity 250ms ease",
+        animation: on ? "how-userpulse 1.6s ease-in-out infinite" : undefined,
+      }}
+    >
+      {on && (
+        <span
+          className="absolute rounded-[4px] px-[5px] py-px text-[9px] leading-[1.4] font-semibold whitespace-nowrap text-white"
+          style={{ ...at, background: REC }}
+        >
+          {label}
+        </span>
+      )}
+    </span>
+  );
+}
 
 /**
  * Showing the job once: a small directory where the person types the search,
  * picks a city, and reads the results, while FluxIQ lists each action it
- * captures. Everything appears whole; only the ring and the list move.
+ * captures. Each action carries the hero demo's recording mark while it is
+ * captured. Everything appears whole; only the marks and the list move.
  */
 export function RecordCard({ record, beat }: RecordCardProps) {
   const [typeAt, pickAt, readAt] = CAPTURE_BEATS;
@@ -30,7 +65,7 @@ export function RecordCard({ record, beat }: RecordCardProps) {
         <span className={`font-semibold ${done ? "text-ok" : "text-fg"}`}>{done ? record.done : record.label}</span>
         <span className="text-dim">· {record.watching}</span>
         <span className="ml-auto text-dim tabular-nums">
-          {captured.length} {record.count}
+          {captured.length} {captured.length === 1 ? record.countOne : record.count}
         </span>
       </div>
 
@@ -39,11 +74,9 @@ export function RecordCard({ record, beat }: RecordCardProps) {
           {record.url}
         </p>
         <div className="mt-1.5 flex gap-1.5">
-          <span
-            className="flex h-[22px] min-w-0 flex-1 items-center rounded-md border border-[#d3d8de] bg-white px-1.5 transition-shadow duration-300"
-            style={{ boxShadow: ring(active(typeAt ?? 0)) }}
-          >
+          <span className="relative flex h-[22px] min-w-0 flex-1 items-center rounded-md border border-[#d3d8de] bg-white px-1.5">
             {beat >= (typeAt ?? 0) ? record.query : null}
+            <RecordedMark on={active(typeAt ?? 0)} label={record.recorded} place="above" />
           </span>
           <span className="flex h-[22px] items-center rounded-md bg-[#1d232b] px-2 text-white">{record.search}</span>
         </div>
@@ -53,18 +86,21 @@ export function RecordCard({ record, beat }: RecordCardProps) {
             return (
               <span
                 key={city}
-                className={`rounded-full border px-2 py-px transition-colors duration-300 ${picked ? "border-[#1d232b] bg-[#1d232b] text-white" : "border-[#d3d8de] bg-white"}`}
-                style={{ boxShadow: city === record.city ? ring(active(pickAt ?? 0)) : undefined }}
+                className={`relative rounded-full border px-2 py-px transition-colors duration-300 ${picked ? "border-[#1d232b] bg-[#1d232b] text-white" : "border-[#d3d8de] bg-white"}`}
               >
                 {city}
+                {city === record.city && (
+                  <RecordedMark on={active(pickAt ?? 0)} label={record.recorded} place="below" />
+                )}
               </span>
             );
           })}
         </div>
         <div
-          className="mt-1.5 flex flex-col gap-1 rounded-md transition-[opacity,box-shadow] duration-300"
-          style={{ opacity: beat >= (pickAt ?? 0) ? 1 : 0.25, boxShadow: ring(active(readAt ?? 0)) }}
+          className="relative mt-1.5 flex flex-col gap-1 rounded-md transition-opacity duration-300"
+          style={{ opacity: beat >= (pickAt ?? 0) ? 1 : 0.25 }}
         >
+          <RecordedMark on={active(readAt ?? 0)} label={record.recorded} place="inside" />
           {[0.72, 0.58, 0.66].map((w) => (
             <span key={w} className="flex items-center gap-1.5 rounded bg-white px-1.5 py-1">
               <span className="h-1.5 rounded-sm bg-[#c9cfd7]" style={{ width: `${w * 60}%` }} />

@@ -19,3 +19,18 @@
 .how-step-in {
   animation: how-msg-in 0.35s ease both;
 }
+
+/* The person's recording mark, as in the hero demo (demo-userpulse). */
+@keyframes how-userpulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px rgba(250, 101, 113, 0.1),
+      0 0 8px rgba(250, 101, 113, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(250, 101, 113, 0.06),
+      0 0 20px rgba(250, 101, 113, 0.4);
+  }
+}

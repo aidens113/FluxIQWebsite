@@ -44,6 +44,8 @@ export type HowItWorksContent = {
       label: string;
       watching: string;
       done: string;
+      /** The label on each element while the person's action is recorded, as in the hero demo. */
+      recorded: string;
       url: string;
       query: string;
       search: string;
@@ -52,6 +54,7 @@ export type HowItWorksContent = {
       city: string;
       captured: readonly HowPlanStep[];
       count: string;
+      countOne: string;
     };
     planIntro: string;
     steps: readonly HowPlanStep[];
@@ -125,6 +128,7 @@ export const HOW_IT_WORKS: HowItWorksContent = {
       label: "Recording",
       watching: "FluxIQ is watching",
       done: "Captured",
+      recorded: "● Recorded",
       url: "leads-directory.example",
       query: "roofing",
       search: "Search",
@@ -136,6 +140,7 @@ export const HOW_IT_WORKS: HowItWorksContent = {
         { verb: "Read", target: "the results" },
       ],
       count: "steps",
+      countOne: "step",
     },
     planIntro: "Got it. Here's the job, built from what you showed me:",
     steps: [

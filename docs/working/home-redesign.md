@@ -462,3 +462,10 @@ Workers partition by file:
   - At 375 and 1440 px the chart shows the build peak, a bump at run 4 under the agent line, fading ripples, and $49.16 saved over 1,000 runs.
   - The dot stays on the line at 60 positions a second, with no page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — Recording marks match the hero demo
+
+- Changed: `how-it-works/record-card.tsx` marks each recorded action as the hero demo does: a dashed red outline with the user pulse (`how-userpulse` in `chat.css`, a copy of `demo-userpulse`) and a red "● Recorded" label (`chat.record.recorded`). The label sits above the search box, below Calgary, and inside the results. These replace the plain red ring. The step count now reads "1 step".
+- Why: The user asked to "make the scan indicators same as hero demo" on the How it works recording card.
+- Validation: `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass. Frames at 1440 and 375 px show the mark on the search box, on Calgary, and on the results, with labels clear of the card's edge.
+- Outcome: Accepted
