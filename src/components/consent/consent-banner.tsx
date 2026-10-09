@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { FOCUS_RING } from "@/components/ui/focus-ring";
 import { ANALYTICS } from "@/content/analytics";
+import { LINKS } from "@/content/links";
 import { CONSENT_REOPEN_EVENT, type ConsentChoice, readConsent, writeConsent } from "./consent-choice";
 import { loadGoogleAnalytics, stopGoogleAnalytics } from "./google-analytics";
 
@@ -38,7 +39,15 @@ export function ConsentBanner() {
       aria-label={ANALYTICS.banner.label}
       className="fixed inset-x-4 bottom-4 z-50 mx-auto flex max-w-[680px] flex-col gap-4 rounded-2xl border border-edge bg-panel/95 p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur sm:flex-row sm:items-center sm:gap-6"
     >
-      <p className="text-sm leading-relaxed text-soft">{ANALYTICS.banner.text}</p>
+      <p className="text-sm leading-relaxed text-soft">
+        {ANALYTICS.banner.text}{" "}
+        <a
+          href={LINKS.privacy.href}
+          className={`rounded-sm text-fg underline underline-offset-4 hover:text-amber ${FOCUS_RING}`}
+        >
+          {ANALYTICS.banner.more}
+        </a>
+      </p>
       <div className="flex shrink-0 gap-2">
         <button
           type="button"

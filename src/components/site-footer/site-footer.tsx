@@ -11,6 +11,8 @@ const FOOTER_LINKS = [
   LINKS.coreRepo,
   LINKS.x,
   LINKS.licenseEmail,
+  LINKS.privacy,
+  LINKS.terms,
 ] as const;
 
 /** The closing bar: the copyright, then small text links. */

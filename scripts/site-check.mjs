@@ -51,6 +51,10 @@ export const ALLOWED_HREFS = [
   "/",
   "/extension/",
   "/papers/fluxiq-technical-vision-v0.9.pdf",
+  "/privacy/",
+  "/terms/",
+  "https://policies.google.com/privacy",
+  "https://tools.google.com/dlpage/gaoptout",
   "https://getfluxiq.com/",
 ];
 // Every page the export must contain, its canonical URL, and the ids its
@@ -66,6 +70,8 @@ export const PAGES = [
     canonical: "https://getfluxiq.com/extension/",
     requiredIds: ["main", "features", "setup"],
   },
+  { file: "privacy/index.html", canonical: "https://getfluxiq.com/privacy/", requiredIds: ["main", "legal-title"] },
+  { file: "terms/index.html", canonical: "https://getfluxiq.com/terms/", requiredIds: ["main", "legal-title"] },
 ];
 export const REQUIRED_IDS = PAGES[0].requiredIds;
 export const CANONICAL_URL = PAGES[0].canonical;

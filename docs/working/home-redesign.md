@@ -1,9 +1,9 @@
 # Home Redesign: Below the Hero, Visual First
 
 Status: Active
-Status detail: Design on the canvas (row "v4", `HomeV4`, now the full page with the hero); awaiting the user's review before building.
+Status detail: v5 boards approved (desktop `HomeV4`, phone `HomeV5Mobile`); building into the site with workers.
 Created: 2026-10-08
-Last updated: 2026-10-08
+Last updated: 2026-10-09
 Owner: Senior supervisor agent
 Scope: Redesign every home page section below the hero so it shows rather than tells; excludes the hero, the header, the footer, and the extension page.
 Paired document: none
@@ -13,41 +13,32 @@ Related: [hero demo](./hero-demo.md), [site v2](./site-v2.md), [site architectur
 
 ## Current State
 
-**True now.** Below the hero the home page is six text-led sections
-(`why-fluxiq`, `parts`, `how-it-works`, `vision`, `paper`, `status`). The
-user finds it text heavy and not nice to look at (2026-10-08).
+**Approved (2026-10-09).** The user approved both canvas boards for the
+home page below the hero:
 
-**Designed (2026-10-08).** The canvas
-(`https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS`, board `HomeV4`, row
-"v4") shows the whole page: the header and hero with the demo, unchanged
-(the board embeds the canvas prototype of the demo, which predates the
-site's later refinements), then the sections below redesigned visual first,
-reusing the sourced copy, shortened:
+- Desktop: `HomeV4.dc.html`.
+- Phone: `HomeV5Mobile.dc.html`.
 
-1. **Why FluxIQ**: the headline "Agents pay for the same thinking every
-   run. FluxIQ pays once." beside a chart of AI used per run (an agent: every
-   run; FluxIQ: the first run and when the site changed), labelled an
-   illustration. Below, four icon tiles: pay for what's new, your limits per
-   Flow, checks that relax, you set the autonomy.
-2. **Two parts. One system.**: a "paired over a local connection you
-   approve" link above two cards, each topped by a mock of its interface (the
-   control panel's Flows list; the extension beside a page), then title, one
-   sentence, feature chips, and a link. The extension card says Coming soon.
-3. **How it works**: four icon nodes on a track (show, build, run, repair),
-   the repair step amber with a dashed loop back to running.
-4. **Where it's going**: a short pitch and the roadmap as a vertical
-   timeline (now green, next amber, then and later grey) beside the
-   lead-generation prompt and a generated-app mock captioned "Concept".
-5. **Paper**: the cover tilted beside the headline, six numbered contents in
-   two columns, and the download button.
-6. **Status**: "Early, and built in the open." with a GitHub button and four
-   icon tiles (install, AI provider, runs on, license).
-7. **Closing call to action** (new): "Stop paying for the same thinking
-   twice." with Get the framework and Read the paper.
+Both are at `https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS`. The local
+copies the workers read are in the session scratchpad,
+`/tmp/claude-0/-home-user-FluxIQWebsite/59b32469-4e43-5da1-b14f-d16680ab6d99/scratchpad/canvas/project/`.
+The ledger below records every decision behind them. Each section loops a
+short story; the boards' `<script>` holds the exact timing and states, and
+their markup holds the exact layout and copy.
 
-**Not decided.** Whether the closing call to action stays; phone layouts
-(planned below: every grid stacks to one column); whether the extension
-page gets the same treatment.
+**In progress.** Building the boards into the site: the sections stay in
+the same order, and a closing call to action is added after Status. Every
+looping illustration uses `src/components/ui/use-loop-clock.ts`, a 50 ms
+tick. The clock runs only while a quarter of the element is on screen and
+the tab is visible, and it restarts at zero each time the element scrolls
+into view. Sections also keep the CSS scroll reveal from `PageSection`.
+
+**Also asked (2026-10-09):**
+
+- Privacy policy and terms pages: boilerplate that names Google Analytics.
+- "No analytics" in the extension copy reworded to "The extension has no
+  analytics".
+- Push to `main` once everything is verified.
 
 ## Claims
 
@@ -57,20 +48,38 @@ The chart and both product mocks are illustrations and must say so; the
 framework mock's Flow names are examples. The generated-app mock keeps its
 "Concept" caption.
 
-## Build Plan (after the user approves)
+## Build Plan (v5, approved 2026-10-09)
 
-1. Content: shorten the strings in the six content files; add the chart
-   labels, tile titles, chips, and the call-to-action copy with sources.
-2. Components, one per section, with their parts beside them: a cost chart,
-   icon tiles (shared `ui/icon-tile`), the two product mocks, the step track
-   with its loop, the roadmap timeline, the generated-app mock, the paper
-   card, the status tiles, the call to action. Icons drawn inline, as in
-   `hero-demo/action-icon.tsx`.
-3. Responsive: every grid stacks to one column under 768 px; the step track
-   becomes a vertical list with the loop drawn beside it; mocks scale with
-   their card.
-4. Validation: `pnpm check`, `pnpm test`, `pnpm build`, `pnpm test:site`;
-   Playwright at 375, 768, 1024, and 1440 px; contrast of the new colours.
+The phone layout applies below `md` (768 px). From `md` up, the layout is the
+desktop board's, fluid inside the 1160 px container: no fixed pixel widths,
+and SVG charts drawn in a `viewBox`, with overlays placed in percentages.
+Workers partition by file:
+
+| Worker | Owns (create or replace) | Board parts |
+| --- | --- | --- |
+| A | `src/components/why-fluxiq/**`, `src/content/why.ts` | §1 savings chart, value list or tiles |
+| B | `src/components/parts/**`, `src/content/parts.ts`, `src/content/extension.ts` (only the "No analytics" line) | §2 pairing mocks and connector |
+| C | `src/components/how-it-works/**`, `src/content/how-it-works.ts` | §3 stage list and chat |
+| D | `src/components/vision/**`, `src/content/vision.ts` | §4 chat reveal, app in use, roadmap |
+| E | `src/components/paper/**`, `src/components/status/**`, new `src/components/closing-cta/**`, `src/content/paper.ts`, `src/content/status.ts`, `public/papers/pages/*` | §5 paper pages, §6 status list or tiles, §7 closing call to action |
+| Supervisor | `src/app/page.tsx`, `src/components/ui/use-loop-clock.ts`, `src/content/types.ts` cleanup, privacy and terms routes, footer, docs | integration and verification |
+
+**Every brief shares these rules:**
+
+- Content files hold words only. A new content type goes in the worker's own
+  content file, not in `types.ts`.
+- Components are client components only where they animate.
+- One exported component per file, files at most 300 lines, and at most 25
+  files per directory. No `utils`, `helpers`, `misc`, or `common` names.
+- Icons are static inline SVG.
+- Copy is the boards' copy, which is value first.
+- Chart and app numbers stay labelled "Example, not real data" or "Concept".
+- Workers do not edit any file outside their row.
+- Workers check with `pnpm exec biome check <their paths>` and
+  `pnpm exec tsc --noEmit`, ignoring errors in other workers' paths. They do
+  not run `pnpm build`.
+- Each worker writes a report to `docs/working/home-redesign/reports/<letter>.md`.
+- Workers never commit.
 
 ---
 

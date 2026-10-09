@@ -23,4 +23,12 @@ export const LINKS = {
     external: false,
   },
   licenseEmail: { label: "license@getfluxiq.com", href: "mailto:license@getfluxiq.com", external: false },
+  privacy: { label: "Privacy", href: "/privacy/", external: false },
+  terms: { label: "Terms", href: "/terms/", external: false },
+  googlePrivacy: { label: "Google's privacy information", href: "https://policies.google.com/privacy", external: true },
+  gaOptOut: {
+    label: "Google Analytics opt-out browser add-on",
+    href: "https://tools.google.com/dlpage/gaoptout",
+    external: true,
+  },
 } as const satisfies Record<string, SiteLink>;

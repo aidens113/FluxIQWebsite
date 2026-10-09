@@ -47,7 +47,9 @@ const PASSING = `<!DOCTYPE html><html lang="en" class="antialiased"><head><meta 
 <section id="paper"></section><section id="status"><p>In progress</p></section>
 <section id="why"><a href="https://github.com/aidens113/FluxIQ/blob/main/LICENSE.md">License</a>
 <a href="mailto:license@getfluxiq.com">license@getfluxiq.com</a></section></main>
-<footer><a href="https://getfluxiq.com/">FluxIQ</a><a href="https://x.com/GetFluxIQ" target="_blank" rel="noopener noreferrer">X</a></footer>
+<footer><a href="https://getfluxiq.com/">FluxIQ</a><a href="https://x.com/GetFluxIQ" target="_blank" rel="noopener noreferrer">X</a>
+<a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google</a>
+<a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Opt out</a></footer>
 <!-- TODO: Coming Soon <h1>policy</h1> <a href="#nowhere"> <script src="/_next/static/chunks/gone.js"></script> -->
 <script>self.__next_f.push([1,"<h1>Coming Soon</h1><a href=\\"https://example.com\\">policy</a>"])</script>
 </body></html>
@@ -61,6 +63,13 @@ const EXTENSION_PASSING = PASSING.replace(
   '<section id="status">',
   '<section id="features"><a href="#setup">Setup</a></section><section id="setup"></section><section id="status">',
 );
+
+// The privacy notice and terms of use, each on its own canonical URL.
+const legalPassing = (slug) =>
+  PASSING.replace(
+    '<link rel="canonical" href="https://getfluxiq.com/"/>',
+    `<link rel="canonical" href="https://getfluxiq.com/${slug}/"/>`,
+  ).replace('<section id="status">', '<section id="legal-title"></section><section id="status">');
 
 // Returns PASSING with each [from, to] replacement applied, failing the test
 // if a replacement would silently match nothing.
@@ -89,6 +98,8 @@ function withSite(files, run) {
 const siteFiles = (dir, html) => ({
   [`${dir}/index.html`]: html,
   [`${dir}/extension/index.html`]: EXTENSION_PASSING,
+  [`${dir}/privacy/index.html`]: legalPassing("privacy"),
+  [`${dir}/terms/index.html`]: legalPassing("terms"),
   [`${dir}${APP_SRC}`]: APP_JS,
 });
 const rulesOf = (findings) => findings.map((finding) => finding.rule).sort();
@@ -100,6 +111,8 @@ test("the passing fixture has no findings", () => {
   assert.deepEqual(siteRules(PASSING), []);
   assert.deepEqual(checkHtml(PASSING), []);
   assert.deepEqual(checkHtml(EXTENSION_PASSING, PAGES[1]), []);
+  assert.deepEqual(checkHtml(legalPassing("privacy"), PAGES[2]), []);
+  assert.deepEqual(checkHtml(legalPassing("terms"), PAGES[3]), []);
 });
 
 test("each page is held to its own canonical URL and ids, and a missing page is reported", () => {
@@ -107,7 +120,7 @@ test("each page is held to its own canonical URL and ids, and a missing page is 
   assert.deepEqual(rulesOf(findings), ["head-meta", "required-anchor", "required-anchor"]);
   withSite({ "out/index.html": PASSING, [`out${APP_SRC}`]: APP_JS }, (root) => {
     const result = checkSite(path.join(root, "out"));
-    assert.deepEqual(rulesOf(result.findings), ["missing-page"]);
+    assert.deepEqual(rulesOf(result.findings), ["missing-page", "missing-page", "missing-page"]);
     assert.match(result.findings[0].message, /extension\/index\.html/);
   });
   withSite({ ...siteFiles("out", PASSING), "out/extension/index.html": PASSING }, (root) => {

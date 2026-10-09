@@ -11,6 +11,7 @@ export const ANALYTICS = {
     text: "Can we use Google Analytics cookies to see which pages are useful? Nothing is loaded unless you accept, and you can change your mind any time from the footer.",
     accept: "Accept",
     decline: "Decline",
+    more: "Privacy notice",
   },
   settingsLabel: "Cookie settings",
 } as const;

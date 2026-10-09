@@ -166,3 +166,21 @@ export type PaperContent = {
   /** The one-line announcement above the home page headline. */
   banner: { tag: string; text: string; cta: string };
 };
+
+// The privacy notice and terms of use (src/content/privacy.ts, terms.ts).
+/** A run of text, optionally a link. */
+export type LegalText = { text: string; href?: string; external?: boolean };
+
+/** One paragraph, or a bulleted list when `items` is set. */
+export type LegalBlock = { paragraph: readonly LegalText[] } | { items: readonly (readonly LegalText[])[] };
+
+export type LegalSection = { heading: string; blocks: readonly LegalBlock[] };
+
+export type LegalDocument = {
+  title: string;
+  description: string;
+  path: string;
+  updated: string;
+  intro: string;
+  sections: readonly LegalSection[];
+};
