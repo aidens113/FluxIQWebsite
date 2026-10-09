@@ -277,3 +277,19 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Design: the shield-check is 20 px (it was 15) inside the 36 px ball, on both boards.
 - Validation: close-up render at 1440 px.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Desktop approved; phone board rescaled and simplified
+- Agent: supervisor
+- Changed: canvas `HomeV5Mobile.dc.html`, new canvas file `hero-phone.webp` (the live site's phone hero, captured from the build at 375 px), `canvas.json`; this document
+- Why: The user approved the desktop board. They found the phone version not great, asking for better scaling, some sections redesigned, and simpler, more minimal components.
+- Design:
+  - **Hero:** the placeholder is replaced by the real phone hero, captured from `pnpm build`.
+  - **Type scale:** headings are 30 px (they were 34) and fit in two or three lines, ledes are 15.5 px and cut to one or two sentences, and section padding is 64 px.
+  - **What it saves you:** "Cheaper from run 3" moved off the curve. The totals are one line. The four value tiles return as a quiet icon list.
+  - **How it fits together:** shorter mocks (176 px) and wire (124 px), result names cut to fit, and one-line card copy.
+  - **How it works:** the chat is compact (24 px avatars, 12.5 px text), its step rows and run cards stay on one line with ellipsis, the email tag reads "asks first", and the panel is 470 px.
+  - **Where it's going:** the app view is 262 px with no empty band, and a subtler fingertip.
+  - **Paper:** a 176 px page with the current section named under it, in place of the contents list.
+  - **Status:** an icon list with static icons.
+- Validation: renders at 375 px, with section screenshots at 2× after the changes. No errors and no sideways scroll; the board is 7,177 px (it was 7,700). One regression found and fixed in the same pass: a stray closing `</div>` from the totals rewrite closed the page wrapper early, dropping fonts and colours below it. The tags now balance (105 open, 105 close).
+- Outcome: Accepted, pending the user's review
