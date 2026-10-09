@@ -1,7 +1,7 @@
 # Home Redesign: Below the Hero, Visual First
 
 Status: Active
-Status detail: v5 boards approved (desktop `HomeV4`, phone `HomeV5Mobile`); building into the site with workers.
+Status detail: v5 built into the site with the privacy notice and terms; pushed to dev and main.
 Created: 2026-10-08
 Last updated: 2026-10-09
 Owner: Senior supervisor agent
@@ -313,3 +313,31 @@ Workers partition by file:
   - The flow label is deleted on the phone. The wire's stripe direction and the mocks show the flow. The desktop board keeps its label.
 - Validation: renders at 375 px of the idle, pairing, and connected frames. No errors and no sideways scroll.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Built into the site; privacy notice and terms of use
+- Agent: supervisor with workers A to E (reports in `home-redesign/reports/`)
+- Changed:
+  - Section folders `why-fluxiq/`, `parts/`, `how-it-works/`, `vision/`, `paper/`, `status/`, and the new `closing-cta/`.
+  - The matching content files.
+  - `public/papers/pages/` (six page images, 14 to 26 KB each).
+  - `ui/use-loop-clock.ts`, and `ui/typed-at.ts` (merged from three copies).
+  - `app/page.tsx` (adds `ClosingCta`).
+  - The routes `app/privacy/`, `app/terms/`, and `components/legal/`.
+  - `content/privacy.ts`, `terms.ts`, `links.ts`, `navigation.ts`, `types.ts` (the old section types removed).
+  - The footer, the cookie banner (links to the privacy notice), the sitemap, the site check and its tests.
+  - The architecture README.
+- Why: The user approved both boards and asked for them built, plus a privacy notice and terms (boilerplate naming Google Analytics), scroll-into-view starts, and a push to `main`.
+- Supervisor fixes at integration:
+  - The closing lede "…and keep your data" is softened to "Build it and run it on your own machine", because AI calls go to the user's provider.
+  - The vision ledes say "In time, FluxIQ will build…", since generated apps are LATER on the roadmap.
+  - The extension's "No analytics" now reads "The extension has no analytics and no tracking…" so it cannot be read as being about the site.
+  - The legal pages avoid the retired word "policy".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (176.5 KB gzip JS) all pass.
+  - The built site at 375, 768, 1024, and 1440 px shows no horizontal overflow and no console errors; every section was inspected against the boards.
+  - The banner links to `/privacy/`; both legal pages render.
+- Not verified:
+  - Safari rendering of the chart's `clip-path`.
+  - Reduced-motion behaviour beyond the decision that loops play for everyone.
+  - Every phase of every loop at every width (sampled after 4.5 s in view).
+- Outcome: Accepted

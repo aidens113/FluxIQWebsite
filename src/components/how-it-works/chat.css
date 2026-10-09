@@ -1,0 +1,21 @@
+/* Motion for the How it works chat: each message rises in as it mounts. It
+   plays for every visitor, as the hero demo does (the user's decision). */
+
+@keyframes how-msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.how-msg-in {
+  animation: how-msg-in 0.45s cubic-bezier(0.3, 0.7, 0.3, 1) both;
+}
+
+.how-step-in {
+  animation: how-msg-in 0.35s ease both;
+}

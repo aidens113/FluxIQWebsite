@@ -54,7 +54,7 @@ export const EXTENSION: ExtensionContent = {
       },
       {
         title: "Stays private",
-        body: "No analytics, no tracking. What it sees only goes to the FluxIQ you run and pair it with.",
+        body: "The extension has no analytics and no tracking. What it sees goes only to the FluxIQ you pair it with.",
       },
     ],
   },

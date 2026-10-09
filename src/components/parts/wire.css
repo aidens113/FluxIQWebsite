@@ -1,0 +1,22 @@
+/* The wire's stripes slide the way the data flows. Like the hero demo, the
+   pairing story plays for every visitor (the user's decision). */
+@keyframes parts-wire-right {
+  to {
+    background-position: 36px 0;
+  }
+}
+@keyframes parts-wire-left {
+  to {
+    background-position: -36px 0;
+  }
+}
+@keyframes parts-wire-down {
+  to {
+    background-position: 0 36px;
+  }
+}
+@keyframes parts-wire-up {
+  to {
+    background-position: 0 -36px;
+  }
+}

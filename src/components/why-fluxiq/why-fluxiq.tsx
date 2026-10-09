@@ -1,27 +1,27 @@
 import { PageSection } from "@/components/ui/page-section";
-import { PointGrid } from "@/components/ui/point-grid";
 import { SectionTitle } from "@/components/ui/section-title";
 import { WHY } from "@/content/why";
+import { SavingsCard } from "./savings/card";
+import { ValuePoints } from "./value-points";
 
-/** Scripts versus agents versus FluxIQ, then the four reasons it costs less. */
+/** What it saves you: the savings card, then the four reasons it costs less. */
 export function WhyFluxIQ() {
-  const lines = WHY.titleLines;
   return (
     <PageSection id={WHY.id} labelledBy="why-title">
-      <SectionTitle id="why-title" className="max-w-[900px]">
-        {lines.map((line, index) =>
-          index === lines.length - 1 ? (
-            <span key={line} className="block text-dim">
-              {line}
-            </span>
-          ) : (
-            <span key={line} className="block">
-              {line}
-            </span>
-          ),
-        )}
-      </SectionTitle>
-      <PointGrid points={WHY.points} className="mt-16" />
+      <div className="grid gap-x-16 md:grid-cols-2 md:items-end">
+        <div>
+          <p className="mb-4 font-mono text-xs text-amber uppercase">{WHY.eyebrow}</p>
+          <SectionTitle id="why-title">
+            {WHY.title} <span className="text-dim">{WHY.titleMuted}</span>
+          </SectionTitle>
+        </div>
+        <p className="mt-3.5 text-[15.5px] leading-[1.55] text-muted md:hidden">{WHY.ledeShort}</p>
+        <p className="mt-5 hidden max-w-[560px] text-lg leading-[1.55] text-muted md:mt-0 md:mb-1 md:block">
+          {WHY.lede}
+        </p>
+      </div>
+      <SavingsCard />
+      <ValuePoints />
     </PageSection>
   );
 }
