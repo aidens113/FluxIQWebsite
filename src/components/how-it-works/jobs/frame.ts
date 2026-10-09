@@ -16,12 +16,12 @@ export type JobView = {
 };
 
 /** Ticks a run takes on screen. */
-const RUN = 22;
+const RUN = 40;
 /** Ticks a new result stays outlined. */
 const FRESH = 30;
 /** Ticks each card is shown, and when its run starts. */
-export const CARD_TICKS = 110;
-const RUN_AT = 26;
+export const CARD_TICKS = 96;
+const RUN_AT = 10;
 
 const DAY_ZERO = Date.UTC(2026, 9, 6);
 const dayName = (offset: number) =>

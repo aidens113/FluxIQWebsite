@@ -3,6 +3,8 @@ export type SiteSketchProps = {
   search: { before: string; after: string };
   /** Shows the redesigned layout, crossfading from the recorded one. */
   changed: boolean;
+  /** FluxIQ is scanning the page for the moved search box. */
+  scanning: boolean;
 };
 
 const LAYER = "absolute inset-x-0 top-3.5 px-2 py-[7px] transition-opacity duration-600 md:top-5 md:px-3 md:py-2.5";
@@ -10,9 +12,10 @@ const BAR = "rounded-[2px] md:rounded-[3px]";
 
 /**
  * A tiny browser window on the leads site: the search box in the page as
- * recorded, then, after the redesign, moved into a new header.
+ * recorded, then, after the redesign, moved into a new header. While FluxIQ
+ * looks for it, a blue scan sweeps down the page.
  */
-export function SiteSketch({ site, search, changed }: SiteSketchProps) {
+export function SiteSketch({ site, search, changed, scanning }: SiteSketchProps) {
   return (
     <div className="relative h-[76px] w-[120px] flex-none overflow-hidden rounded-lg border border-edge bg-[#0e0f11] md:h-[120px] md:w-[260px] md:rounded-[10px]">
       <div className="flex h-3.5 items-center gap-1 border-b border-[#1d1f23] px-1.5 md:h-5 md:gap-[5px] md:px-[9px]">
@@ -32,6 +35,9 @@ export function SiteSketch({ site, search, changed }: SiteSketchProps) {
         <div className={`mt-1.5 h-1 w-[76%] bg-[#1d1f23] md:mt-[9px] md:h-1.5 md:w-4/5 ${BAR}`} />
         <div className={`mt-1.5 hidden h-1.5 w-[64%] bg-[#1d1f23] md:block ${BAR}`} />
       </div>
+      {scanning && (
+        <span className="how-scan pointer-events-none absolute inset-x-0 top-3.5 z-10 h-1/4 bg-linear-to-b from-transparent via-[#5e9eea]/25 to-transparent md:top-5" />
+      )}
       <div className={`${LAYER} ${changed ? "opacity-100" : "opacity-0"}`}>
         <div className="flex items-center gap-1 md:gap-1.5">
           <span className={`h-[5px] w-[18px] bg-[#33363c] md:h-2 md:w-[34px] ${BAR}`} />

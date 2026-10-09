@@ -705,3 +705,21 @@ Workers partition by file:
   - `grep -rn snap src` finds nothing.
   - In the built site at 375 and 1440 px, `scroll-snap-type` computes `none`, and five 3-notch wheel gestures landed at 300, 600, 900, 1200, and 1500 (no snapping); no page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — How it works, livelier and quicker
+
+- Changed:
+  - `redesign/frame.ts` is a new 9 s story, down from 13 s:
+    - Tuesday's run plays out for both sides, three steps in turn (STEP 6 ticks), then three rows land;
+    - overnight (tick 44) the site sketch swaps to the new header and the chip pings;
+    - on Wednesday (tick 50) the script's search step fails at 66 with a shake (`how-shake`) and nothing arrives;
+    - FluxIQ scans the sketch (`how-scan`, a blue sweep) from 66, finds the box at 90, tests the fix, keeps it at 104, and its rows land 106 to 114;
+    - it rests to 166, then Tuesday restarts.
+  - `redesign/motion.css` holds the two keyframes. Working steps show a spinner, and sheet rows fill from the left.
+  - Part 1: each card is shown for 96 ticks, not 110. The run starts at tick 10 and lasts 40 ticks, and its step chips light in turn (amber while running, green when done). The run count pops (`starting:scale-115`, green) as it rises.
+- Why: The user said the How it works animations "are so slow and boring".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Built site at 1440 and 375 px; frames at 0.9, 2.6, 3.5, 4.2, 5.1, and 6.0 s show Tuesday running step by step, Wednesday starting, the script failing ("not found", sheet empty), FluxIQ scanning, then testing, then "Fixed for $0.05" with rows filled. No overflow, no page errors.
+  - Sampling the chips every 150 ms gave the sequence ----, A···, GA··, GGA·, GGGA.
+- Outcome: Accepted

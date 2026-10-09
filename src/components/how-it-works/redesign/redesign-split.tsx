@@ -5,6 +5,7 @@ import { HOW_IT_WORKS } from "@/content/how-it-works";
 import { FitText } from "../fit-text";
 import { PartTitle } from "../part-title";
 import { redesignFrame } from "./frame";
+import "./motion.css";
 import { OutcomeCard } from "./outcome-card";
 import { SiteSketch } from "./site-sketch";
 
@@ -25,7 +26,7 @@ export function RedesignSplit() {
       <p className="sr-only">{split.description}</p>
       <div aria-hidden="true">
         <div className="flex items-center gap-3.5 rounded-[18px] border border-rule bg-panel p-3.5 md:gap-7 md:px-6 md:py-5">
-          <SiteSketch site={split.site} search={split.search} changed={frame.changed} />
+          <SiteSketch site={split.site} search={split.search} changed={frame.changed} scanning={frame.scanning} />
           <div className="min-w-0">
             <span
               className={`relative inline-flex items-center rounded-full border px-[9px] py-[3px] text-[11px] font-medium whitespace-nowrap transition-colors duration-300 md:px-[11px] md:py-1 md:text-xs ${frame.changed ? "border-amber-edge bg-[#1a1810] text-amber" : "border-edge bg-[#16171a] text-dim"}`}

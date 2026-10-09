@@ -38,8 +38,9 @@ const STEP: Record<StepState, { mark: string; tone: string; edge: string }> = {
 const NOTE: Record<StepState, string> = { ok: "text-ok", bad: RED, work: "text-amber", idle: "text-dim" };
 
 /**
- * One side of the redesign split: the job's three steps as they run, the
- * sheet's rows (from `md` up), and a one-line outcome.
+ * One side of the redesign split: the job's three steps as they run (a
+ * spinner while a step works; a failing step shakes), the sheet's rows
+ * filling in as they land (from `md` up), and a one-line outcome.
  */
 export function OutcomeCard({ name, quiet, steps, frame, split, day }: OutcomeCardProps) {
   return (
@@ -59,12 +60,16 @@ export function OutcomeCard({ name, quiet, steps, frame, split, day }: OutcomeCa
             <li
               // biome-ignore lint/suspicious/noArrayIndexKey: the three steps are fixed and never reorder.
               key={i}
-              className={`grid grid-cols-[20px_minmax(0,1fr)_auto] items-center gap-2 rounded-[9px] border bg-[#141518] px-2.5 py-2 text-[12.5px] transition-[border-color,color] duration-300 md:grid-cols-[22px_minmax(0,1fr)_auto] md:gap-2.5 md:rounded-[10px] md:px-3 md:py-[9px] md:text-[13.5px] ${look.edge} ${step.state === "idle" ? "text-dim" : "text-fg"}`}
+              className={`grid grid-cols-[20px_minmax(0,1fr)_auto] items-center gap-2 rounded-[9px] border bg-[#141518] px-2.5 py-2 text-[12.5px] transition-[border-color,color] duration-300 md:grid-cols-[22px_minmax(0,1fr)_auto] md:gap-2.5 md:rounded-[10px] md:px-3 md:py-[9px] md:text-[13.5px] ${look.edge} ${step.state === "idle" ? "text-dim" : "text-fg"} ${frame.shake && step.state === "bad" ? "how-shake" : ""}`}
             >
               <span
                 className={`inline-flex size-5 items-center justify-center rounded-full text-[10.5px] font-bold transition-colors duration-300 md:size-[22px] md:text-[11px] ${look.tone}`}
               >
-                {look.mark}
+                {step.state === "work" ? (
+                  <span className="size-2.5 animate-spin rounded-full border-[1.5px] border-amber border-t-transparent md:size-3" />
+                ) : (
+                  look.mark
+                )}
               </span>
               <span>
                 <FitText phrase={steps[i] as HowPhrase} />
@@ -87,9 +92,14 @@ export function OutcomeCard({ name, quiet, steps, frame, split, day }: OutcomeCa
             <span
               // biome-ignore lint/suspicious/noArrayIndexKey: the sheet's three rows are fixed.
               key={i}
-              className={`block h-3 rounded border transition-[background-color,border-color] duration-400 ${on ? "border-solid border-ok/40 bg-ok/20" : "border-dashed border-edge bg-transparent"}`}
+              className={`block h-3 overflow-hidden rounded border transition-[border-color] duration-300 ${on ? "border-solid border-ok/40" : "border-dashed border-edge"}`}
               style={{ width: `${[100, 86, 92][i]}%` }}
-            />
+            >
+              {/* A landing row fills from the left. */}
+              <span
+                className={`block h-full origin-left bg-ok/20 transition-transform duration-300 ease-out ${on ? "scale-x-100" : "scale-x-0"}`}
+              />
+            </span>
           ))}
         </div>
       </div>

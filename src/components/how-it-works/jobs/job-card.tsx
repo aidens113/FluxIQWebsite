@@ -24,6 +24,15 @@ const FRESH_EDGE: Record<Tone, string> = {
 };
 
 const LABEL = "font-mono text-[10.5px] tracking-[0.06em] text-dim uppercase lg:text-[11px]";
+/** A step chip during a run lights in turn: amber while its step runs, green once done. */
+function chipLook(running: boolean, progress: number, i: number, count: number): string {
+  if (!running) return "border-[#1d1f23] bg-[#0e0f11]";
+  const at = Math.floor(Math.min(0.999, progress) * count);
+  if (i < at) return "border-ok/35 bg-ok/10 text-ok";
+  if (i === at) return "border-amber-edge bg-amber/10 text-amber";
+  return "border-[#1d1f23] bg-[#0e0f11] text-dim";
+}
+
 const STAT = "mt-2 text-[13px] text-soft tabular-nums lg:mt-2.5 lg:text-sm";
 
 /**
@@ -58,7 +67,10 @@ export function JobCard({ job, view, labels, className }: JobCardProps) {
         <div className="grid grid-cols-2 gap-x-3 gap-y-3.5 lg:grid-cols-[minmax(0,0.8fr)_repeat(3,minmax(0,1fr))] lg:gap-4">
           <div>
             <p className={LABEL}>{labels.runs}</p>
-            <p className="mt-[7px] text-[26px] leading-none font-semibold tracking-[-0.03em] text-fg tabular-nums lg:mt-2 lg:text-[30px]">
+            <p
+              key={view.count}
+              className="mt-[7px] origin-left text-[26px] leading-none font-semibold tracking-[-0.03em] text-fg tabular-nums transition-[scale,color] duration-500 starting:scale-115 starting:text-ok lg:mt-2 lg:text-[30px]"
+            >
               {view.count}
             </p>
           </div>
@@ -79,7 +91,11 @@ export function JobCard({ job, view, labels, className }: JobCardProps) {
           {job.steps.map((step, i) => (
             <li key={step} className="flex items-center gap-1.5">
               {i > 0 && <span className="text-dim">›</span>}
-              <span className="rounded-md border border-[#1d1f23] bg-[#0e0f11] px-2 py-1">{step}</span>
+              <span
+                className={`rounded-md border px-2 py-1 transition-colors duration-200 ${chipLook(running, view.progress, i, job.steps.length)}`}
+              >
+                {step}
+              </span>
             </li>
           ))}
         </ol>
