@@ -49,7 +49,7 @@ export function recordItScene(step: number, ctx: SceneContext): Scene {
       detail: RECORD_IT.checking.detail,
     });
   if (step >= 7) m.push({ id: "saved", kind: "text", text: RECORD_IT.saved });
-  panel.messages = m.slice(-4);
+  panel.messages = m;
   if (step >= 7) panel.strip = { runLabel: PANEL.run, text: RECORD_IT.ready, tone: "green" };
 
   const targetName = TARGET[step] ?? null;

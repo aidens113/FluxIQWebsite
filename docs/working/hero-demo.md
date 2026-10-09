@@ -658,3 +658,10 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Design: `keyGap(text, index, speed)` is deterministic. Keys land at uneven gaps around the average speed. Some spaces add a short hesitation, punctuation a longer one, and a rare key a short stall. Typing steps are sized from the sum of the same gaps, so a step always outlasts its typing. Average speeds are slightly faster: the ask 42 to 38 ms, search 110 to 85 ms, recorded 120 to 95 ms (before PACE).
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (148.5 KB). In the built site at 1440 px, the 65-character ask types out from 0.7 s to 2.8 s, before its step ends.
 - Outcome: Accepted
+
+### 2026-10-09 — Chat keeps its whole history
+
+- Changed: `scenes/tell-it.ts`, `record-it.ts`, and `it-adapts.ts` no longer cut the chat to its last four messages (`m.slice(-4)`); the chat keeps every message of the current example, pinned to the bottom, and older ones slide up under the top fade. Architecture README updated.
+- Why: The user saw messages "in history disappear during the example randomly": each fifth message dropped the oldest at once.
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` pass. A 90 s trace of the built site at 375 px logged the chat every 250 ms; the only rows that left were live statuses replaced by their result and the chat resetting when the example changes. A 1440 px frame shows the full history under the fade.
+- Outcome: Accepted

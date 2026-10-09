@@ -56,7 +56,7 @@ export function itAdaptsScene(step: number, ctx: SceneContext): Scene {
   }
 
   const panel = emptyPanel();
-  panel.messages = m.slice(-4);
+  panel.messages = m;
   panel.strip = {
     runLabel: step === 6 ? PANEL.run : PANEL.running,
     text:

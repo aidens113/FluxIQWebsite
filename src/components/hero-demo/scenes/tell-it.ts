@@ -37,7 +37,7 @@ export function tellItScene(rawStep: number, ctx: SceneContext): Scene {
     if (s >= 9) m.push({ id: "done", kind: "text", text: TELL_IT.done });
     if (s >= 9) m.push({ id: "data", kind: "data" });
     // Cards carry the play-by-play; FluxIQ speaks only to plan and to report.
-    panel.messages = m.slice(-4);
+    panel.messages = m;
   }
 
   const target: Target | null =
