@@ -148,3 +148,31 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Validation: rendered with the canvas runtime at 1440 px. Frames captured across a full How it works cycle confirm every phase, including the loop arc. No script errors, and the hero demo still advances alongside.
 - Outcome: Accepted, pending the user's review
 - Follow-up: In the build, each graphic becomes a small client component that runs only while it is on screen.
+
+### 2026-10-09 — v5: savings first, pairing, a real job's life, the app in use, real paper pages
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html` (sections 1 to 5 rebuilt), new canvas files `paper-page-1..6.webp` (PDF pages 2, 3, 4, 7, 9, 10 at 480 px), `canvas.json` (board height 6560); this document
+- Why: The user's review asked for:
+  - the money saved as the bottom line, with a cost that decays realistically per the paper;
+  - a clearer picture of the two parts connecting;
+  - a full redesign of How it works;
+  - the app mock used by someone moving between its tabs, with "saved $x with FluxIQ";
+  - the paper's real pages, turning with its contents;
+  - copy written as value to the visitor, not features.
+
+  They also flagged that the paper's $0.016 build cost came from one single test, so the chart must not rely on it.
+- Design:
+  - **What it saves you:** "The more it runs, the less you pay." A 1,000-run sweep on a log axis plots the average AI cost per run against an agent's flat line. The saved figure counts up beside it: break-even by run 3, $49.74 saved by run 1,000. The model follows the paper's shape: pay to learn, check on runs 1, 2, 3, 8, 33, and 158, then pay once to fix at run 400, after which the check schedule resets. All prices are assumptions and labelled so: agent $0.05 a run, learn $0.10, check $0.01, fix $0.05.
+  - **How it fits together:** the extension shows Connect, then a code. FluxIQ asks to approve that same code, the plugs join, and the line goes green ("connected, on your own machine"). Then a job goes out, the extension runs it on the page, and "24 rows" come back. The pairing steps are sourced to Extension `docs/user/quickstart.md`, as in site-v2.
+  - **How it works:** "Show it once. It keeps working." Four stage cards fill as one real job plays:
+    - you type it, or record it;
+    - six steps build, and the email step asks you first;
+    - runs replay at $0.00, double-checked early, then trusted;
+    - run 400 stops when the search box moves, the fix costs $0.05 once and is kept after a full run, and free runs resume.
+  - **App:** a pointer moves between Pipeline, Leads, and Flows. The counters, the chart, and new leads update live. The refresh Flow fixes a changed site. The AI-this-week widget adds "Saved with FluxIQ".
+  - **Paper:** the cover and six real pages turn in step with the contents list, each labelled with its page number.
+- Validation: rendered with the canvas runtime at 1440 px, with frame sheets of the full How it works, pairing, and app cycles. No errors or failed requests after replacing the templated `img src` with fixed sources.
+- Outcome: Accepted, pending the user's review
+- Follow-up:
+  - The Why tiles and Status were left as they were ("the rest is good").
+  - In the build, each graphic becomes a client component that plays only while it is on screen.
