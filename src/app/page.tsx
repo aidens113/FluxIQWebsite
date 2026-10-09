@@ -16,7 +16,7 @@ import { HOME_NAV } from "@/content/navigation";
 // so the sticky header keeps working.
 export default function Home() {
   return (
-    <div className="relative isolate overflow-x-clip">
+    <div data-snap-page="" className="relative isolate overflow-x-clip">
       <SiteHeader nav={HOME_NAV} />
       <main id="main">
         <Hero />

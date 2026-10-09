@@ -20,7 +20,7 @@ export function RedesignSplit() {
   const frame = redesignFrame(tick);
   const day = frame.after ? split.days.after : split.days.before;
   return (
-    <div ref={ref} className="mt-14 md:mt-24">
+    <div ref={ref} className="mt-14 max-md:snap-start md:mt-24">
       <PartTitle num={split.num} title={split.title} />
       <p className="sr-only">{split.description}</p>
       <div aria-hidden="true">

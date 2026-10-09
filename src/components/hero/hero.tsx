@@ -13,7 +13,7 @@ import { PaperBanner } from "./paper-banner";
  */
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title">
+    <section aria-labelledby="hero-title" className="snap-start">
       <div className="mx-auto grid w-full max-w-[1288px] grid-cols-[minmax(0,1fr)] px-6 pt-8 pb-20 md:pt-16 xl:grid-cols-[minmax(0,1fr)_760px] xl:gap-x-14 xl:pt-20 xl:pb-28">
         <div className="min-w-0 sm:text-center xl:col-start-1 xl:row-start-1 xl:self-end xl:text-left">
           <PaperBanner />
@@ -24,7 +24,7 @@ export function Hero() {
             {HERO.title.lead} <span className="text-dim">{HERO.title.muted}</span>
           </h1>
         </div>
-        <div className="order-3 mt-8 min-w-0 sm:text-center md:order-none md:mt-6 xl:col-start-1 xl:row-start-2 xl:self-start xl:text-left">
+        <div className="order-3 mt-8 min-w-0 max-md:snap-start sm:text-center md:order-none md:mt-6 xl:col-start-1 xl:row-start-2 xl:self-start xl:text-left">
           <p className="max-w-[620px] text-lg leading-relaxed text-muted sm:mx-auto md:text-[19px] xl:mx-0 xl:text-lg">
             {HERO.lede}
           </p>

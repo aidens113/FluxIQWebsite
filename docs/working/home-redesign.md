@@ -665,3 +665,18 @@ Workers partition by file:
   - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
   - Frames at 1440 and 375 px show all three jobs with the new fields; no overflow, no page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — The home page snaps to sections and, on a phone, sub-blocks
+
+- Changed:
+  - `app/globals.css`: `html:has([data-snap-page]) { scroll-snap-type: y proximity }`. Scroll padding is 4.75rem, or 5.5rem from `md`, to clear the header.
+  - `app/page.tsx` marks the page with `data-snap-page`.
+  - Snap points: `PageSection` (`snap-start` with `-scroll-mt-20`/`md:-scroll-mt-26`, so it lands on the heading), the hero, the closing call to action, and the footer (`snap-end`).
+  - Phone-only snap points: the hero lede, savings card, value points, job card, redesign split, benefits list, Vision demo, roadmap, and pairing connector.
+- Why: The user asked for "scrollable snap sections" on mobile, split into subsections, and the same on desktop, "so when user scrolls, it snaps to useful information/examples fast and easily".
+- Decision: mandatory snapping was tried first on phones. Wheel-scrolling the built site at 375 px stuck at 274 px: every step snapped back inside the tall hero. Proximity snaps when a scroll ends near a block and never traps.
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Wheel-scrolling the built site to the footer: at 375 px, stops landed on the snap points (938 hero lede, 1443 why, 2701 how-it-works, about 3478 redesign split, 4722 vision, about 4934 demo; some were offset 16 px by the reveal rise). At 1440 px it settled on 860 why and 3689 vision.
+  - Both widths reach the end. `/privacy/` computes `scroll-snap-type: none`. No page errors.
+- Outcome: Accepted

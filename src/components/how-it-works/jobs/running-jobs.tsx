@@ -17,7 +17,7 @@ export function RunningJobs() {
   const { num, title, description, labels, list } = HOW_IT_WORKS.jobs;
   const { views, active } = carouselJobs(tick, list);
   return (
-    <div ref={ref} className="mt-7 md:mt-[72px]">
+    <div ref={ref} className="mt-7 max-md:snap-start md:mt-[72px]">
       <PartTitle num={num} title={title} />
       <p className="sr-only">{description}</p>
       <div aria-hidden="true">

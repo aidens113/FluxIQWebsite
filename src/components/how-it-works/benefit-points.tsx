@@ -6,7 +6,7 @@ export function BenefitPoints() {
   const { benefits } = HOW_IT_WORKS;
   return (
     <>
-      <ul className="mt-12 flex flex-col md:hidden">
+      <ul className="mt-12 flex snap-start flex-col md:hidden">
         {benefits.map((point) => (
           <li key={point.icon} className="flex items-start gap-3.5 border-t border-line py-3.5 first:border-t-0">
             <BenefitIcon name={point.icon} />

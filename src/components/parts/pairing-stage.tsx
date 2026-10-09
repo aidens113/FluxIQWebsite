@@ -22,7 +22,7 @@ export function PairingStage() {
       <PartCard copy={PARTS.framework}>
         <FlowsMock frame={frame} copy={flowsMock} code={pairingCode} />
       </PartCard>
-      <div className="md:hidden">
+      <div className="snap-start md:hidden">
         <Connector frame={frame} labels={wire} orientation="column" />
       </div>
       <div className="hidden md:block">
