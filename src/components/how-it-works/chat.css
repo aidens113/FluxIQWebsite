@@ -20,7 +20,7 @@
   animation: how-msg-in 0.35s ease both;
 }
 
-/* FluxIQ's action mark, as in the hero demo (demo-breathe, demo-blink). */
+/* FluxIQ's action marks, as in the hero demo (demo-breathe, demo-scan, demo-blink). */
 @keyframes how-breathe {
   0%,
   100% {
@@ -44,5 +44,19 @@
   50% {
     opacity: 0.35;
     transform: scale(0.7);
+  }
+}
+
+@keyframes how-scan {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 3px rgba(94, 158, 234, 0.16),
+      0 0 12px rgba(94, 158, 234, 0.22);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(94, 158, 234, 0.1),
+      0 0 28px rgba(94, 158, 234, 0.5);
   }
 }

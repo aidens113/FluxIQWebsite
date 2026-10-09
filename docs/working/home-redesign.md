@@ -484,3 +484,10 @@ Workers partition by file:
   - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
   - Frames at 1440 and 375 px show "FluxIQ · Typing" on the search box and "FluxIQ · Clicking" on Calgary, in the hero demo's amber style.
 - Outcome: Accepted
+
+### 2026-10-09 — Reading is blue
+
+- Changed: on the How it works card the reading mark uses the hero demo's read colour: `#5e9eea` outline, wash, and label, with `how-scan` (a copy of `demo-scan`). Typing and clicking stay amber.
+- Why: The user said "READING IS BLUE".
+- Validation: `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass. Frames at 375 and 1440 px show a blue "FluxIQ · Reading" on the results.
+- Outcome: Accepted
