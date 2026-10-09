@@ -653,3 +653,15 @@ Workers partition by file:
   - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (179.2 KB) pass.
   - Built site at 1440 and 375 px: frames at 3.5, 9, and 14.5 s show the roofer, listing, and invoice cards in turn, with the matching pip lit; no overflow, no page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — Job card: a narrower prompt, more about each Flow
+
+- Changed:
+  - `jobs/job-card.tsx`: from `lg` the prompt takes 34% (19 px text). The Flow side shows runs, last run, next run, and AI this month, then the Flow's steps as chips, the latest result, and the schedule with how closely it is checked. On a phone the four figures sit 2×2 and the steps are hidden.
+  - The three jobs moved to `content/how-jobs.ts` (keeping `how-it-works.ts` under 300 lines), with new `steps`, `next`, `checks`, and `spend` fields.
+  - AI this month follows the savings model: runs per month × share checked × $0.01. Roofer daily at 1 in 50 is $0.01; listing hourly at 1 in 50 is $0.14; invoices weekly at 1 in 5 is $0.01.
+- Why: The user asked to "make the single job card smaller on the left side… and use the right side to add a bit more detail/real useful information… rather than just runs".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Frames at 1440 and 375 px show all three jobs with the new fields; no overflow, no page errors.
+- Outcome: Accepted

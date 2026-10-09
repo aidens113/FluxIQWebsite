@@ -1,3 +1,4 @@
+import { HOW_JOBS } from "./how-jobs";
 import type { HomeSectionId, Point, SplitTitle, Tone } from "./types";
 
 /** Words with a shorter form for a phone; a plain string reads the same everywhere. */
@@ -20,6 +21,14 @@ export type HowJob = {
   ask: string;
   name: string;
   schedule: string;
+  /** What the Flow does, step by step, in a few words each. */
+  steps: readonly string[];
+  /** When it runs next, as the card shows it. */
+  next: string;
+  /** How closely runs are checked now, which tapers as the Flow earns trust. */
+  checks: string;
+  /** What it has spent on AI this month, at the savings model's rates. */
+  spend: string;
   cadence: HowCadence;
   /** The run time of day, for the daily and weekly Flows. */
   time: string;
@@ -54,7 +63,16 @@ export type HowItWorksContent = {
     title: SplitTitle;
     /** What the illustration shows, for assistive tech. */
     description: string;
-    labels: { youSaid: string; flow: string; runs: string; lastRun: string; running: string; done: string };
+    labels: {
+      youSaid: string;
+      flow: string;
+      runs: string;
+      lastRun: string;
+      nextRun: string;
+      spend: string;
+      running: string;
+      done: string;
+    };
     list: readonly HowJob[];
   };
   split: {
@@ -118,63 +136,17 @@ export const HOW_IT_WORKS: HowItWorksContent = {
     title: { lead: "Three sentences.", muted: "Three jobs that keep running." },
     description:
       "An example: three sentences, each now a Flow that keeps running. “Every morning, add new roofers in Calgary to my sheet” runs every day at 7:00 and adds the new roofers it finds. “Tell me when this listing drops under $400k” checks every hour and emails you when the price falls under $400k, which you allowed. “Every Friday, save my invoices to a folder” runs Fridays at 17:00 and saves that week’s invoices. The card shows each Flow in turn and counts its runs as they happen.",
-    labels: { youSaid: "You said", flow: "Flow", runs: "Runs", lastRun: "Last run", running: "Running", done: "Done" },
-    list: [
-      {
-        ask: "Every morning, add new roofers in Calgary to my sheet.",
-        name: "Calgary roofer leads",
-        schedule: "Every day · 7:00",
-        cadence: "daily",
-        time: "7:00",
-        base: 212,
-        results: [
-          { mark: "+", text: "3 new roofers added to your sheet", tone: "ok" },
-          { mark: "+", text: "1 new roofer added to your sheet", tone: "ok" },
-          { mark: "+", text: "4 new roofers added to your sheet", tone: "ok" },
-          { mark: "+", text: "2 new roofers added to your sheet", tone: "ok" },
-          { mark: "·", text: "No new roofers today; sheet unchanged", tone: "neutral" },
-          { mark: "+", text: "5 new roofers added to your sheet", tone: "ok" },
-        ],
-      },
-      {
-        ask: "Tell me when this listing drops under $400k.",
-        name: "Listing price watch",
-        schedule: "Every hour",
-        cadence: "hourly",
-        time: "",
-        base: 1806,
-        // One listing per group of three, so a price never climbs back over
-        // $400k on screen: once it drops and the alert goes out, a new
-        // listing fades in.
-        group: 3,
-        results: [
-          { mark: "·", text: "14 Elm Ave: $412,000, still above $400k", tone: "neutral" },
-          { mark: "·", text: "14 Elm Ave: $407,500, still above $400k", tone: "neutral" },
-          { mark: "!", text: "14 Elm Ave: $398,500. Alert sent to you", tone: "attention", status: "Alert sent" },
-          { mark: "·", text: "302 Bow Cres: $431,000, still above $400k", tone: "neutral" },
-          { mark: "·", text: "302 Bow Cres: $418,000, still above $400k", tone: "neutral" },
-          { mark: "!", text: "302 Bow Cres: $396,000. Alert sent to you", tone: "attention", status: "Alert sent" },
-          { mark: "·", text: "9 Ridge Rd: $415,000, still above $400k", tone: "neutral" },
-          { mark: "·", text: "9 Ridge Rd: $409,900, still above $400k", tone: "neutral" },
-          { mark: "!", text: "9 Ridge Rd: $389,900. Alert sent to you", tone: "attention", status: "Alert sent" },
-        ],
-        allowed: "✓ Alert email allowed by you",
-      },
-      {
-        ask: "Every Friday, save my invoices to a folder.",
-        name: "Friday invoices",
-        schedule: "Fridays · 17:00",
-        cadence: "weekly",
-        time: "17:00",
-        base: 41,
-        results: [
-          { mark: "✓", text: "6 invoices saved to your Invoices folder", tone: "ok" },
-          { mark: "✓", text: "4 invoices saved to your Invoices folder", tone: "ok" },
-          { mark: "✓", text: "7 invoices saved to your Invoices folder", tone: "ok" },
-          { mark: "✓", text: "5 invoices saved to your Invoices folder", tone: "ok" },
-        ],
-      },
-    ],
+    labels: {
+      youSaid: "You said",
+      flow: "Flow",
+      runs: "Runs",
+      lastRun: "Last run",
+      nextRun: "Next run",
+      spend: "AI this month",
+      running: "Running",
+      done: "Done",
+    },
+    list: HOW_JOBS,
   },
   split: {
     num: "02",
