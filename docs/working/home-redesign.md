@@ -232,3 +232,20 @@ framework mock's Flow names are examples. The generated-app mock keeps its
   - **Paper:** a still page that crossfades over 0.8 s, with no float or swing.
 - Validation: canvas renders at 1440 and 375 px, with frame sheets of the pairing, chart, chat, app intro, and paper cycles. No errors or failed requests. A 1 px overflow at 375 px (the status pill) was found and fixed.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Savings dot on the line, one-color wire, clean loop, tilted pages
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, `HomeV5Mobile.dc.html`; this document
+- Why: The user reported:
+  - the savings line rushing at the start, the dot off the line, and the green area above the $0.05 line;
+  - a blue transfer color, where they want direction only;
+  - a rough loop transition on the wire.
+
+  They also asked for each paper page to sit at its own tilt, graded from left to right.
+- Cause and fix:
+  - The chart's reveal box was raised 10 px (so the glow is not clipped) without moving its contents back down. That lifted the line and the green area 10 px. The dot was also centred without counting its border, another 2 px off. The inner SVG now has a matching 10 px top margin and the dot uses `border-box`.
+  - The chart runs on the 50 ms clock with an ease-in-out sweep (7 s), so the dot no longer cuts corners between steps.
+  - The wire is green in both directions, and only the stripes change direction. The connector fades out before the loop resets and fades back in.
+  - Paper pages crossfade in place, each at its own angle: −6° and −12 px for the cover, stepping to +6° and +12 px for the last page.
+- Validation: in the browser, the dot stays within 0.2 px of the line at 1440 px and 0.4 px at 375 px, measured across a sweep with `getPointAtLength`. The green area's top equals the agent line's centre on both boards. Frame sheets of the wire loop and the paper cycle; no errors.
+- Outcome: Accepted, pending the user's review
