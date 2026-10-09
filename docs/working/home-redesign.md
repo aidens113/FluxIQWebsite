@@ -521,6 +521,7 @@ Workers partition by file:
   - checks taper as the Flow earns trust: a judged run is about $0.01 and a trusted run $0.00;
   - never claim runs are free.
 - The supervisor will verify each artboard by rendering it, not from the reports.
+- Validation: not validated at brief time; the rendering checks are in "Boards brought up to date" below.
 
 ### Brief: F
 - Repository: none (scratchpad canvas files, not this repo)
@@ -534,6 +535,7 @@ Workers partition by file:
 - Must not touch: every other file, including `canvas.json` and this repository.
 - Definition of done: both files follow the format (support.js head line, `<x-dc>`, a classic `class Component extends DCLogic`, holes are lookups only). Tags balance, and the extracted logic passes `node --check`. Copy follows the claim list.
 - Report to: docs/working/home-redesign/reports/F.md
+- Validation: the supervisor rendered both files with the canvas runtime (see "Boards brought up to date"): no page errors and no overflow at 1440 and 375 px.
 
 ### Brief: G
 - Repository: none (scratchpad canvas files, not this repo)
@@ -547,6 +549,7 @@ Workers partition by file:
 - Must not touch: every other file, including `canvas.json` and this repository.
 - Definition of done: as in Brief F.
 - Report to: docs/working/home-redesign/reports/G.md
+- Validation: the supervisor rendered both files with the canvas runtime (see "Boards brought up to date"): no page errors and no overflow at 1440 and 375 px.
 
 ### 2026-10-09 — Boards brought up to date; concepts A and B on the canvas
 
