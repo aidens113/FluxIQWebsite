@@ -131,7 +131,8 @@ time it scrolls into view; the savings chart asks for a `smooth` clock that
 advances every animation frame, so its dot glides); each derives its frame
 from a pure timeline module
 beside it. Text in these sections appears whole, with no typing; only the
-hero demo types. They play for every visitor, as the
+hero demo types, and only into its example site (the person's chat request
+appears whole too). They play for every visitor, as the
 hero demo does. The page ships about 177 KB gzip of JavaScript; the audit
 limit is 200 KB.
 

@@ -2,7 +2,7 @@
 // takes rather than a fixed clock: typing as long as its letters, a click long
 // enough to press and show its result, reading as long as the row sweep, chat
 // lines in proportion to their length, endings a little longer.
-import { IT_ADAPTS, TELL_IT } from "@/content/hero-demo/panel";
+import { IT_ADAPTS } from "@/content/hero-demo/panel";
 
 /**
  * One dial for the whole demo's pace. Every duration in the demo, step
@@ -62,27 +62,16 @@ const typing = (text: string, speed: number) => typingMs(text, speed) + BEAT;
 const line = (text: string) => Math.min(2400, Math.max(900, 500 + text.length * 22));
 
 // Typing, a key at a time: the average gap per key at the original pace.
-const RAW_TYPING = { ask: 38, search: 85, recorded: 95 };
+const RAW_TYPING = { search: 85, recorded: 95 };
 export const TYPING_SPEED = {
-  ask: paced(RAW_TYPING.ask),
   search: paced(RAW_TYPING.search),
   recorded: paced(RAW_TYPING.recorded),
 };
 
 /** Each example's step durations, in order, written at the original pace. */
 const RAW_STEP_MS: number[][] = [
-  // Tell it: empty, type the ask, plan, type, click Search, click Calgary, read, settle, done
-  [
-    500,
-    typing(TELL_IT.ask, RAW_TYPING.ask),
-    1100,
-    typing("roofing", RAW_TYPING.search) + 250,
-    CLICK + 500,
-    CLICK + 600,
-    READ,
-    650,
-    END,
-  ],
+  // Tell it: empty, the ask waits in the composer (it appears whole), plan, type, click Search, click Calgary, read, settle, done
+  [500, 900, 1100, typing("roofing", RAW_TYPING.search) + 250, CLICK + 500, CLICK + 600, READ, 650, END],
   // Record it: click record, click the box, type, click Search, click Calgary, stop, build, saved
   [
     // The click lands; a short beat to read "I'm recording", then on.
@@ -145,7 +134,6 @@ export type TypingSpec = { key: string; text: string; speed: number };
 
 /** The typing moment of a step, if it has one. */
 export function typingSpec(tab: number, step: number): TypingSpec | null {
-  if (tab === 0 && step === 1) return { key: "ask", text: TELL_IT.ask, speed: TYPING_SPEED.ask };
   if (tab === 0 && step === 3) return { key: "chat-search", text: "roofing", speed: TYPING_SPEED.search };
   if (tab === 1 && step === 2) return { key: "recorded", text: "roofing", speed: TYPING_SPEED.recorded };
   if (tab === 2 && step === 0) return { key: "replay", text: "roofing", speed: TYPING_SPEED.search };
@@ -155,11 +143,13 @@ export function typingSpec(tab: number, step: number): TypingSpec | null {
 /**
  * A quiet step: nothing is happening on the example site (no outline at
  * work, no cursor, no typing) and it is neither an example's first step nor
- * its last. FluxIQ's newest message pulses only then, so the eye always has
+ * its last, and not the moment the request waits to send. FluxIQ's newest
+ * message pulses only then, so the eye always has
  * somewhere to go without every card competing for it.
  */
 export function isQuiet(tab: number, step: number, siteBusy: boolean): boolean {
-  return !siteBusy && step > 0 && step < stepCount(tab) - 1 && typingSpec(tab, step) === null;
+  const sending = tab === 0 && step === 1;
+  return !siteBusy && !sending && step > 0 && step < stepCount(tab) - 1 && typingSpec(tab, step) === null;
 }
 
 /**

@@ -7,13 +7,14 @@ import { type CardState, emptyPanel, type Message, type Scene, type SceneContext
 const { outcomes, targets, actions, tags } = PANEL;
 
 export function tellItScene(rawStep: number, ctx: SceneContext): Scene {
-  // The request types in one step (1); later beats keep their earlier
+  // The request waits in the composer for one step (1); later beats keep their earlier
   // numbering, so step 2 onward maps up by one.
   const s = rawStep >= 2 ? rawStep + 1 : rawStep;
   const panel = emptyPanel();
   if (s <= 2) {
     panel.empty = true;
-    if (s >= 1) panel.composer = ctx.typed("ask", TELL_IT.ask);
+    // The person's request appears whole in the composer, then sends.
+    if (s >= 1) panel.composer = TELL_IT.ask;
   } else {
     const card = (id: string, name: string, target: string, at: number, last: number, doneText: string): Message => {
       const working = s === at || s <= last;

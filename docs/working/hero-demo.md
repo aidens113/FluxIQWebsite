@@ -665,3 +665,10 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - Why: The user saw messages "in history disappear during the example randomly": each fifth message dropped the oldest at once.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` pass. A 90 s trace of the built site at 375 px logged the chat every 250 ms; the only rows that left were live statuses replaced by their result and the chat resetting when the example changes. A 1440 px frame shows the full history under the fade.
 - Outcome: Accepted
+
+### 2026-10-09 — The chat request appears whole
+
+- Changed: Tell it's request no longer types into the composer. `scenes/tell-it.ts` shows it whole, and `timeline.ts` holds that step for 900 ms (at the original pace) before it sends; the `ask` typing speed and typing spec are gone, and `isQuiet` excludes that step. Typing into the example site's search box is unchanged.
+- Why: The user asked to "make user messages in hero demo instant as well like other ones".
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` pass. Sampling the built site's composer every 100 ms for 4 s showed only the placeholder (14 characters) and the whole request (65), never a partial one.
+- Outcome: Accepted
