@@ -249,3 +249,11 @@ framework mock's Flow names are examples. The generated-app mock keeps its
   - Paper pages crossfade in place, each at its own angle: −6° and −12 px for the cover, stepping to +6° and +12 px for the last page.
 - Validation: in the browser, the dot stays within 0.2 px of the line at 1440 px and 0.4 px at 375 px, measured across a sweep with `getPointAtLength`. The green area's top equals the agent line's centre on both boards. Frame sheets of the wire loop and the paper cycle; no errors.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Savings line ends at the dot
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, `HomeV5Mobile.dc.html`; this document
+- Why: The user saw the line run ahead of the dot at the start of the curve.
+- Cause and fix: the reveal box was 6 px wider than the dot's position. Where the curve is steep, 6 px of width shows a long stretch of line past the dot. The reveal now ends exactly at the dot's x.
+- Validation: the reveal edge minus the dot's centre is 0 px at every sample through the sweep, at 1440 and 375 px. The dot stays within 0.3 px of the curve.
+- Outcome: Accepted, pending the user's review
