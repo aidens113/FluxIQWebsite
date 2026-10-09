@@ -1,7 +1,7 @@
 "use client";
 
 import { type RefObject, useCallback, useEffect, useState } from "react";
-import { landDelay, stepCount, stepMs, typingSpec } from "./timeline";
+import { keyGap, landDelay, stepCount, stepMs, typingSpec } from "./timeline";
 
 export type View = "site" | "panel";
 
@@ -94,13 +94,13 @@ export function useDemoPlayer(root: RefObject<HTMLElement | null>) {
     return () => clearTimeout(timer);
   }, [running, landed, tab, step]);
 
-  // Type one character at a time.
+  // Type one key at a time, at a person's uneven rhythm.
   useEffect(() => {
     const spec = typingSpec(tab, step);
     if (!running || !spec || typed.key !== spec.key || typed.count >= spec.text.length) return;
     const timer = setTimeout(
       () => setState((s) => ({ ...s, typed: { ...s.typed, count: s.typed.count + 1 } })),
-      spec.speed,
+      keyGap(spec.text, typed.count, spec.speed),
     );
     return () => clearTimeout(timer);
   }, [running, tab, step, typed]);

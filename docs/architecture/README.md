@@ -131,7 +131,8 @@ linked there.
   load, the typing moments, and the phone view's focus. `cursor-targets.ts`
   holds the measured cursor positions.
 - **Playback** is `use-demo-player.ts`: it advances steps, lands clicks,
-  types a character at a time, and runs only while the widget is on screen,
+  types a key at a time at a quick, uneven human rhythm (`keyGap` in
+  `timeline.ts`, which also sizes the typing steps), and runs only while the widget is on screen,
   the tab is visible, and the visitor has not paused. It plays for every
   visitor, including those who prefer reduced motion (the user's decision;
   the Pause button stops it). There are no title cards between examples;

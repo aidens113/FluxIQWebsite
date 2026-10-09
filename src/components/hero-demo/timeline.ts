@@ -40,11 +40,29 @@ const BEAT = 450;
 const CLICK = 1000;
 const READ = 5 * 240 + 650;
 const END = 2800;
-const typing = (text: string, speed: number) => text.length * speed + BEAT;
+/**
+ * The gap before key `index` of `text`, typed at an average `speed`: a person
+ * typing quickly, not a metronome. Keys land at uneven gaps, some spaces get
+ * a short hesitation, punctuation a longer one. Deterministic, so a step's
+ * length (the sum of its gaps) always matches what the player types.
+ */
+export function keyGap(text: string, index: number, speed: number): number {
+  const noise = Math.sin((index + text.length * 7) * 12.9898) * 43758.5453;
+  const r = noise - Math.floor(noise);
+  let gap = speed * (0.45 + r * 0.9);
+  const previous = text[index - 1];
+  if (previous === " " && r > 0.55) gap += speed * 1.6;
+  if (previous === "," || previous === "." || previous === "!" || previous === "?") gap += speed * 4;
+  if (r > 0.94) gap += speed * 2.5;
+  return Math.round(gap);
+}
+const typingMs = (text: string, speed: number) =>
+  Array.from(text, (_, i) => keyGap(text, i, speed)).reduce((a, b) => a + b, 0);
+const typing = (text: string, speed: number) => typingMs(text, speed) + BEAT;
 const line = (text: string) => Math.min(2400, Math.max(900, 500 + text.length * 22));
 
-// Typing, a character at a time, at the original pace.
-const RAW_TYPING = { ask: 42, search: 110, recorded: 120 };
+// Typing, a key at a time: the average gap per key at the original pace.
+const RAW_TYPING = { ask: 38, search: 85, recorded: 95 };
 export const TYPING_SPEED = {
   ask: paced(RAW_TYPING.ask),
   search: paced(RAW_TYPING.search),

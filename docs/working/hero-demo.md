@@ -650,3 +650,11 @@ panel, and so the redesign beat (B) can swap a clear set of styles.
 - One tabbed stage (recommended) or three cards in a row? Owner: user.
 - Fake site: a fictional lead directory (recommended, matches the vision
   paper's example), a supplier portal, or a shop? Owner: user.
+
+### 2026-10-09 — Human typing rhythm
+- Agent: supervisor
+- Changed: `src/components/hero-demo/timeline.ts`, `use-demo-player.ts`; `docs/architecture/README.md`
+- Why: The user asked for all typing animations to look like a person typing fast, not a fixed per-key interval.
+- Design: `keyGap(text, index, speed)` is deterministic. Keys land at uneven gaps around the average speed. Some spaces add a short hesitation, punctuation a longer one, and a rare key a short stall. Typing steps are sized from the sum of the same gaps, so a step always outlasts its typing. Average speeds are slightly faster: the ask 42 to 38 ms, search 110 to 85 ms, recorded 120 to 95 ms (before PACE).
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (148.5 KB). In the built site at 1440 px, the 65-character ask types out from 0.7 s to 2.8 s, before its step ends.
+- Outcome: Accepted
