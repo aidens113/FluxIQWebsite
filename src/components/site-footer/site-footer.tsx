@@ -1,4 +1,3 @@
-import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
 import { Container } from "@/components/ui/container";
 import { TextLink } from "@/components/ui/text-link";
 import { LINKS } from "@/content/links";
@@ -27,9 +26,6 @@ export function SiteFooter() {
               <TextLink link={link} className="text-muted" />
             </li>
           ))}
-          <li>
-            <CookieSettingsButton />
-          </li>
         </ul>
       </Container>
     </footer>

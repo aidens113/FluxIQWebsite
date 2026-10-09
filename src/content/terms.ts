@@ -1,11 +1,11 @@
 import { LINKS } from "./links";
 import type { LegalDocument, LegalText } from "./types";
 
-// Plain boilerplate for a marketing site that runs Google Analytics behind a
-// consent banner (added 2026-10-09 at the owner's request). The site's rules
+// Plain boilerplate for a marketing site that runs Google Analytics on every
+// visit, with a notice (added 2026-10-09 at the owner's request). The site's rules
 // retire the word "policy", so these are a "privacy notice" and "terms of
 // use". Not legal advice; the owner should have them reviewed. Analytics
-// facts come from src/content/analytics.ts and src/components/consent/.
+// facts come from src/content/analytics.ts and src/components/analytics/.
 
 const UPDATED = "October 9, 2026";
 const CONTACT: LegalText = { text: LINKS.licenseEmail.label, href: LINKS.licenseEmail.href };

@@ -1,5 +1,6 @@
-// Loads and stops Google Analytics 4 (gtag.js) in the browser. Called only
-// after the visitor's choice, so the static HTML never references Google.
+// Loads Google Analytics 4 (gtag.js) in the browser on every visit. It is
+// injected at runtime, so the static HTML never references Google and the
+// site check's local-scripts rule still holds.
 
 type Gtag = (...args: unknown[]) => void;
 
@@ -35,20 +36,4 @@ export function loadGoogleAnalytics(measurementId: string) {
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(script);
-}
-
-/** Stops measurement in this page and removes the Google Analytics cookies. */
-export function stopGoogleAnalytics(measurementId: string) {
-  window.gtag?.("consent", "update", { analytics_storage: "denied" });
-  (window as unknown as Record<string, unknown>)[`ga-disable-${measurementId}`] = true;
-  const host = window.location.hostname;
-  const domains = ["", host, `.${host}`, `.${host.split(".").slice(-2).join(".")}`];
-  for (const cookie of document.cookie.split(";")) {
-    const name = cookie.split("=")[0]?.trim();
-    if (!name?.startsWith("_ga")) continue;
-    for (const domain of domains) {
-      // biome-ignore lint/suspicious/noDocumentCookie: the Cookie Store API is not in every browser this site supports
-      document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ""}`;
-    }
-  }
 }

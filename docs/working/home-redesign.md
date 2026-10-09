@@ -341,3 +341,14 @@ Workers partition by file:
   - Reduced-motion behaviour beyond the decision that loops play for everyone.
   - Every phase of every loop at every width (sampled after 4.5 s in view).
 - Outcome: Accepted
+
+### 2026-10-09 — Analytics on every visit, with a notice
+- Agent: supervisor
+- Changed:
+  - `src/components/analytics/` (new `analytics-notice.tsx`; `google-analytics.ts` moved here, keeping only the load).
+  - Removed `src/components/consent/`.
+  - `src/content/analytics.ts`, `privacy.ts` (the cookies section now describes analytics on every visit), and `terms.ts` (its header comment).
+  - The footer (Cookie settings removed), `app/layout.tsx`, `AGENTS.md`, and the architecture README.
+- Why: The user asked that Google Analytics always load and that the banner be a notice that using the site means agreeing to the privacy notice, saying that the site uses analytics. I told the user that loading analytics before consent does not meet prior-consent rules (the EU GDPR and ePrivacy, the UK PECR, Quebec Law 25) for visitors there; it is their call.
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (175.5 KB) all pass. In the built site at 375 and 1440 px: the Google tag is requested on arrival with no interaction; the notice shows with links to the privacy notice and terms of use; OK hides it and it stays hidden after a reload; no overflow, CSP errors, or page errors.
+- Outcome: Accepted

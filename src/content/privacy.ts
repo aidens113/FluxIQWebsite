@@ -1,12 +1,11 @@
-import { ANALYTICS } from "./analytics";
 import { LINKS } from "./links";
 import type { LegalDocument, LegalText } from "./types";
 
-// Plain boilerplate for a marketing site that runs Google Analytics behind a
-// consent banner (added 2026-10-09 at the owner's request). The site's rules
+// Plain boilerplate for a marketing site that runs Google Analytics on every
+// visit, with a notice (added 2026-10-09 at the owner's request). The site's rules
 // retire the word "policy", so these are a "privacy notice" and "terms of
 // use". Not legal advice; the owner should have them reviewed. Analytics
-// facts come from src/content/analytics.ts and src/components/consent/.
+// facts come from src/content/analytics.ts and src/components/analytics/.
 
 const UPDATED = "October 9, 2026";
 const CONTACT: LegalText = { text: LINKS.licenseEmail.label, href: LINKS.licenseEmail.href };
@@ -26,7 +25,7 @@ export const PRIVACY: LegalDocument = {
         {
           paragraph: [
             t(
-              "The site has no accounts, forms, or sign-ups, so we do not ask you for personal information. If you accept analytics cookies, Google Analytics records how the site is used, including:",
+              "The site has no accounts, forms, or sign-ups, so we do not ask you for personal information. The site uses Google Analytics, which records how the site is used, including:",
             ),
           ],
         },
@@ -48,29 +47,20 @@ export const PRIVACY: LegalDocument = {
       ],
     },
     {
-      heading: "Cookies and your choice",
+      heading: "Cookies and analytics",
       blocks: [
         {
           paragraph: [
             t(
-              "Nothing from Google loads until you choose Accept in the cookie banner. If you choose Decline, no analytics script runs and no analytics cookies are set. You can change your mind at any time with Cookie settings in the footer; declining after accepting stops measurement and removes the analytics cookies.",
+              "Google Analytics loads when you visit and sets first-party cookies named _ga and _ga_<id> that last up to two years. A notice at the bottom of the page tells you the site uses analytics; dismissing it is remembered in your browser's local storage so it does not show again, and that record never leaves your device.",
             ),
           ],
         },
         {
           paragraph: [
-            t(
-              `When you accept, Google Analytics sets first-party cookies named _ga and _ga_<id> that last up to two years. Your choice itself is stored in your browser's local storage under "${ANALYTICS.storageKey}" so the banner does not ask again; it never leaves your device.`,
-            ),
-          ],
-        },
-        {
-          paragraph: [
-            t(
-              "We do not use Google Analytics for advertising; advertising storage and ad personalisation are left off. You can also block analytics with the ",
-            ),
+            t("We do not use Google Analytics for advertising; advertising storage and ad personalisation are left off. You can stop analytics with the "),
             { text: LINKS.gaOptOut.label, href: LINKS.gaOptOut.href, external: true },
-            t(" or your browser's cookie settings."),
+            t(", by blocking cookies in your browser, or with a content blocker."),
           ],
         },
       ],
@@ -133,7 +123,7 @@ export const PRIVACY: LegalDocument = {
         {
           paragraph: [
             t(
-              "Depending on where you live, you may have the right to access, correct, delete, or object to the processing of personal data about you. Because we cannot identify you from analytics data, the quickest control is Cookie settings in the footer. For anything else, contact us at ",
+              "Depending on where you live, you may have the right to access, correct, delete, or object to the processing of personal data about you. Because we cannot identify you from analytics data, the quickest control is the opt-out add-on or your browser settings described above. For anything else, contact us at ",
             ),
             CONTACT,
             t("."),
