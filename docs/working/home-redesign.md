@@ -610,3 +610,14 @@ Workers partition by file:
   - `ffprobe` gives the savings clip a duration of 13.000000 s.
   - `compare -metric RMSE` between its first and last frames gave 0.0166 (one frame apart: 917 vs 941 runs).
 - Outcome: Accepted
+
+### 2026-10-09 — The savings dot wanders, then returns to its start
+
+- Changed: `why-fluxiq/savings/model.ts` replaces the cosine glide with a wander.
+  - After the sweep the dot eases to stops at 68, 84, 41, 57, 29, 76, 48, and then 100% of the line, resting 1.3 s at each.
+  - Travel takes 3.5 s per whole line, at least 1.1 s per hop. One wander is 417 ticks (20.85 s) and repeats exactly.
+- Why: The user asked that it "stop at random points along going forward and backward 'randomly' before going to its loop start position".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Sampling the built site every 200 ms for 28 s at 1440 px: the dot rests at 68, 84, 41, 57, 29, 76, 48, and 100% (6 or 7 samples each), stays between 29 and 100%, and moves at most 10.5% in 200 ms, so there is no jump. No page errors.
+- Outcome: Accepted

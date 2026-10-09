@@ -67,13 +67,42 @@ const TOP_PAD = 8;
 
 /**
  * The motion, in ticks of the shared 50 ms clock. The opening sweep draws the
- * line once; after it the line stays and the dot glides back and forth over
- * the last three quarters of it, so the totals rise and fall with it.
+ * line once; after it the line stays and the dot wanders: it eases to each
+ * stop in turn, back and forth over the last three quarters of the line, and
+ * rests at each, so the totals rise and fall with it. The last stop is the end
+ * of the line, where the sweep finished, so the wander loops without a jump.
  */
 const SWEEP = 104;
-const GLIDE = 260;
-/** The glide's ends, as fractions of the line: from a quarter of the way in to the end. */
-const GLIDE_LOW = 0.25;
+/** Where the dot rests, as fractions of the line: an irregular order that reads as random but repeats exactly. */
+const STOPS = [0.68, 0.84, 0.41, 0.57, 0.29, 0.76, 0.48, 1];
+/** Ticks to rest at each stop. */
+const HOLD = 26;
+/** Ticks per whole line of travel, with a floor so short hops still ease. */
+const TRAVEL = 70;
+const MIN_MOVE = 22;
+
+type Leg = { from: number; to: number; start: number; move: number };
+const LEGS: Leg[] = [];
+let legStart = 0;
+STOPS.forEach((to, i) => {
+  const from = STOPS[i - 1] ?? 1;
+  const move = Math.max(MIN_MOVE, Math.round(Math.abs(to - from) * TRAVEL));
+  LEGS.push({ from, to, start: legStart, move });
+  legStart += move + HOLD;
+});
+/** One whole wander, in ticks. */
+const WANDER = legStart;
+
+const easeInOut = (q: number) => (q < 0.5 ? 2 * q * q : 1 - (-2 * q + 2) ** 2 / 2);
+
+/** The dot's place on the line `t` ticks into the wander. */
+function wanderAt(t: number): number {
+  const at = ((t % WANDER) + WANDER) % WANDER;
+  const leg = [...LEGS].reverse().find((l) => at >= l.start) ?? LEGS[0];
+  if (!leg) return 1;
+  const q = Math.min(1, (at - leg.start) / leg.move);
+  return leg.from + (leg.to - leg.from) * easeInOut(q);
+}
 
 const yFor = (cost: number) => PLOT_H - (cost / YMAX) * (PLOT_H - TOP_PAD);
 const point = (x: number, y: number) => `${x.toFixed(1)} ${y.toFixed(1)}`;
@@ -130,13 +159,9 @@ export type SavingsFrame = {
 export function savingsFrame(tick: number): SavingsFrame {
   const settled = tick >= SWEEP;
   const q = Math.min(1, tick / SWEEP);
-  // The sweep eases in and out; the glide is a cosine that starts at the end
-  // of the line, where the sweep stopped, so the two join without a jump.
-  const f = settled
-    ? GLIDE_LOW + ((1 - GLIDE_LOW) / 2) * (1 + Math.cos((2 * Math.PI * (tick - SWEEP)) / GLIDE))
-    : q < 0.5
-      ? 2 * q * q
-      : 1 - (-2 * q + 2) ** 2 / 2;
+  // The sweep eases in and out and ends at the line's end, where the wander
+  // starts and finishes, so the two join without a jump.
+  const f = settled ? wanderAt(tick - SWEEP) : easeInOut(q);
   const exact = runsForX(f);
   const runs = Math.max(1, Math.floor(exact + 1e-9));
   const agentSpent = AGENT_PER_RUN * runs;
