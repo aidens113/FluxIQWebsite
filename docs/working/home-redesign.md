@@ -293,3 +293,14 @@ framework mock's Flow names are examples. The generated-app mock keeps its
   - **Status:** an icon list with static icons.
 - Validation: renders at 375 px, with section screenshots at 2× after the changes. No errors and no sideways scroll; the board is 7,177 px (it was 7,700). One regression found and fixed in the same pass: a stray closing `</div>` from the totals rewrite closed the page wrapper early, dropping fonts and colours below it. The tags now balance (105 open, 105 close).
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Phone connector: compact, no label
+- Agent: supervisor
+- Changed: canvas `HomeV5Mobile.dc.html`; this document
+- Why: The user found the phone's How it fits together connector poor. They asked for a smaller connection area, with the status text near the secure icon moved or deleted.
+- Design:
+  - The connection area is 76 px (it was 124).
+  - The balls are 10 px and start 16 px from centre; they merge into a 30 px ball (it was 36) with a 16 px shield-check.
+  - The flow label is deleted on the phone. The wire's stripe direction and the mocks show the flow. The desktop board keeps its label.
+- Validation: renders at 375 px of the idle, pairing, and connected frames. No errors and no sideways scroll.
+- Outcome: Accepted, pending the user's review
