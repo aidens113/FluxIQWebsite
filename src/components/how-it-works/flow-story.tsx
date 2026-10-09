@@ -15,7 +15,7 @@ import { howFrame } from "./timeline";
 export function FlowStory() {
   const { ref, tick } = useLoopClock<HTMLDivElement>();
   const { stages, chat } = HOW_IT_WORKS;
-  const frame = howFrame(tick, chat.ask);
+  const frame = howFrame(tick);
   const stageProps = { stages, active: frame.stage, progress: frame.progress, glide: frame.glide };
   return (
     <div

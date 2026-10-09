@@ -1,4 +1,3 @@
-import { typedAt } from "@/components/ui/typed-at";
 /**
  * The How it works story as a pure function of the shared 50 ms clock, ported
  * from the board's `how(t, fine)`. One pass is 500 ticks (25 s); the story
@@ -32,8 +31,8 @@ export type HowFrame = {
   progress: number;
   /** Whether the progress bar should glide (false right after a stage starts). */
   glide: boolean;
-  typed: number;
-  caretOn: boolean;
+  /** True once the request has been sent; it appears whole. */
+  asked: boolean;
   badge: HowBadge;
   /** Allow: ringed, pressed, then replaced by "Allowed by you". */
   allowRing: boolean;
@@ -60,22 +59,20 @@ function badgeAt(beat: number): HowBadge {
   return "setup";
 }
 
-/** The frame for clock tick `tick`, with `ask` the request being typed. */
-export function howFrame(tick: number, ask: string): HowFrame {
+/** The frame for clock tick `tick`. */
+export function howFrame(tick: number): HowFrame {
   const fine = tick % HOW_CYCLE;
   const beat = Math.floor(fine / 5);
   // After the fix the story returns to running, so stage 03 lights again.
   const stage = beat < 17 ? 0 : beat < 34 ? 1 : beat < 56 ? 2 : beat < 84 ? 3 : 2;
   const [from, to] = beat >= 84 ? [84, 100] : (SPANS[stage] ?? [0, 17]);
   const progress = Math.max(0, Math.min(1, (beat - from + 1) / (to - from)));
-  const typed = typedAt(ask, (fine - 5) * 50, 7);
   return {
     beat,
     stage,
     progress,
     glide: progress > 0.1,
-    typed,
-    caretOn: typed < ask.length && Math.floor(fine / 6) % 2 === 0,
+    asked: fine >= 5,
     badge: badgeAt(beat),
     allowRing: beat >= 30,
     allowPressed: beat === 31,

@@ -13,7 +13,6 @@ export type RequestChatProps = {
  * full text once, not the animation.
  */
 export function RequestChat({ chat, frame }: RequestChatProps) {
-  const typing = frame.promptChars < chat.prompt.length;
   return (
     <div className="flex min-h-[236px] flex-col gap-2.5 md:min-h-[178px] md:gap-3">
       <p className="sr-only">{chat.prompt}</p>
@@ -21,12 +20,11 @@ export function RequestChat({ chat, frame }: RequestChatProps) {
         {chat.replyLabel} {chat.reply}
       </p>
       <div aria-hidden="true" className="flex justify-end">
-        <span className="min-h-5 max-w-[86%] rounded-[16px_16px_4px_16px] border border-edge bg-[#1c1d21] px-3.5 py-[11px] text-[14.5px] leading-[1.45] md:max-w-[80%] md:rounded-[18px_18px_4px_18px] md:px-4 md:py-3 md:text-[15px]">
+        <span
+          style={{ visibility: frame.promptChars > 0 ? "visible" : "hidden" }}
+          className="min-h-5 max-w-[86%] rounded-[16px_16px_4px_16px] border border-edge bg-[#1c1d21] px-3.5 py-[11px] text-[14.5px] leading-[1.45] md:max-w-[80%] md:rounded-[18px_18px_4px_18px] md:px-4 md:py-3 md:text-[15px]"
+        >
           {chat.prompt.slice(0, frame.promptChars)}
-          <span
-            className="ml-0.5 inline-block h-[17px] w-0.5 bg-amber align-[-3px]"
-            style={{ opacity: typing ? 1 : 0 }}
-          />
         </span>
       </div>
       <div aria-hidden="true" className="flex items-start gap-2.5" style={fadeStyle(frame.replyShown)}>

@@ -10,6 +10,7 @@ import { itAdaptsScene } from "./scenes/it-adapts";
 import { recordItScene } from "./scenes/record-it";
 import type { SceneContext } from "./scenes/scene";
 import { tellItScene } from "./scenes/tell-it";
+import { SkipHint } from "./skip-hint";
 import { Stage } from "./stage";
 import { focusOf, landDelay, loads, pressAt } from "./timeline";
 import { typedSoFar, useDemoPlayer, type View } from "./use-demo-player";
@@ -92,6 +93,7 @@ export function HeroDemo() {
           onPick={(v) => pin(v, focus)}
           chatNews={view === "site" && scene.panel.messages.length > 0}
           pause={pauseButton}
+          hint={<SkipHint text={DEMO_LABELS.skipHintTap} />}
         />
       )}
       <div className="relative">
@@ -110,7 +112,10 @@ export function HeroDemo() {
         </div>
       </div>
       <ExampleTabs tab={tab} step={step} running={running} onPick={pickTab} pause={compact ? undefined : pauseButton} />
-      <p className="mt-3 text-xs text-dim">{DEMO_LABELS.caption}</p>
+      <p className="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-dim">
+        <span>{DEMO_LABELS.caption}</span>
+        {!compact && <SkipHint text={DEMO_LABELS.skipHintClick} />}
+      </p>
     </div>
   );
 }

@@ -10,10 +10,12 @@ export type ViewSwitchProps = {
   /** True when the chat has messages the site view is not showing. */
   chatNews: boolean;
   pause: ReactNode;
+  /** A small note that tapping the stage skips forward. */
+  hint: ReactNode;
 };
 
 /** Phone: switches the stage between the example website and the FluxIQ panel. */
-export function ViewSwitch({ view, onPick, chatNews, pause }: ViewSwitchProps) {
+export function ViewSwitch({ view, onPick, chatNews, pause, hint }: ViewSwitchProps) {
   const tab = (v: View) =>
     `inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 text-[13px] font-semibold transition-colors ${FOCUS_RING} ${
       view === v ? "bg-[#2a2d33] text-fg" : "text-dim"
@@ -46,7 +48,8 @@ export function ViewSwitch({ view, onPick, chatNews, pause }: ViewSwitchProps) {
           {chatNews && <span className="size-1.5 rounded-full bg-amber" />}
         </button>
       </div>
-      <span className="ml-auto">{pause}</span>
+      <span className="ml-auto">{hint}</span>
+      <span>{pause}</span>
     </div>
   );
 }

@@ -2,7 +2,6 @@
 // Press Connect, approve the matching code, and the two ends join; then the
 // job goes out to the browser and the rows come back. Ported from the
 // approved board's `parts(t, fine)` (docs/working/home-redesign.md).
-import { typedAt } from "@/components/ui/typed-at";
 
 /** Steps in one loop. */
 export const PARTS_CYCLE = 64;
@@ -33,8 +32,8 @@ export type PartsFrame = {
   status: FlowStatus;
   /** The running Flow's progress bar, 0 to 100. */
   progress: number;
-  /** Characters of the query typed so far. */
-  typed: number;
+  /** True once the extension has filled in the query; it appears whole. */
+  filled: boolean;
   /** For each search result: shown, and lit as it is read. */
   results: readonly { shown: boolean; reading: boolean }[];
   steps: readonly StepState[];
@@ -53,7 +52,7 @@ const press = (at: number, p: number, when = true): Press => ({
 });
 
 /** The story's state at `tick` (50 ms ticks from the shared loop clock). */
-export function partsFrame(tick: number, query: string, resultCount: number): PartsFrame {
+export function partsFrame(tick: number, resultCount: number): PartsFrame {
   const p = Math.floor(tick / TICKS_PER_STEP) % PARTS_CYCLE;
   const live = p >= 11 && p < 60;
   const pairing = p >= 4 && p < 11;
@@ -74,10 +73,6 @@ export function partsFrame(tick: number, query: string, resultCount: number): Pa
     progress = 100;
   } else if (live && p >= 34) status = "saved";
 
-  // Typing starts at step 17, timed in milliseconds on the fine clock.
-  const fineMs = ((tick % (PARTS_CYCLE * TICKS_PER_STEP)) - 17 * TICKS_PER_STEP) * 50;
-  const typed = live && p >= 17 ? typedAt(query, fineMs, 3) : 0;
-
   return {
     phase,
     flow,
@@ -88,7 +83,7 @@ export function partsFrame(tick: number, query: string, resultCount: number): Pa
     search: press(24, p, live),
     status,
     progress,
-    typed,
+    filled: live && p >= 17,
     results: Array.from({ length: resultCount }, (_, i) => ({
       shown: live && p >= 26 + i,
       reading: live && p === 26 + i,

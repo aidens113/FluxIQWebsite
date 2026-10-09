@@ -83,8 +83,6 @@ export type StoryFrame = {
   saved: number;
 };
 
-const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-
 const BARS = [
   12, 15, 11, 18, 16, 20, 17, 22, 19, 24, 21, 18, 25, 23, 27, 22, 26, 29, 24, 28, 31, 27, 30, 33, 29, 32, 35, 31, 34,
 ];
@@ -131,10 +129,10 @@ export function storyAt(fine: number, prompt: string, reply: string, pool: reado
   const p = intro ? 0 : raw - INTRO;
   const view: AppView = p < 28 ? 0 : p < 56 ? 1 : 2;
 
-  // Smooth reveals, not key-by-key typing: the request in about a second,
-  // FluxIQ's answer in about a second after a short pause.
-  const promptChars = Math.round(prompt.length * clamp((inPass - 5) / 22, 0, 1));
-  const replyChars = Math.round(reply.length * clamp((inPass - 42) / 24, 0, 1));
+  // No typing: the request appears whole, then FluxIQ's answer appears whole
+  // after a short "thinking" pause.
+  const promptChars = inPass >= 5 ? prompt.length : 0;
+  const replyChars = inPass >= 42 ? reply.length : 0;
 
   const lead = (k: number) => pool[((k % pool.length) + pool.length) % pool.length] as ConceptLead;
 

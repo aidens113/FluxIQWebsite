@@ -43,7 +43,7 @@ export function ChatWindow({ chat, frame }: ChatWindowProps) {
         </span>
       </div>
       <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden p-3.5 [mask-image:linear-gradient(transparent,#000_56px)] md:p-[18px]">
-        <UserBubble text={chat.ask} typed={frame.typed} caretOn={frame.caretOn} />
+        {frame.asked ? <UserBubble text={chat.ask} /> : null}
         {beat >= PLAN_BEAT ? <PlanCard chat={chat} beat={beat} searchFixed={frame.searchFixed} /> : null}
         {beat >= ASK_BEAT ? (
           <AskCard chat={chat} ring={frame.allowRing} pressed={frame.allowPressed} allowed={frame.allowed} />

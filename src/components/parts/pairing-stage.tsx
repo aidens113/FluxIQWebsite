@@ -16,7 +16,7 @@ import { partsFrame } from "./timeline";
 export function PairingStage() {
   const { ref, tick } = useLoopClock<HTMLDivElement>();
   const { browserMock, flowsMock, pairingCode, wire } = PARTS;
-  const frame = partsFrame(tick, browserMock.query, browserMock.results.length);
+  const frame = partsFrame(tick, browserMock.results.length);
   return (
     <div ref={ref} className="mt-7 grid md:mt-12 md:grid-cols-[minmax(0,1fr)_clamp(112px,16vw,184px)_minmax(0,1fr)]">
       <PartCard copy={PARTS.framework}>

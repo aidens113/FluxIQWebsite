@@ -373,3 +373,26 @@ Workers partition by file:
 - Why: The user said the little spinning circle in the cards "just looks weird".
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` pass. Frames of the built site at 1440 px (2x and 3x) show the working, done, and failed rows; the section order is unchanged, and there is no overflow at 375 px.
 - Outcome: Accepted
+
+### 2026-10-09 — Phone hero, skip hint, roadmap line, no typing outside the hero
+
+- Changed:
+  - `hero/hero.tsx`: below `md` the demo follows the headline, with the lede and actions under it; `md` and up are unchanged. The demo's top is at 354 px on a 360 × 640 and a 375 × 667 phone.
+  - `hero-demo/skip-hint.tsx`: new. It shows "Click to skip forward" under the stage on a desktop and "Tap to skip forward" beside the view switch on a phone (`DEMO_LABELS.skipHintClick` and `skipHintTap`).
+  - `analytics/analytics-notice.tsx`: tighter on a phone (13 px text, less padding), so it covers less of the demo.
+  - `vision/roadmap-timeline.tsx`: the line is one segment per stage, from its dot's centre to the next, in that stage's colour. It used to be a gradient with fixed 22% and 46% stops that missed the dots.
+  - No typing outside the hero demo:
+    - the parts search box, the How it works request, and the Vision request and FluxIQ reply all appear whole;
+    - the Vision reply keeps its thinking dots first;
+    - the carets are gone, and `ui/typed-at.ts` is deleted.
+- Why: The user asked:
+  - for the demo to be visible on arrival on a phone;
+  - for "a small indicator… click to skip forward", "click or tap on mobile";
+  - for the timeline nodes to line up with the line's colour changes;
+  - to "remove human like typing for all demos except the main hero demo", "same with llm response ones".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Built site at 360, 375, 768, and 1440 px: no overflow and no page errors, and the hint fits on one line at 360 px.
+  - Roadmap at 375 and 1440 px: each segment's ends measure exactly at the dot centres, and the dots and segments share one x.
+  - The How it works text alternates between two lengths only (the request whole or absent).
+- Outcome: Accepted

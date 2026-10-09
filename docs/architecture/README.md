@@ -80,8 +80,10 @@ The home page, `app/page.tsx`, in order:
    (`mobile-menu`, a native `<details>` that also works without JavaScript).
 2. `hero`: `paper-banner` (a "New" link to the vision paper), headline,
    lede, and actions, beside `hero-demo` from `xl` (1280 px) up and above it
-   otherwise. The hero is 1288 px wide, wider than the content column, so the
-   760 px widget fits beside the copy. `hero-demo` is described below.
+   otherwise. Below `md` the widget comes straight after the headline, before
+   the lede and actions, so a phone shows it on arrival. The hero is 1288 px
+   wide, wider than the content column, so the 760 px widget fits beside the
+   copy. `hero-demo` is described below.
 3. `why-fluxiq` (`#why`): "The more it runs, the less you pay." A savings
    card whose curve sweeps 1 to 1,000 runs of one job against an agent's flat
    price (`savings/model.ts`; labelled "Example, not real data"), then four
@@ -126,7 +128,8 @@ from `content/`; its parts sit beside it. The looping illustrations are client
 components driven by `ui/use-loop-clock` (a 50 ms tick that runs from the moment
 any part of the element is on screen and the tab is visible, and restarts each
 time it scrolls into view); each derives its frame from a pure timeline module
-beside it. Human typing is `ui/typed-at`. They play for every visitor, as the
+beside it. Text in these sections appears whole, with no typing; only the
+hero demo types. They play for every visitor, as the
 hero demo does. The page ships about 177 KB gzip of JavaScript; the audit
 limit is 200 KB.
 
@@ -164,9 +167,11 @@ linked there.
   JavaScript.
 - **Attention**: on a quiet step (`isQuiet` in `timeline.ts`: nothing at
   work on the site, no cursor, no typing, and not an example's first or
-  last step) FluxIQ's newest chat message pulses amber; on a phone the
-  message bar over the site pulses too. Today that is Tell it's planning
-  step, Record it's build step, and It adapts' "AI was used once". There is no step timer or skip label; clicking the stage still skips a step.
+  last step) the phone's message bar over the site glows softly. Today that
+  is Tell it's planning step, Record it's build step, and It adapts' "AI was
+  used once". There is no step timer. Clicking or tapping the stage skips a
+  step, and `skip-hint` says so: "Click to skip forward" under the stage on a
+  desktop, "Tap to skip forward" beside the view switch on a phone.
 - **A click has two phases**: until it lands only the press shows (FluxIQ
   aims for 450 ms; the person's cursor travels for 700 ms); then everything
   it causes appears together. Loading bars and dimming start at the press,
