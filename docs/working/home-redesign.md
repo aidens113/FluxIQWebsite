@@ -257,3 +257,15 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Cause and fix: the reveal box was 6 px wider than the dot's position. Where the curve is steep, 6 px of width shows a long stretch of line past the dot. The reveal now ends exactly at the dot's x.
 - Validation: the reveal edge minus the dot's centre is 0 px at every sample through the sweep, at 1440 and 375 px. The dot stays within 0.3 px of the curve.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Smaller connector, centred between the cards
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, `HomeV5Mobile.dc.html`; this document
+- Why: The user asked for:
+  - a smaller merged ball and icon;
+  - no "Connected securely" pill;
+  - the flow label lifted clear of the ball;
+  - the connector centred on the two cards (desktop).
+- Design: the merged ball is 36 px (it was 52) with a 15 px shield-check, and the balls are 14 px before they meet. The status pill is gone on both boards. The flow label sits 64 px above the wire. On desktop the connector column fills the cards' full height and centres the wire at 50%.
+- Validation: at 1440 px the connector's centre equals the midpoint of the two cards (2544 px for both). Renders at 1440 and 375 px; no errors and no overflow.
+- Outcome: Accepted, pending the user's review
