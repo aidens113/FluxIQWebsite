@@ -269,3 +269,11 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Design: the merged ball is 36 px (it was 52) with a 15 px shield-check, and the balls are 14 px before they meet. The status pill is gone on both boards. The flow label sits 64 px above the wire. On desktop the connector column fills the cards' full height and centres the wire at 50%.
 - Validation: at 1440 px the connector's centre equals the midpoint of the two cards (2544 px for both). Renders at 1440 and 375 px; no errors and no overflow.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Bigger secure icon
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, `HomeV5Mobile.dc.html`; this document
+- Why: The user asked for a bigger secure icon inside the merged ball.
+- Design: the shield-check is 20 px (it was 15) inside the 36 px ball, on both boards.
+- Validation: close-up render at 1440 px.
+- Outcome: Accepted, pending the user's review
