@@ -6,15 +6,16 @@ export type RecordCardProps = {
   beat: number;
 };
 
-const REC = "#fa6571";
+const AMBER = "#f5b83d";
 
 type MarkProps = { on: boolean; label: string; place: "above" | "below" | "inside" };
 
 /**
- * The hero demo's recording mark: a dashed red outline with a soft pulse and
- * a "● Recorded" label, drawn inside the element it marks so it lines up.
+ * The hero demo's automation mark: a solid amber outline that breathes, with
+ * a "FluxIQ · Typing"-style label and a blinking dot, drawn inside the element
+ * it marks so it lines up.
  */
-function RecordedMark({ on, label, place }: MarkProps) {
+function ActionMark({ on, label, place }: MarkProps) {
   const at =
     place === "above"
       ? { left: -2, bottom: "calc(100% + 3px)" }
@@ -26,17 +27,22 @@ function RecordedMark({ on, label, place }: MarkProps) {
       aria-hidden="true"
       className="pointer-events-none absolute -inset-[3px] z-[2] rounded-lg"
       style={{
-        border: `2px dashed ${REC}`,
+        border: `2px solid ${AMBER}`,
+        background: "rgba(245,184,61,0.06)",
         opacity: on ? 1 : 0,
         transition: "opacity 250ms ease",
-        animation: on ? "how-userpulse 1.6s ease-in-out infinite" : undefined,
+        animation: on ? "how-breathe 1.6s ease-in-out infinite" : undefined,
       }}
     >
       {on && (
         <span
-          className="absolute rounded-[4px] px-[5px] py-px text-[9px] leading-[1.4] font-semibold whitespace-nowrap text-white"
-          style={{ ...at, background: REC }}
+          className="absolute rounded-[4px] px-[5px] py-px text-[9px] leading-[1.4] font-semibold whitespace-nowrap text-[#0c0d0f]"
+          style={{ ...at, background: AMBER }}
         >
+          <span
+            className="mr-1 inline-block size-[5px] rounded-full bg-[#0c0d0f] align-[1px]"
+            style={{ animation: "how-blink 1s ease-in-out infinite" }}
+          />
           {label}
         </span>
       )}
@@ -45,10 +51,10 @@ function RecordedMark({ on, label, place }: MarkProps) {
 }
 
 /**
- * Showing the job once: a small directory where the person types the search,
- * picks a city, and reads the results, while FluxIQ lists each action it
- * captures. Each action carries the hero demo's recording mark while it is
- * captured. Everything appears whole; only the marks and the list move.
+ * Doing the job once: FluxIQ types the search, picks a city, and reads the
+ * results on a small directory, each action under the hero demo's amber mark,
+ * and lists each step it learns. Everything appears whole; only the marks and
+ * the list move.
  */
 export function RecordCard({ record, beat }: RecordCardProps) {
   const [typeAt, pickAt, readAt] = CAPTURE_BEATS;
@@ -56,11 +62,11 @@ export function RecordCard({ record, beat }: RecordCardProps) {
   const active = (at: number) => !done && beat >= at && beat < at + 3;
   const captured = record.captured.filter((_, i) => beat >= (CAPTURE_BEATS[i] ?? Number.POSITIVE_INFINITY));
   return (
-    <div className="how-msg-in overflow-hidden rounded-2xl border border-[#2a1d20] bg-[#141518] md:ml-10">
+    <div className="how-msg-in overflow-hidden rounded-2xl border border-[#2a2414] bg-[#141518] md:ml-10">
       <div className="flex items-center gap-2 px-3 py-2 text-[11.5px] md:px-3.5 md:text-xs">
         <span
           className={`size-2 rounded-full ${done ? "bg-ok" : "animate-pulse"}`}
-          style={done ? undefined : { background: REC }}
+          style={done ? undefined : { background: AMBER }}
         />
         <span className={`font-semibold ${done ? "text-ok" : "text-fg"}`}>{done ? record.done : record.label}</span>
         <span className="text-dim">· {record.watching}</span>
@@ -76,7 +82,7 @@ export function RecordCard({ record, beat }: RecordCardProps) {
         <div className="mt-1.5 flex gap-1.5">
           <span className="relative flex h-[22px] min-w-0 flex-1 items-center rounded-md border border-[#d3d8de] bg-white px-1.5">
             {beat >= (typeAt ?? 0) ? record.query : null}
-            <RecordedMark on={active(typeAt ?? 0)} label={record.recorded} place="above" />
+            <ActionMark on={active(typeAt ?? 0)} label={record.tags.typing} place="above" />
           </span>
           <span className="flex h-[22px] items-center rounded-md bg-[#1d232b] px-2 text-white">{record.search}</span>
         </div>
@@ -90,7 +96,7 @@ export function RecordCard({ record, beat }: RecordCardProps) {
               >
                 {city}
                 {city === record.city && (
-                  <RecordedMark on={active(pickAt ?? 0)} label={record.recorded} place="below" />
+                  <ActionMark on={active(pickAt ?? 0)} label={record.tags.clicking} place="below" />
                 )}
               </span>
             );
@@ -100,7 +106,7 @@ export function RecordCard({ record, beat }: RecordCardProps) {
           className="relative mt-1.5 flex flex-col gap-1 rounded-md transition-opacity duration-300"
           style={{ opacity: beat >= (pickAt ?? 0) ? 1 : 0.25 }}
         >
-          <RecordedMark on={active(readAt ?? 0)} label={record.recorded} place="inside" />
+          <ActionMark on={active(readAt ?? 0)} label={record.tags.reading} place="inside" />
           {[0.72, 0.58, 0.66].map((w) => (
             <span key={w} className="flex items-center gap-1.5 rounded bg-white px-1.5 py-1">
               <span className="h-1.5 rounded-sm bg-[#c9cfd7]" style={{ width: `${w * 60}%` }} />

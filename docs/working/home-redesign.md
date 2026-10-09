@@ -469,3 +469,18 @@ Workers partition by file:
 - Why: The user asked to "make the scan indicators same as hero demo" on the How it works recording card.
 - Validation: `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass. Frames at 1440 and 375 px show the mark on the search box, on Calgary, and on the results, with labels clear of the card's edge.
 - Outcome: Accepted
+
+### 2026-10-09 — Automation marks, not recording marks
+
+- Changed:
+  - The How it works card now shows FluxIQ doing the job once, under the hero demo's automation marks:
+    - a solid amber outline with `how-breathe`;
+    - an amber label with a blinking dot (`how-blink`): "FluxIQ · Typing", "FluxIQ · Clicking", "FluxIQ · Reading" (`chat.record.tags`).
+  - Header: "Doing it once · learning each step", then "Learned".
+  - Plan intro: "Done once. Here's the job, built from those real actions:".
+  - The red recording marks and `recorded` label are gone; the description, source comment, and architecture README are updated.
+- Why: The user said the indicators read "recorded" "rather than proper automation ones".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Frames at 1440 and 375 px show "FluxIQ · Typing" on the search box and "FluxIQ · Clicking" on Calgary, in the hero demo's amber style.
+- Outcome: Accepted

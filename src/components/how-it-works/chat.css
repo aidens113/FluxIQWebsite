@@ -20,17 +20,29 @@
   animation: how-msg-in 0.35s ease both;
 }
 
-/* The person's recording mark, as in the hero demo (demo-userpulse). */
-@keyframes how-userpulse {
+/* FluxIQ's action mark, as in the hero demo (demo-breathe, demo-blink). */
+@keyframes how-breathe {
   0%,
   100% {
     box-shadow:
-      0 0 0 2px rgba(250, 101, 113, 0.1),
-      0 0 8px rgba(250, 101, 113, 0.15);
+      0 0 0 3px rgba(245, 184, 61, 0.16),
+      0 0 12px rgba(245, 184, 61, 0.22);
   }
   50% {
     box-shadow:
-      0 0 0 6px rgba(250, 101, 113, 0.06),
-      0 0 20px rgba(250, 101, 113, 0.4);
+      0 0 0 6px rgba(245, 184, 61, 0.1),
+      0 0 28px rgba(245, 184, 61, 0.5);
+  }
+}
+
+@keyframes how-blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
   }
 }
