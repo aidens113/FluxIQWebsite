@@ -37,6 +37,8 @@ export type WhyContent = {
     agentLine: string;
     notes: { learn: string; even: string; saved: string };
     axis: { first: string; ten: string; hundred: string; last: string; lastShort: string };
+    /** What the example assumes, in one line under the chart. */
+    assumptions: string;
     /** Read by assistive tech in place of the animation, with the final figures. */
     summary: string;
   };
@@ -52,16 +54,22 @@ export type WhyContent = {
 //   a graph change restarts the count).
 // - Modes: "Fully adaptive", "Manual approval", "No LLM intervention" in the
 //   same view; reverts in features/automation-studio/adaptations.
-// - The savings chart is an illustration with assumed prices (agent $0.05 a
-//   run, learn $0.10, then $0.00016 a run on average for checks and fixes),
-//   shaped after the paper and labelled "Example, not real data".
+// - The savings chart is an illustration with assumed prices, labelled
+//   "Example, not real data" (model in components/why-fluxiq/savings/model.ts):
+//   an agent at $0.05 a run; FluxIQ $0.10 to build, $0.01 per judged run
+//   (every run at first, tapering to 1 in 50 as trust grows), and $0.05 per
+//   fix, on runs 4, 9, 21, 55, 160, and 480 (rarer as edge cases are
+//   handled). The line is each run's cost, smoothed, so fixes show as bumps.
+//   It assumes a repeatable, deterministic job. Over 1,000 runs: $50.00
+//   against $0.84, cheaper in total from run 3. The site never claims runs
+//   cost nothing.
 export const WHY: WhyContent = {
   id: "why",
   eyebrow: "What it saves you",
   title: "The more it runs,",
   titleMuted: "the less you pay.",
-  lede: "An AI agent bills you for the same thinking every time it does a job. FluxIQ learns the job once, then repeats it for free. You only pay again when something actually changes.",
-  ledeShort: "An AI agent pays to think every run. FluxIQ learns the job once, then repeats it for free.",
+  lede: "An AI agent bills you for the same thinking every time it does a job. FluxIQ pays to build the job once, then checks it less and fixes it less as it proves itself, so each run costs less than the last.",
+  ledeShort: "An AI agent pays to think every run. With FluxIQ, each run costs less as the job is learned.",
   card: {
     example: "Example, not real data",
     learningLabel: "Learning the job",
@@ -74,18 +82,20 @@ export const WHY: WhyContent = {
     agent: "AI agent",
     flux: "FluxIQ",
     agentLine: "$0.05 every run",
-    notes: { learn: "Learns the job", even: "Cheaper from run 3", saved: "You keep the difference" },
+    notes: { learn: "Builds the job", even: "Cheaper from run 3", saved: "Checks and fixes taper off" },
     axis: { first: "1 run", ten: "10", hundred: "100", last: "1,000 runs", lastShort: "1,000" },
+    assumptions:
+      "Assumes a repeatable job: $0.10 to build, $0.01 to judge a run (every run at first, then 1 in 50 once trusted), and $0.05 per fix. Fixes show as bumps that fade as edge cases are handled.",
     summary:
-      "Example, not real data. Over 1,000 runs of one job, an AI agent costs $50.00 and FluxIQ costs $0.26, so you save $49.74. FluxIQ pays more on the first run to learn the job and is cheaper from run 3.",
+      "Example, not real data. Over 1,000 runs of one repeatable job, an AI agent costs $50.00 and FluxIQ $0.84: the build, judging that tapers as the job earns trust, and six fixes that grow rarer as edge cases are handled. FluxIQ costs more on the first run and is cheaper in total from run 3.",
   },
   points: [
     {
       icon: "coin",
       title: "Pay for what’s new",
-      body: "Routine runs replay saved steps with no model at all.",
+      body: "Routine steps replay without a model. You pay for the build, checks, and fixes.",
       shortTitle: "Pay for what’s new",
-      shortBody: "Routine runs need no AI at all.",
+      shortBody: "AI for the build, checks, and fixes, not routine steps.",
     },
     {
       icon: "gauge",

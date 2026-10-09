@@ -88,7 +88,9 @@ export type HowItWorksContent = {
 // Recording a job by doing it once is the extension's shipped record mode
 // (Web Extension b27893f: the side panel's "Recording · N steps").
 // Copy follows the approved v5 boards (HomeV4 §3, HomeV5Mobile §3); the job,
-// run numbers, row counts, and the $0.05 fix are an invented example.
+// run numbers, row counts, and costs are an invented example matching the
+// savings model in content/why.ts: a judged run about $0.01, a trusted run
+// $0.00, a fix $0.05. A fix restarts the checks (result-check schedule).
 export const HOW_IT_WORKS: HowItWorksContent = {
   id: "how-it-works",
   eyebrow: "How it works",
@@ -105,7 +107,7 @@ export const HOW_IT_WORKS: HowItWorksContent = {
     {
       num: "03",
       title: "It runs on its own",
-      body: "Same steps every time, with no AI bill. Checked closely at first, then less as it proves itself.",
+      body: "Same steps every time, so each run costs little. Checked closely at first, then less as it proves itself.",
     },
     {
       num: "04",
@@ -117,7 +119,7 @@ export const HOW_IT_WORKS: HowItWorksContent = {
     name: "FluxIQ",
     job: "Morning roofer leads",
     description:
-      "An example chat with FluxIQ. You ask it to add new roofers in Calgary to your sheet every morning, then show it once: you search for roofing, pick Calgary, and read the results while FluxIQ records three steps. FluxIQ lays out six steps and asks before the one that sends an email, and you allow it. Runs 1, 2, 8, and 33 add rows at $0.00 in AI, checked at first and then trusted. Run 400 stops because the site moved its search box; FluxIQ finds the new one, you keep the fix for $0.05, a test run passes, and runs 401 and 402 carry on at $0.00.",
+      "An example chat with FluxIQ. You ask it to add new roofers in Calgary to your sheet every morning, then show it once: you search for roofing, pick Calgary, and read the results while FluxIQ records three steps. FluxIQ lays out six steps and asks before the one that sends an email, and you allow it. Runs 1, 2, and 8 add rows and are checked for about $0.01 each; by run 33 the job is trusted and runs at $0.00. Run 400 stops because the site moved its search box; FluxIQ finds the new one, you keep the fix for $0.05, a checked test run passes, and runs 401 and 402 are checked again for $0.01 each.",
     ask: "Every morning, add new roofers in Calgary to my sheet.",
     record: {
       label: "Recording",
@@ -157,20 +159,20 @@ export const HOW_IT_WORKS: HowItWorksContent = {
     kept: "✓ Fix kept",
     fixCost: "one fix, $0.05",
     runs: [
-      { title: "Run 1", detail: "18 new rows", tag: "checked", cost: "$0.00", tone: "check" },
-      { title: "Run 2", detail: "11 new rows", tag: "checked", cost: "$0.00", tone: "check" },
-      { title: "Run 8", detail: "9 new rows", tag: "checked", cost: "$0.00", tone: "check" },
+      { title: "Run 1", detail: "18 new rows", tag: "checked", cost: "$0.01", tone: "check" },
+      { title: "Run 2", detail: "11 new rows", tag: "checked", cost: "$0.01", tone: "check" },
+      { title: "Run 8", detail: "9 new rows", tag: "checked", cost: "$0.01", tone: "check" },
       { title: "Run 33", detail: "14 new rows", tag: "trusted", cost: "$0.00", tone: "ok" },
     ],
     after: [
-      { title: "Test run", detail: "21 new rows", tag: "passed", cost: "$0.00", tone: "ok" },
-      { title: "Run 401", detail: "15 new rows", tag: "checked", cost: "$0.00", tone: "check" },
-      { title: "Run 402", detail: "12 new rows", tag: "checked", cost: "$0.00", tone: "check" },
+      { title: "Test run", detail: "21 new rows", tag: "passed", cost: "$0.01", tone: "ok" },
+      { title: "Run 401", detail: "15 new rows", tag: "checked", cost: "$0.01", tone: "check" },
+      { title: "Run 402", detail: "12 new rows", tag: "checked", cost: "$0.01", tone: "check" },
     ],
     badges: {
       setup: "Setting up",
       building: "Building",
-      running: "Running · $0.00 AI",
+      running: "Running",
       fixing: "Fixing",
       fixed: "Fixed",
     },

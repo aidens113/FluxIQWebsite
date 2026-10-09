@@ -440,3 +440,25 @@ Workers partition by file:
 - Why: The user said "the messages are overriding other messages as it scrolls up".
 - Validation: `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass. Sampling the built site every 200 ms for 26 s at 375 and 1440 px found no overlapping messages. The only leftover is the recording card measuring 2 px taller than itself while a step chip rises in; nothing renders outside it.
 - Outcome: Accepted
+
+### 2026-10-09 — A realistic savings model; no "free" claims
+
+- Changed:
+  - `why-fluxiq/savings/model.ts`: the chart plots each run's cost instead of a flat average.
+    - Costs: $0.10 to build on run 1; $0.01 per judged run, judging every run at first (`8 / (r + 7)`) and tapering to 1 in 50; $0.05 per fix on runs 4, 9, 21, 55, 160, and 480.
+    - The line is smoothed with a Gaussian 0.07 decades wide on the log axis, so fixes read as bumps that shrink and spread out. The dot reads the sampled curve (300 samples).
+    - Totals are the exact running sum: $0.84 against $50.00 over 1,000 runs, cheaper in total from run 3.
+  - `content/why.ts`:
+    - the lede and short lede say runs get cheaper, not free;
+    - the third note is "Checks and fixes taper off", and the first is "Builds the job";
+    - the "Pay for what's new" point names what you pay for;
+    - a new `card.assumptions` line sits under the chart;
+    - the summary and source comment carry the new numbers.
+  - `content/how-it-works.ts`: checked runs cost $0.01 (trusted runs $0.00), "Running · $0.00 AI" is now "Running", and stage 03 says "each run costs little" instead of "no AI bill", to match the model.
+- Why: The user asked that the section "not claim that you pay nothing, but simply that cost reduces", modelled on the build, fixes, and judging that decays until trusted, for a deterministic job whose edge cases can be learned, and with a line that is "more spikey but smoothed out… to show more realistic costs".
+- Not changed: the hero demo's "No AI needed" lines are real extension strings (`b27893f`) describing one run.
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - At 375 and 1440 px the chart shows the build peak, a bump at run 4 under the agent line, fading ripples, and $49.16 saved over 1,000 runs.
+  - The dot stays on the line at 60 positions a second, with no page errors.
+- Outcome: Accepted

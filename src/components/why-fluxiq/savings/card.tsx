@@ -80,6 +80,7 @@ export function SavingsCard() {
             {CARD.flux} <span className="text-amber tabular-nums">{money(frame.fluxSpent)}</span>
           </span>
         </div>
+        <p className="mt-3 text-[11px] leading-snug text-dim md:mt-4 md:text-xs">{CARD.assumptions}</p>
       </div>
     </div>
   );
