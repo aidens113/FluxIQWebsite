@@ -414,3 +414,22 @@ Workers partition by file:
   - The 375 px gap audit shows 80 px section padding and 28 px gaps after every heading block; the paper card keeps its own inner padding.
   - No page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — Show it once, quicker loops, Vision gap
+
+- Changed:
+  - `how-it-works/record-card.tsx`: new. After the request, a "Recording · FluxIQ is watching" card shows a small directory where the person's actions ring red as FluxIQ captures them: Type "roofing" (beat 5), Pick Calgary (8), Read the results (11), then "Captured" (14).
+  - Supporting edits:
+    - `timeline.ts` adds `RECORD_BEAT`, `CAPTURE_BEATS`, and `CAPTURED_BEAT`;
+    - `content/how-it-works.ts` adds `chat.record`, and the plan intro is now "Got it. Here's the job, built from what you showed me:".
+    - Source: recording mode is the extension's shipped side-panel recording (Web Extension `b27893f`, "Recording · N steps", as recorded in `hero-demo.md`).
+  - `vision/request-chat.tsx`: the 236 px (phone) and 178 px reserved minimum height is gone. The reply bubble always holds its full text (hidden until shown, with the thinking dots over it), so nothing below jumps; the chat-to-app gap is now 16 px.
+  - Speed:
+    - `parts/timeline.ts` steps every 175 ms, not 250 ms (a loop is about 11 s, not 16 s);
+    - `vision/outcome-story.ts` adds `STORY_SPEED` 1.6, applied in `vision-demo.tsx`.
+- Why: The user said the first How it works stage "is just empty space… of a single message and nothing happening", asked to "FIX THE NEGATIVE SPACE ON MOBILE", naming the gap between the message and the example application in "Where it's going", and asked to speed up "the fluxiq remembers animations" and "the application example".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (176.9 KB) pass.
+  - At 375 and 1440 px the chat-to-app gap is 16 px; there is no overflow and no page errors.
+  - Screenshots at both widths show the record card mid-capture.
+- Outcome: Accepted

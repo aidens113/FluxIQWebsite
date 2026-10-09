@@ -10,6 +10,8 @@ import type { ConceptFlowState, ConceptLead, ConceptLeadStatus } from "@/content
  */
 
 export const PASS = 500;
+/** How much faster than the shared clock the story plays (the user asked for a quicker app). */
+export const STORY_SPEED = 1.6;
 const INTRO = 16;
 const CARD_AT = 14;
 

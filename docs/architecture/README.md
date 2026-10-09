@@ -89,7 +89,9 @@ The home page, `app/page.tsx`, in order:
    price (`savings/model.ts`; labelled "Example, not real data"), then four
    value points (tiles from `md`, an icon list below).
 4. `how-it-works` (`#how-it-works`): the four stages beside a FluxIQ chat
-   that plays one job's life: the request, the plan, an ask before emailing,
+   that plays one job's life: the request, showing it once (`record-card`: a
+   small directory where the person searches, picks a city, and reads while
+   FluxIQ captures three steps), the plan, an ask before emailing,
    free runs, a fix when the site changes, more runs. Below `md` the stages
    become a four-segment progress bar.
 5. `vision` (`#vision`): a request and FluxIQ's reply, then the RoofLeads

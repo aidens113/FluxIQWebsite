@@ -1,12 +1,12 @@
-// The pairing story, one 64-step loop of 250 ms steps (16 s), as pure state.
+// The pairing story, one 64-step loop of 175 ms steps (about 11 s), as pure state.
 // Press Connect, approve the matching code, and the two ends join; then the
 // job goes out to the browser and the rows come back. Ported from the
 // approved board's `parts(t, fine)` (docs/working/home-redesign.md).
 
 /** Steps in one loop. */
 export const PARTS_CYCLE = 64;
-/** Clock ticks (50 ms) per story step (250 ms). */
-export const TICKS_PER_STEP = 5;
+/** Clock ticks (50 ms) per story step (175 ms); quickened from 250 ms at the user's request. */
+export const TICKS_PER_STEP = 3.5;
 
 export type PairingPhase = "idle" | "pairing" | "live";
 export type WireLoad = "code" | "job" | "rows";

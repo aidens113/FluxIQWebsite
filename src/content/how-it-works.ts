@@ -39,6 +39,20 @@ export type HowItWorksContent = {
     /** What the illustration shows, for assistive tech. */
     description: string;
     ask: string;
+    /** Showing the job once: the person does it on a small site while FluxIQ records each action. */
+    record: {
+      label: string;
+      watching: string;
+      done: string;
+      url: string;
+      query: string;
+      search: string;
+      cities: readonly string[];
+      /** The city the person picks. */
+      city: string;
+      captured: readonly HowPlanStep[];
+      count: string;
+    };
     planIntro: string;
     steps: readonly HowPlanStep[];
     /** The tag on the email step, and its phone form. */
@@ -71,6 +85,8 @@ export type HowItWorksContent = {
 // always held for a person (runtime/flow-bootstrap,
 // docs/architecture/automation-studio/llm-flow-bootstrap.md); a patch is kept
 // only after a whole run on it is judged a success (judged-promotion.ts).
+// Recording a job by doing it once is the extension's shipped record mode
+// (Web Extension b27893f: the side panel's "Recording · N steps").
 // Copy follows the approved v5 boards (HomeV4 §3, HomeV5Mobile §3); the job,
 // run numbers, row counts, and the $0.05 fix are an invented example.
 export const HOW_IT_WORKS: HowItWorksContent = {
@@ -101,9 +117,25 @@ export const HOW_IT_WORKS: HowItWorksContent = {
     name: "FluxIQ",
     job: "Morning roofer leads",
     description:
-      "An example chat with FluxIQ. You ask it to add new roofers in Calgary to your sheet every morning. FluxIQ lays out six steps and asks before the one that sends an email, and you allow it. Runs 1, 2, 8, and 33 add rows at $0.00 in AI, checked at first and then trusted. Run 400 stops because the site moved its search box; FluxIQ finds the new one, you keep the fix for $0.05, a test run passes, and runs 401 and 402 carry on at $0.00.",
+      "An example chat with FluxIQ. You ask it to add new roofers in Calgary to your sheet every morning, then show it once: you search for roofing, pick Calgary, and read the results while FluxIQ records three steps. FluxIQ lays out six steps and asks before the one that sends an email, and you allow it. Runs 1, 2, 8, and 33 add rows at $0.00 in AI, checked at first and then trusted. Run 400 stops because the site moved its search box; FluxIQ finds the new one, you keep the fix for $0.05, a test run passes, and runs 401 and 402 carry on at $0.00.",
     ask: "Every morning, add new roofers in Calgary to my sheet.",
-    planIntro: "On it. Here's the job, built from real actions:",
+    record: {
+      label: "Recording",
+      watching: "FluxIQ is watching",
+      done: "Captured",
+      url: "leads-directory.example",
+      query: "roofing",
+      search: "Search",
+      cities: ["Alberta", "Calgary", "Edmonton"],
+      city: "Calgary",
+      captured: [
+        { verb: "Type", target: "“roofing”" },
+        { verb: "Pick", target: "Calgary" },
+        { verb: "Read", target: "the results" },
+      ],
+      count: "steps",
+    },
+    planIntro: "Got it. Here's the job, built from what you showed me:",
     steps: [
       { verb: "Open", target: "the leads directory" },
       { verb: "Search", target: "for “roofing”" },

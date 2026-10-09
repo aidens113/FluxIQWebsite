@@ -4,7 +4,7 @@ import { useLoopClock } from "@/components/ui/use-loop-clock";
 import { VISION } from "@/content/vision";
 import { DesktopApp } from "./app/desktop-app";
 import { PhoneApp } from "./app/phone-app";
-import { storyAt } from "./outcome-story";
+import { STORY_SPEED, storyAt } from "./outcome-story";
 import { RequestChat } from "./request-chat";
 
 export type VisionDemoProps = {
@@ -19,7 +19,7 @@ export type VisionDemoProps = {
 export function VisionDemo({ className }: VisionDemoProps) {
   const { ref, tick } = useLoopClock<HTMLElement>();
   const { chat, app, caption } = VISION;
-  const frame = storyAt(tick, chat.prompt, chat.reply, app.pool);
+  const frame = storyAt(tick * STORY_SPEED, chat.prompt, chat.reply, app.pool);
   return (
     <figure ref={ref} className={`min-w-0 ${className ?? ""}`}>
       <RequestChat chat={chat} frame={frame} />

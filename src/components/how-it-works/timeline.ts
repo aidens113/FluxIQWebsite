@@ -3,7 +3,8 @@
  * from the board's `how(t, fine)`. One pass is 500 ticks (25 s); the story
  * steps every 5 ticks (`beat`, 0 to 99), and only the typing uses the fine
  * ticks. Beats:
- *   0  you type the request          17  the plan, its steps arrive one by one
+ *   0  you send the request           3  you show it once: 5, 8, 11 captured
+ *  14  recording done                17  the plan, its steps arrive one by one
  *  28  FluxIQ asks before emailing   31  Allow pressed, 32 allowed
  *  36  runs 1, 2, 8, 33 report in    58  run 400 stops, FluxIQ fixes
  *  69  Keep the fix pressed, 70 kept 73  the test run passes
@@ -15,6 +16,10 @@ export const HOW_CYCLE = 500;
 /** The beat each run card appears on, in the content's order. */
 export const RUN_BEATS = [36, 40, 44, 49] as const;
 export const AFTER_BEATS = [73, 86, 92] as const;
+/** Showing it once: the recording card, each captured action, and the end. */
+export const RECORD_BEAT = 3;
+export const CAPTURE_BEATS = [5, 8, 11] as const;
+export const CAPTURED_BEAT = 14;
 /** The beats on which the plan, the ask, and the fix messages appear. */
 export const PLAN_BEAT = 17;
 export const ASK_BEAT = 28;

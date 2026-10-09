@@ -3,8 +3,18 @@ import type { HowItWorksContent } from "@/content/how-it-works";
 import { AskCard } from "./ask-card";
 import { FixCard } from "./fix-card";
 import { PlanCard } from "./plan-card";
+import { RecordCard } from "./record-card";
 import { RunCard } from "./run-card";
-import { AFTER_BEATS, ASK_BEAT, FIX_BEAT, type HowBadge, type HowFrame, PLAN_BEAT, RUN_BEATS } from "./timeline";
+import {
+  AFTER_BEATS,
+  ASK_BEAT,
+  FIX_BEAT,
+  type HowBadge,
+  type HowFrame,
+  PLAN_BEAT,
+  RECORD_BEAT,
+  RUN_BEATS,
+} from "./timeline";
 import { UserBubble } from "./user-bubble";
 
 export type ChatWindowProps = {
@@ -44,6 +54,7 @@ export function ChatWindow({ chat, frame }: ChatWindowProps) {
       </div>
       <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden p-3.5 [mask-image:linear-gradient(transparent,#000_56px)] md:p-[18px]">
         {frame.asked ? <UserBubble text={chat.ask} /> : null}
+        {beat >= RECORD_BEAT ? <RecordCard record={chat.record} beat={beat} /> : null}
         {beat >= PLAN_BEAT ? <PlanCard chat={chat} beat={beat} searchFixed={frame.searchFixed} /> : null}
         {beat >= ASK_BEAT ? (
           <AskCard chat={chat} ring={frame.allowRing} pressed={frame.allowPressed} allowed={frame.allowed} />
