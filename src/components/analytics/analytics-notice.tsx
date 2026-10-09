@@ -45,7 +45,7 @@ export function AnalyticsNotice() {
   return (
     <section
       aria-label={notice.label}
-      className="fixed inset-x-3 bottom-3 z-50 mx-auto flex max-w-[640px] items-center gap-3 rounded-2xl border border-edge bg-panel/95 py-2.5 pr-2.5 pl-4 sm:inset-x-4 sm:bottom-4 sm:gap-4 sm:p-4 sm:pl-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur"
+      className="fixed inset-x-3 bottom-3 z-50 mx-auto flex max-w-[640px] items-center gap-3 rounded-2xl border border-edge bg-panel sm:bg-panel/95 py-2.5 pr-2.5 pl-4 sm:inset-x-4 sm:bottom-4 sm:gap-4 sm:p-4 sm:pl-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] sm:backdrop-blur"
     >
       <p className="text-[13px] leading-snug text-soft sm:text-sm sm:leading-relaxed">
         {notice.lead}{" "}

@@ -14,7 +14,7 @@ export function Status() {
     <PageSection id={STATUS.id} labelledBy="status-title">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <p className="mb-3.5 font-mono text-xs tracking-[0.08em] text-amber uppercase md:mb-4.5">{STATUS.eyebrow}</p>
+          <p className="mb-4 font-mono text-xs tracking-[0.08em] text-amber uppercase">{STATUS.eyebrow}</p>
           <SectionTitle id="status-title">
             {STATUS.heading.lead} <span className="text-dim">{STATUS.heading.muted}</span>
           </SectionTitle>
@@ -23,7 +23,7 @@ export function Status() {
           <LinkButton action={{ ...STATUS.repo, variant: "ghost" }} />
         </div>
       </div>
-      <ul className="mt-5.5 grid md:mt-12 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+      <ul className="mt-7 grid md:mt-12 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
         {STATUS.items.map((item) => (
           <li
             key={item.label}
@@ -46,7 +46,7 @@ export function Status() {
           </li>
         ))}
       </ul>
-      <div className="mt-5.5 flex flex-col md:hidden">
+      <div className="mt-7 flex flex-col md:hidden">
         <LinkButton action={{ ...STATUS.repo, variant: "ghost" }} />
       </div>
     </PageSection>

@@ -10,7 +10,7 @@ export function WhyFluxIQ() {
     <PageSection id={WHY.id} labelledBy="why-title">
       <div className="grid gap-x-16 md:grid-cols-2 md:items-end">
         <div>
-          <p className="mb-4 font-mono text-xs text-amber uppercase">{WHY.eyebrow}</p>
+          <p className="mb-4 font-mono text-xs tracking-[0.08em] text-amber uppercase">{WHY.eyebrow}</p>
           <SectionTitle id="why-title">
             {WHY.title} <span className="text-dim">{WHY.titleMuted}</span>
           </SectionTitle>

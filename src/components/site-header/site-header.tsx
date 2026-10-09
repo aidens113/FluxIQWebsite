@@ -15,7 +15,7 @@ export type SiteHeaderProps = {
 /** The sticky top bar: home link, page links (a Menu on phones), and GitHub. */
 export function SiteHeader({ nav, section }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line bg-ink/95 md:bg-ink/85 md:backdrop-blur">
       <Container className="relative flex min-h-15 items-center gap-x-4 md:min-h-18 md:gap-x-8">
         <HomeLink section={section} />
         <PrimaryNav items={nav} />

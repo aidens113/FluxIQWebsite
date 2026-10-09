@@ -13,7 +13,7 @@ export function ClosingCta() {
       aria-labelledby="closing-cta-title"
       className="border-y border-amber-edge bg-[linear-gradient(110deg,var(--color-amber-wash),var(--color-ink)_45%,var(--color-amber-row)_75%,var(--color-ink))]"
     >
-      <Container className="py-14 md:flex md:items-center md:justify-between md:gap-8 md:py-24">
+      <Container className="py-20 md:flex md:items-center md:justify-between md:gap-8 md:py-24">
         <div className="min-w-0">
           <h2
             id="closing-cta-title"
@@ -23,7 +23,7 @@ export function ClosingCta() {
           </h2>
           <p className="mt-3 hidden max-w-[560px] text-lg leading-[1.55] text-muted md:block">{CLOSING_CTA.lede}</p>
         </div>
-        <div className="mt-5.5 flex flex-col gap-2.5 md:mt-0 md:flex-none md:flex-row md:gap-3">
+        <div className="mt-7 flex flex-col gap-2.5 md:mt-0 md:flex-none md:flex-row md:gap-3">
           {CLOSING_CTA.actions.map((action) => (
             <LinkButton key={action.label} action={action} />
           ))}

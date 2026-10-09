@@ -11,7 +11,7 @@ export function Paper() {
       <PaperCard
         intro={
           <>
-            <p className="mb-3.5 font-mono text-xs tracking-[0.08em] text-amber uppercase md:mb-4.5">{PAPER.eyebrow}</p>
+            <p className="mb-4 font-mono text-xs tracking-[0.08em] text-amber uppercase">{PAPER.eyebrow}</p>
             <SectionTitle id="paper-title">
               {PAPER.heading.lead} <span className="text-dim">{PAPER.heading.muted}</span>
             </SectionTitle>

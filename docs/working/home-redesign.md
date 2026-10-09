@@ -396,3 +396,21 @@ Workers partition by file:
   - Roadmap at 375 and 1440 px: each segment's ends measure exactly at the dot centres, and the dots and segments share one x.
   - The How it works text alternates between two lengths only (the request whole or absent).
 - Outcome: Accepted
+
+### 2026-10-09 — Smoother phone motion, even mobile spacing
+
+- Changed:
+  - `ui/use-loop-clock.ts`: a `smooth` option makes the tick fractional and advances it every animation frame.
+  - `why-fluxiq/savings/*`: the savings chart uses that option and positions its dot with a transform (`cqw`/`cqh` in a size container) instead of 50 ms `left`/`top` transitions. The sweep is 5.2 s instead of 7 s (cycle 150 ticks, sweep 104, fade 138). Phones skip the line's drop-shadow filter.
+  - The header and the analytics notice drop `backdrop-blur` below `md`/`sm` (nearly opaque fills instead), so fixed blur layers are not recomposited over moving sections.
+  - Mobile spacing:
+    - every section eyebrow is `mb-4 text-xs tracking-[0.08em]`;
+    - heading to content and block to block are 28 px (`mt-7`) in Why, Status, and the closing call to action, matching the other sections;
+    - the closing call to action pads 80 px like every section.
+- Why: The user asked to "make animations smoother/faster, especially for the money saved graph" on phones, and to "fix negative space so its more consistent… just in general".
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - At 375 and 1440 px the savings dot took 60 and 59 distinct positions in one second (20 before), and screenshots show it on the line.
+  - The 375 px gap audit shows 80 px section padding and 28 px gaps after every heading block; the paper card keeps its own inner padding.
+  - No page errors.
+- Outcome: Accepted

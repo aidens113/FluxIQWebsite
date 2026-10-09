@@ -10,12 +10,13 @@ const money = (value: number) => `$${value.toFixed(2)}`;
 
 /**
  * The bottom line: what one job saves as its runs add up, with the chart
- * sweeping from 1 to 1,000 runs on the shared clock. Below `md` the card
+ * sweeping from 1 to 1,000 runs on the shared clock, read every animation
+ * frame so the dot glides. Below `md` the card
  * stacks and the two totals share one line; from `md` up they sit as bars
  * in a column beside the chart.
  */
 export function SavingsCard() {
-  const { ref, tick } = useLoopClock<HTMLDivElement>();
+  const { ref, tick } = useLoopClock<HTMLDivElement>(50, true);
   const frame = savingsFrame(tick);
   const learning = frame.saved < 0;
   const runs = `${frame.runs.toLocaleString("en-US")} ${frame.runs > 1 ? CARD.runs : CARD.run}`;
@@ -60,10 +61,7 @@ export function SavingsCard() {
               <span className="text-amber tabular-nums">{money(frame.fluxSpent)}</span>
             </div>
             <div className="mt-1.5 h-1.5 rounded-[3px] bg-[#1a1b1f]">
-              <span
-                className="block h-full rounded-[3px] bg-amber transition-[width] duration-50 ease-linear"
-                style={{ width: `${fluxShare}%` }}
-              />
+              <span className="block h-full rounded-[3px] bg-amber" style={{ width: `${fluxShare}%` }} />
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ export function Parts() {
     <PageSection id={PARTS.id} labelledBy="parts-title">
       <div className="grid gap-5 md:grid-cols-2 md:items-end md:gap-16">
         <div>
-          <p className="mb-4.5 font-mono text-[12.5px] tracking-[0.08em] text-amber uppercase">{PARTS.eyebrow}</p>
+          <p className="mb-4 font-mono text-xs tracking-[0.08em] text-amber uppercase">{PARTS.eyebrow}</p>
           <SectionTitle id="parts-title">
             {PARTS.title.lead} <span className="text-dim">{PARTS.title.muted}</span>
           </SectionTitle>

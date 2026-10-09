@@ -10,7 +10,7 @@ export function HowItWorks() {
     <PageSection id={HOW_IT_WORKS.id} labelledBy="how-title">
       <div className="grid gap-x-16 md:grid-cols-2 md:items-end">
         <div>
-          <p className="mb-4 font-mono text-xs text-amber uppercase">{HOW_IT_WORKS.eyebrow}</p>
+          <p className="mb-4 font-mono text-xs tracking-[0.08em] text-amber uppercase">{HOW_IT_WORKS.eyebrow}</p>
           <SectionTitle id="how-title">
             {lead} <span className="text-dim">{muted}</span>
           </SectionTitle>

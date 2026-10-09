@@ -127,7 +127,9 @@ Each section is a server component with no props that renders one constant
 from `content/`; its parts sit beside it. The looping illustrations are client
 components driven by `ui/use-loop-clock` (a 50 ms tick that runs from the moment
 any part of the element is on screen and the tab is visible, and restarts each
-time it scrolls into view); each derives its frame from a pure timeline module
+time it scrolls into view; the savings chart asks for a `smooth` clock that
+advances every animation frame, so its dot glides); each derives its frame
+from a pure timeline module
 beside it. Text in these sections appears whole, with no typing; only the
 hero demo types. They play for every visitor, as the
 hero demo does. The page ships about 177 KB gzip of JavaScript; the audit

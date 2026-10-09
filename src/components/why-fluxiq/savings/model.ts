@@ -22,9 +22,9 @@ const PLOT_H = 200;
 const TOP_PAD = 8;
 
 /** The loop, in ticks of the shared 50 ms clock. */
-const CYCLE = 190;
-const SWEEP = 140;
-const HIDE_AT = 178;
+const CYCLE = 150;
+const SWEEP = 104;
+const HIDE_AT = 138;
 
 const avgCost = (runs: number) => (LEARN + PER_RUN * runs) / runs;
 const yFor = (cost: number) => PLOT_H - (cost / YMAX) * (PLOT_H - TOP_PAD);
@@ -64,13 +64,11 @@ export type SavingsFrame = {
   /** The dot's position, as percentages of the plot box. */
   xPct: number;
   yPct: number;
-  /** The first tick of a loop, when the dot jumps back without a transition. */
-  reset: boolean;
   /** The last ticks of a loop, when the line and the notes fade out. */
   hidden: boolean;
 };
 
-/** The chart's state at one tick of the shared clock. */
+/** The chart's state at one tick of the shared clock; the tick may be fractional. */
 export function savingsFrame(tick: number): SavingsFrame {
   const c = tick % CYCLE;
   const q = Math.min(1, c / SWEEP);
@@ -87,7 +85,6 @@ export function savingsFrame(tick: number): SavingsFrame {
     saved: agentSpent - fluxSpent,
     xPct: f * 100,
     yPct: (yFor(avgCost(exact)) / VIEW_H) * 100,
-    reset: c === 0,
     hidden: c >= HIDE_AT,
   };
 }

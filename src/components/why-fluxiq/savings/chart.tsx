@@ -25,19 +25,19 @@ function noteClass(on: boolean, tone: string, place: string) {
  */
 export function SavingsChart({ frame }: SavingsChartProps) {
   const gradientId = useId();
-  const { xPct, yPct, reset, hidden, runs } = frame;
+  const { xPct, yPct, hidden, runs } = frame;
+  // The clock moves the line and dot every frame; only the fades transition.
   const fade = "opacity .4s";
   const reveal = {
     // Clip at exactly the dot's x; the 10 px above and below keep the glow.
     clipPath: `inset(-10px ${100 - xPct}% -10px 0)`,
     opacity: hidden ? 0 : 1,
-    transition: reset ? fade : `clip-path .05s linear, ${fade}`,
+    transition: fade,
   };
   const dot = {
-    left: `${xPct}%`,
-    top: `${yPct}%`,
+    transform: `translate(${xPct}cqw, ${yPct}cqh)`,
     opacity: hidden ? 0 : 1,
-    transition: reset ? fade : `left .05s linear, top .05s linear, ${fade}`,
+    transition: fade,
   };
 
   return (
@@ -56,7 +56,7 @@ export function SavingsChart({ frame }: SavingsChartProps) {
         </p>
       </div>
 
-      <div className="relative mt-[18px] h-[146px] md:mt-[26px] md:h-[206px]">
+      <div className="relative mt-[18px] h-[146px] [container-type:size] md:mt-[26px] md:h-[206px]">
         <svg
           viewBox={VIEW_BOX}
           preserveAspectRatio="none"
@@ -92,11 +92,11 @@ export function SavingsChart({ frame }: SavingsChartProps) {
             </defs>
             <path d={GAP_PATH} fill={`url(#${gradientId})`} />
           </svg>
-          {/* The glow sits on the outer SVG so it is not stretched with the viewBox. */}
+          {/* The glow sits on the outer SVG so it is not stretched with the viewBox. Phones skip it: a filter repainted every frame stutters there. */}
           <svg
             viewBox={VIEW_BOX}
             preserveAspectRatio="none"
-            className="absolute inset-0 h-full w-full overflow-visible drop-shadow-[0_0_6px_rgba(245,184,61,0.45)]"
+            className="absolute inset-0 h-full w-full overflow-visible md:drop-shadow-[0_0_6px_rgba(245,184,61,0.45)]"
             role="presentation"
           >
             <path
@@ -111,7 +111,7 @@ export function SavingsChart({ frame }: SavingsChartProps) {
         </div>
 
         <span
-          className="absolute -mt-[7px] -ml-[7px] box-border size-3.5 rounded-full border-2 border-panel bg-amber shadow-[0_0_0_4px_rgba(245,184,61,0.2),0_0_14px_rgba(245,184,61,0.6)]"
+          className="absolute top-0 left-0 -mt-[7px] -ml-[7px] box-border size-3.5 will-change-transform rounded-full border-2 border-panel bg-amber shadow-[0_0_0_4px_rgba(245,184,61,0.2),0_0_14px_rgba(245,184,61,0.6)]"
           style={dot}
         />
         <span
