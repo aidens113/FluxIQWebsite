@@ -509,3 +509,55 @@ Workers partition by file:
   - Sampling the built site every 0.5 s for 28 s at 1440 px: after the sweep the dot stayed between 25 and 100% of the line, and the line's clip stayed at 0 (never hidden). After the first Vision pass the request stayed visible and the app stayed at opacity 1.
   - Screenshots at 375 and 1440 px show the new axis.
 - Outcome: Accepted
+
+### 2026-10-09 — How it works v6 concepts: briefs F and G
+
+- Decision: the user chose two directions to compare, 6+4 and 6+9. Both lead with reliability ("automations that survive a redesign") and with benefits, not mechanics. They go on the canvas as new artboards next to the v5 boards, desktop (1440) and phone (375) each.
+- Claims every concept must keep (sources as in `content/how-it-works.ts` and `content/why.ts`):
+  - a job is a Flow;
+  - it can run on a schedule;
+  - anything that sends, buys, or deletes waits for the person's OK;
+  - when a site changes, FluxIQ finds the new element, a fix costs about $0.05 in the example, and it is kept only after a full run passes;
+  - checks taper as the Flow earns trust: a judged run is about $0.01 and a trusted run $0.00;
+  - never claim runs are free.
+- The supervisor will verify each artboard by rendering it, not from the reports.
+
+### Brief: F
+- Repository: none (scratchpad canvas files, not this repo)
+- Task: Design concept A (6+4) for How it works. Headline about automations that survive a redesign.
+  - Part 1, "the task you do every morning": someone doing a lead-list job by hand (open site, search, filter, copy rows), with a minutes timer climbing to about 23 min. Then one sentence to FluxIQ: the same job finishes in seconds with "0 min of yours". Then Tue, Wed, Thu tick by, already done.
+  - Part 2, the reliability split: the same site redesign hits "an ordinary recorded script" (step fails, empty sheet next morning) and FluxIQ ("Site changed · fixed for $0.05 · nothing missed", rows still land).
+  - Plus 3 or 4 short benefit points.
+  - Animated with a DCLogic 50 ms timer, as HomeV4 does.
+- Required reads: `<scratchpad>/canvas/dc-format.md`; `<scratchpad>/canvas/project/HomeV4.dc.html` (match its tokens, fonts, and `.sec` layout; its How it works is lines 266–321 and its logic `how()`); this entry's claim list.
+- Owns: `<scratchpad>/canvas/project/HowA.dc.html` (desktop, 1440 wide, fluid page), `<scratchpad>/canvas/project/HowAMobile.dc.html` (375 wide).
+- Must not touch: every other file, including `canvas.json` and this repository.
+- Definition of done: both files follow the format (support.js head line, `<x-dc>`, a classic `class Component extends DCLogic`, holes are lookups only). Tags balance, and the extracted logic passes `node --check`. Copy follows the claim list.
+- Report to: docs/working/home-redesign/reports/F.md
+
+### Brief: G
+- Repository: none (scratchpad canvas files, not this repo)
+- Task: Design concept B (6+9) for How it works. Same headline idea.
+  - Part 1, "three sentences, three jobs that keep running": three cards, each a plain request on top ("Every morning, add new roofers in Calgary to my sheet", "Tell me when this listing drops under $400k", "Every Friday, save my invoices to a folder"). Under each, its live result: run count ticking, last run time, status, a small result line.
+  - Part 2, the reliability split: the same site redesign hits "an ordinary recorded script" (fails, nothing arrives) and FluxIQ (fixed for $0.05, nothing missed).
+  - Plus 3 or 4 short benefit points.
+  - Animated with a DCLogic 50 ms timer.
+- Required reads: as in Brief F.
+- Owns: `<scratchpad>/canvas/project/HowB.dc.html` (1440, fluid page), `<scratchpad>/canvas/project/HowBMobile.dc.html` (375).
+- Must not touch: every other file, including `canvas.json` and this repository.
+- Definition of done: as in Brief F.
+- Report to: docs/working/home-redesign/reports/G.md
+
+### 2026-10-09 — Boards brought up to date; concepts A and B on the canvas
+
+- Changed (canvas https://claude.ai/artifact/YDXQXzEMpS4rpbWhoPzcAS, version 69):
+  - New row "Current site, as built": `SiteV6.dc.html` (1440) and `SiteV6Mobile.dc.html` (375). Every section was recorded from `pnpm build` + `pnpm preview` on 2026-10-09 in a window cut to that section, with the header hidden below the hero. The animated sections are muted looping videos (VP9 WebM first, H.264 MP4 fallback); Status, the closing section, and the footer are 2x stills. All are uploaded as canvas assets.
+  - New row "How it works: two benefit-led concepts": `HowA` / `HowAMobile` (worker F, concept 6+4) and `HowB` / `HowBMobile` (worker G, concept 6+9). Their `$preview` heights are set to the measured page heights.
+  - The v5 boards are retitled "superseded".
+- Why: The user asked to try 6+4 and 6+9, and to "update design boards so they match the current state of everything". Recording the build keeps the boards exact instead of redrawing them by hand.
+- Validation:
+  - Rendered locally with the canvas runtime at 1440 and 375 px: the four concept boards show no page errors and no horizontal overflow, and frames at 2.5, 7, and 12.5 s show each part playing.
+  - Both current-site boards play all 12 videos (WebM) when scrolled into view; the open-source Chromium here cannot decode H.264, hence the WebM sources.
+  - Reports F and G read; their claims are within the claim list.
+- Open: the user picks A, B, or a mix before any site change.
+- Outcome: Accepted
