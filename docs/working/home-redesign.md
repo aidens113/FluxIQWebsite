@@ -205,3 +205,30 @@ framework mock's Flow names are examples. The generated-app mock keeps its
     - The hero is a placeholder, since the live site's phone hero is unchanged.
 - Validation: canvas renders at 1440 and 375 px, with frame sheets of the chart, pairing, chat, and app cycles. No errors or failed requests, and no sideways scroll at 375 px.
 - Outcome: Accepted, pending the user's review
+
+### 2026-10-09 — Balls on wires, a chat for How it works, a cleaner savings chart, calmer motion
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, `HomeV5Mobile.dc.html`, `canvas.json` (board heights); this document
+- Why: The user's review asked for:
+  - the pairing as two small balls on wires that merge into one bigger ball with a secure icon;
+  - wire color and direction showing the flow, with no flying dot;
+  - a faster savings curve, static clean tile icons, and a tidier chart;
+  - How it works as simulated chat cards;
+  - fast, smooth text reveals in "Where it's going";
+  - a calm paper transition.
+- Design:
+  - **Pairing:** two 16 px balls sit on 4 px wires, grey while idle and amber while pairing. On connect they slide together and grow into one 52 px ball with a shield-check icon. Flow shows on the wire as moving stripes, blue going out ("sending the job →") and green coming back ("← results coming back"). Amber stripes carry the code during pairing.
+  - **Savings chart:** the sweep takes 6 s (it was 11 s). The cursor line is gone. There is a solid agent line, faint gridlines, a glowing amber curve, and a gradient green gap. The notes are small chips. Spend bars sit beside the two totals. The tile icons are static: a coin, a gauge, a shield check, and sliders.
+  - **How it works:** a FluxIQ chat window plays out the job.
+    - You type the job.
+    - FluxIQ lays out six steps; the email step "asks you first".
+    - It asks before emailing ("Allow" is pressed).
+    - Run cards report checked, then trusted, runs at $0.00.
+    - "Run 400 stopped" brings a fix card, and "Keep the fix" ($0.05) is pressed.
+    - A passing test run follows, then more runs.
+
+    The stage list on the left follows the chat (on the phone, a four-segment bar).
+  - **Where it's going:** the request and the reply each reveal smoothly in about a second, and the app appears at 3.5 s.
+  - **Paper:** a still page that crossfades over 0.8 s, with no float or swing.
+- Validation: canvas renders at 1440 and 375 px, with frame sheets of the pairing, chart, chat, app intro, and paper cycles. No errors or failed requests. A 1 px overflow at 375 px (the status pill) was found and fixed.
+- Outcome: Accepted, pending the user's review
