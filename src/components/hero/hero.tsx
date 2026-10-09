@@ -13,7 +13,7 @@ import { PaperBanner } from "./paper-banner";
  */
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="snap-start">
+    <section aria-labelledby="hero-title">
       <div className="mx-auto grid w-full max-w-[1288px] grid-cols-[minmax(0,1fr)] px-6 pt-8 pb-20 md:pt-16 xl:grid-cols-[minmax(0,1fr)_760px] xl:gap-x-14 xl:pt-20 xl:pb-28">
         <div className="min-w-0 sm:text-center xl:col-start-1 xl:row-start-1 xl:self-end xl:text-left">
           <PaperBanner />

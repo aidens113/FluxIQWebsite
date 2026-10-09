@@ -128,16 +128,20 @@ JavaScript and optimizes nothing in a static export. A new edition replaces
 both files and the paths in `src/content/links.ts`, `src/content/paper.ts`,
 and `scripts/site-check.mjs`.
 
-The home page snaps as it scrolls (`app/globals.css`, switched on by
-`data-snap-page` on the page wrapper, so other pages never snap):
-`scroll-snap-type: y proximity` at every width. Each `PageSection`, the hero,
-the closing call to action, and the footer (`snap-end`) are snap points; a
-section's negative `scroll-margin-top` skips its top padding so it lands on
-the heading. Below `md` the blocks inside sections snap too (`max-md:snap-start`
-on the savings card, value points, the job card, the redesign split, the
-benefits, the Vision demo and roadmap, the pairing connector, and the hero's
-lede). Mandatory snapping was tried and trapped the scroll inside the phone
-hero, so proximity it is. `scroll-padding-top` clears the sticky header.
+The home page snaps as it scrolls, and only the home page (`data-snap-page`
+on its wrapper). Snap points are elements carrying `snap-start`: each
+`PageSection` (its negative `scroll-margin-top` skips the top padding, so it
+lands on the heading), the closing call to action, and the footer
+(`snap-end`); the savings card and value tiles, the job card, the redesign
+split, the benefit tiles, and the pairing cards at every width; and, below
+`md`, the hero's lede, the Vision demo and roadmap, and the pairing
+connector. Below `md`, CSS `scroll-snap-type: y proximity` does the snapping
+(mandatory trapped the scroll in the phone hero). From `md`,
+`ui/scroll-snapper` does it instead: when a scroll stops it eases on to the
+next snap point in its direction within 45% of a screen, or back onto one it
+passed by under 12%, and otherwise leaves the page alone, because CSS
+proximity on a desktop either ignored a wheel scroll or pulled it back.
+`scroll-padding-top` clears the sticky header.
 
 Each section is a server component with no props that renders one constant
 from `content/`; its parts sit beside it. The looping illustrations are client

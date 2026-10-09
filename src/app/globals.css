@@ -34,12 +34,16 @@
     scroll-padding-top: 4.75rem;
   }
 
-  /* The home page snaps to its sections, and on a phone to the blocks inside
-     them (each marked snap-start), whenever a scroll comes to rest near one.
+  /* On a phone the home page snaps to its sections and to the blocks inside
+     them (each marked snap-start) whenever a scroll comes to rest near one.
      Proximity, not mandatory: mandatory snapping traps the scroll inside
-     blocks taller than the screen (the phone hero, measured 2026-10-09). */
-  html:has([data-snap-page]) {
-    scroll-snap-type: y proximity;
+     blocks taller than the screen (the phone hero, measured 2026-10-09). From
+     md, ui/scroll-snapper does the snapping instead: CSS proximity on a
+     desktop either ignored a wheel scroll or pulled it back. */
+  @media (width < 48rem) {
+    html:has([data-snap-page]) {
+      scroll-snap-type: y proximity;
+    }
   }
 
   @media (width >= 48rem) {

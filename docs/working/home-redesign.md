@@ -680,3 +680,18 @@ Workers partition by file:
   - Wheel-scrolling the built site to the footer: at 375 px, stops landed on the snap points (938 hero lede, 1443 why, 2701 how-it-works, about 3478 redesign split, 4722 vision, about 4934 demo; some were offset 16 px by the reveal rise). At 1440 px it settled on 860 why and 3689 vision.
   - Both widths reach the end. `/privacy/` computes `scroll-snap-type: none`. No page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — Desktop snapping that answers a normal scroll
+
+- Changed:
+  - New `ui/scroll-snapper.tsx`, mounted in `app/page.tsx`, snaps from `md`: after 140 ms of quiet it eases to the next snap point in the scroll's direction within 45% of the screen, or back onto one passed by under 12%; otherwise it does nothing. Under reduced motion the jump is instant.
+  - CSS proximity snapping is now phone-only.
+  - The hero's top snap point is removed.
+  - The sub-block snap points (savings card, value tiles, job card, redesign split, benefit tiles, pairing cards) now apply at every width.
+- Why: The user said snapping on desktop "doesn't work properly… i have to scroll really far".
+- Measured cause: in the built site at 1440 px, 2–4 wheel notches (100 px each) from the top always ended back at 0, because the hero's snap point pulled every short scroll back. With the hero point removed, CSS proximity stuck at 1036 three times and at 3689 six times, wherever points were far apart.
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - With the snapper at 1440 px, 3-notch gestures downward settled 300, 860, 1497, 1918, 2118, 2549, 3249, 3689, 3989, 4468, 4644, 5380, 6055 and reached the end: each gesture moved on, and none was pulled back. Upward from the bottom they settled 5768, 5337, 5037, 4600, 4300, 3689 … 0. No page errors.
+  - 375 px still computes `scroll-snap-type: y proximity`.
+- Outcome: Accepted

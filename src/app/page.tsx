@@ -6,6 +6,7 @@ import { Parts } from "@/components/parts/parts";
 import { SiteFooter } from "@/components/site-footer/site-footer";
 import { SiteHeader } from "@/components/site-header/site-header";
 import { Status } from "@/components/status/status";
+import { ScrollSnapper } from "@/components/ui/scroll-snapper";
 import { Vision } from "@/components/vision/vision";
 import { WhyFluxIQ } from "@/components/why-fluxiq/why-fluxiq";
 import { HOME_NAV } from "@/content/navigation";
@@ -29,6 +30,7 @@ export default function Home() {
         <ClosingCta />
       </main>
       <SiteFooter />
+      <ScrollSnapper />
     </div>
   );
 }
