@@ -1,9 +1,14 @@
 import { PageSection } from "@/components/ui/page-section";
 import { SectionTitle } from "@/components/ui/section-title";
 import { HOW_IT_WORKS } from "@/content/how-it-works";
-import { FlowStory } from "./flow-story";
+import { BenefitPoints } from "./benefit-points";
+import { RunningJobs } from "./jobs/running-jobs";
+import { RedesignSplit } from "./redesign/redesign-split";
 
-/** How it works: one real job, from asking for it to the fix that keeps it running. */
+/**
+ * How it works: three sentences that became Flows and keep running, the same
+ * overnight redesign hitting a recorded script and FluxIQ, then what you get.
+ */
 export function HowItWorks() {
   const { lead, muted } = HOW_IT_WORKS.title;
   return (
@@ -20,7 +25,9 @@ export function HowItWorks() {
           <span className="hidden md:inline">{HOW_IT_WORKS.lede}</span>
         </p>
       </div>
-      <FlowStory />
+      <RunningJobs />
+      <RedesignSplit />
+      <BenefitPoints />
     </PageSection>
   );
 }

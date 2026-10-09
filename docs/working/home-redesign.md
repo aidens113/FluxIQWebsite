@@ -589,3 +589,15 @@ Workers partition by file:
   - No commits.
 - Report to: docs/working/home-redesign/reports/H.md
 - Validation: not validated at brief time; the supervisor records the checks after H reports.
+
+### 2026-10-09 — Concept B is live in How it works; green follows the savings dot
+
+- Changed:
+  - Worker H rebuilt `src/components/how-it-works/**` and `src/content/how-it-works.ts` to concept B (see `reports/H.md`). It added `jobs/`, `redesign/`, `part-title`, `status-pill`, `fit-text`, `benefit-points`, and `benefit-icon`, and deleted the chat, stage, and record components, `timeline.ts`, and `chat.css`. A listing's price only falls; after the alert a new listing fades in.
+  - Supervisor: `why-fluxiq/savings/chart.tsx` gives the green saving its own clip at the dot, so it grows and shrinks as the dot glides. The architecture README's How it works entry is rewritten.
+- Why: The user chose concept B and asked to "implement into full design, push to main". They also asked that the savings chart's "green move with the dot, even when it is going backwards".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (179.1 KB) pass.
+  - Built site at 375 and 1440 px: How it works screenshots show both parts and the benefits; no overflow, no page errors.
+  - Sampling the savings chart every 0.9 s after the sweep, dot x plus the green clip's right inset came to 100% each time (93+7, 50+50, 25+75, back to 30+70).
+- Outcome: Accepted

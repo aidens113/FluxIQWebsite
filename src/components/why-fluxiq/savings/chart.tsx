@@ -23,7 +23,8 @@ function noteClass(on: boolean, tone: string, place: string) {
 /**
  * FluxIQ's average cost per run against an agent's flat price, drawn in one
  * viewBox stretched to the card's width. The opening sweep reveals the line
- * up to the dot; after it the whole line stays while the dot glides. The dot
+ * up to the dot; after it the whole line stays while the dot glides. The
+ * shaded saving always ends at the dot, so it grows and shrinks with it. The dot
  * and notes are placed in percentages, so the dot stays on the
  * line at every width.
  */
@@ -35,6 +36,8 @@ export function SavingsChart({ frame }: SavingsChartProps) {
     // Clip at exactly the dot's x; the 10 px above and below keep the glow.
     clipPath: `inset(-10px ${100 - lineXPct}% -10px 0)`,
   };
+  // The saving shaded so far always ends at the dot, forwards and back.
+  const saving = { clipPath: `inset(0 ${100 - xPct}% 0 0)` };
   const dot = {
     transform: `translate(${xPct}cqw, ${yPct}cqh)`,
   };
@@ -76,7 +79,7 @@ export function SavingsChart({ frame }: SavingsChartProps) {
           {CARD.agentLine}
         </span>
 
-        <div className="absolute inset-0" style={reveal}>
+        <div className="absolute inset-0" style={saving}>
           <svg
             viewBox={VIEW_BOX}
             preserveAspectRatio="none"
@@ -91,6 +94,8 @@ export function SavingsChart({ frame }: SavingsChartProps) {
             </defs>
             <path d={GAP_PATH} fill={`url(#${gradientId})`} />
           </svg>
+        </div>
+        <div className="absolute inset-0" style={reveal}>
           {/* The glow sits on the outer SVG so it is not stretched with the viewBox. Phones skip it: a filter repainted every frame stutters there. */}
           <svg
             viewBox={VIEW_BOX}
