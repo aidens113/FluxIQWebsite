@@ -633,3 +633,12 @@ Workers partition by file:
   - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (178.3 KB) pass.
   - Built site at 375 and 1440 px: one card, then the same job's redesign split, then the benefits; no overflow, no page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — Boards show the one-job section and the wandering dot
+
+- Changed (canvas version 73): re-recorded How it works (one job) and the savings chart at 1440 and 375 px. Each savings clip is cut from the start of one rest at 68% to the start of the next cycle's rest there: 22.48 s at 1440 and 22.80 s at 375. The recordings run slower than the page clock's 20.85 s, so these cut points come from the frames. The SiteV6 heights are now 6910 and 8976.
+- Why: The user asked to "simplify, update board, push to main", and the loop must not snap.
+- Validation:
+  - Dot positions were read from every frame: the green fill's right edge at 1440, the dot's amber column at 375. The 68% rest starts at 7.24 and 29.72 s (1440) and at 7.36 and 30.16 s (375).
+  - `compare -metric RMSE` between each clip's first and last frames gave 0.0074 (1440) and 0.0087 (375).
+- Outcome: Accepted
