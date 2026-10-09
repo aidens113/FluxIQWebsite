@@ -621,3 +621,15 @@ Workers partition by file:
   - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
   - Sampling the built site every 200 ms for 28 s at 1440 px: the dot rests at 68, 84, 41, 57, 29, 76, 48, and 100% (6 or 7 samples each), stays between 29 and 100%, and moves at most 10.5% in 200 ms, so there is no jump. No page errors.
 - Outcome: Accepted
+
+### 2026-10-09 — How it works follows one job
+
+- Changed:
+  - Part 1 is one card: "Every morning, add new roofers in Calgary to my sheet." beside its Calgary roofer leads Flow. The sentence and the Flow sit side by side from `lg` and stack below.
+  - The listing and invoice jobs, the phone crossfade and pips, `phoneJobs`/`deskJobs`, and the unused `cadence`, `group`, and `allowed` fields are removed (`jobs/frame.ts` is now `jobView`).
+  - Part 2 is retitled "Then the site redesigns overnight. Same job, two ways to run it." Its story names the same Calgary roofer job.
+- Why: The user asked to "simplify the 3 sentences thing into a single task… consistent across the top and bottom… too much stuff going on".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (178.3 KB) pass.
+  - Built site at 375 and 1440 px: one card, then the same job's redesign split, then the benefits; no overflow, no page errors.
+- Outcome: Accepted
