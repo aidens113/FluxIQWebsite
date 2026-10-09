@@ -221,6 +221,25 @@ over 300 KB:
 | `src/app/favicon.ico` | ICO holding one 32 × 32 PNG | mark |
 | `src/app/opengraph-image.png` and `.alt.txt` | 1200 × 630 | banner master |
 
+## Analytics And Consent
+
+Google Analytics 4 (`G-RV2KXVRZW6`, in `src/content/analytics.ts`) runs only
+for visitors who accept the cookie banner. `src/components/consent/`:
+
+- `consent-banner.tsx` is mounted once in the root layout. On first visit it
+  asks; Accept loads the Google tag, and Decline loads nothing. The choice is
+  kept in `localStorage` (`fluxiq-cookie-consent`), so it is asked once per
+  browser.
+- `cookie-settings-button.tsx` sits in the footer and reopens the banner.
+  Declining after accepting stops measurement and deletes the `_ga` cookies.
+- `google-analytics.ts` injects gtag.js at runtime, so the static HTML never
+  references Google and the site check's local-scripts rule still holds. Ad
+  storage and personalisation consent stay denied.
+
+The CSP in `scripts/static-hosting/policy.mjs` allows Google's documented GA4
+hosts for scripts, images, and connections; `pnpm vercel:config` regenerates
+`vercel.json` from it.
+
 ## Commands
 
 Deployment targets and their settings are in [deployment.md](./deployment.md).

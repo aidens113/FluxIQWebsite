@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { ConsentBanner } from "@/components/consent/consent-banner";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
@@ -8,7 +9,7 @@ const SITE_TITLE = "FluxIQ: Only pay AI for what it doesn’t already know";
 // Geist and Geist Mono ship with the site (src/app/fonts, SIL Open Font
 // License in OFL.txt): the variable fonts from Vercel's `geist` package 1.7.2,
 // subset to Latin. A build never downloads fonts, so it cannot fail on Google
-// Fonts, and the page makes no request to Google. The variables feed the
+// Fonts. Google Analytics loads only after a visitor accepts (ConsentBanner). The variables feed the
 // `font-sans` and `font-mono` tokens in globals.css.
 const geist = localFont({
   src: "./fonts/geist-latin.woff2",
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         {children}
+        <ConsentBanner />
       </body>
     </html>
   );

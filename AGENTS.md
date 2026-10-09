@@ -26,8 +26,9 @@ this repository only reads them: never edit them from here. If they contain stal
 or wrong documentation, tell the user instead. `src/app/` owns routes and page
 metadata, `src/components/` owns presentation, and `src/content/` owns copy and
 link data; components import content, never the reverse. The site has no
-secrets, environment variables, API keys, or analytics tokens, and adding any
-needs the user's approval first.
+secrets, environment variables, or API keys. Its one analytics tag, Google
+Analytics behind a cookie banner (`src/content/analytics.ts`), was approved by
+the user on 2026-10-09; adding any other needs the user's approval first.
 
 What you need to read depends on your role. Context is a budget; do not spend it
 on documents your task will not use.

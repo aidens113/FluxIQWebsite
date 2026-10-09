@@ -13,13 +13,19 @@
 
 import path from "node:path";
 
+// Google Analytics 4, loaded only after a visitor accepts the cookie banner
+// (src/components/consent). These are the hosts Google documents for a GA4
+// Content-Security-Policy: the tag script, and the hits it sends.
+const GOOGLE_TAG = "https://*.googletagmanager.com";
+const GOOGLE_ANALYTICS = "https://*.google-analytics.com https://*.analytics.google.com";
+
 export const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline' ${GOOGLE_TAG}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
+  `img-src 'self' data: ${GOOGLE_ANALYTICS} ${GOOGLE_TAG}`,
   "font-src 'self'",
-  "connect-src 'self'",
+  `connect-src 'self' ${GOOGLE_ANALYTICS} ${GOOGLE_TAG}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
