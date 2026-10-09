@@ -7,6 +7,8 @@ export type JobCardProps = {
   job: HowJob;
   view: JobView;
   labels: HowItWorksContent["jobs"]["labels"];
+  /** Placement and visibility, from the card's list. */
+  className?: string;
 };
 
 const MARK: Record<Tone, string> = {
@@ -24,18 +26,18 @@ const FRESH_EDGE: Record<Tone, string> = {
 const LABEL = "font-mono text-[10.5px] tracking-[0.06em] text-dim uppercase lg:text-[11px]";
 
 /**
- * The sentence beside the Flow it became: its run count, last run, latest
+ * One sentence over the Flow it became: its run count, last run, latest
  * result, and schedule. While a run is under way the card's edge turns amber
  * and a thin bar fills along its foot. Stacked on a phone; from `lg` the
  * sentence and the Flow sit side by side, lined up with part 2's columns.
  */
-export function JobCard({ job, view, labels }: JobCardProps) {
+export function JobCard({ job, view, labels, className }: JobCardProps) {
   const { result, running } = view;
   const alerting = !running && result.tone === "attention";
   const status = running ? labels.running : (result.status ?? labels.done);
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-[18px] border bg-panel transition-[border-color] duration-500 lg:flex-row ${running ? "border-amber-edge" : "border-rule"}`}
+      className={`relative flex flex-col overflow-hidden rounded-[18px] border bg-panel transition-[opacity,translate,border-color] duration-500 lg:flex-row ${running ? "border-amber-edge" : "border-rule"} ${className ?? ""}`}
     >
       <div className="px-[18px] pt-[18px] pb-4 lg:flex lg:w-1/2 lg:flex-col lg:justify-center lg:px-8 lg:py-7">
         <p className={LABEL}>{labels.youSaid}</p>
@@ -64,6 +66,7 @@ export function JobCard({ job, view, labels }: JobCardProps) {
           </div>
         </div>
         <div
+          key={view.resultKey}
           className={`flex items-center gap-[9px] rounded-[10px] border bg-[#0e0f11] px-[11px] py-[9px] text-[12.5px] leading-[1.4] transition-[opacity,border-color,color] duration-500 starting:opacity-0 lg:gap-2.5 lg:px-3 lg:py-2.5 lg:text-[13px] ${running ? "text-dim opacity-55" : "text-soft opacity-100"} ${view.fresh ? FRESH_EDGE[result.tone] : "border-[#1d1f23]"}`}
         >
           <span
@@ -75,6 +78,7 @@ export function JobCard({ job, view, labels }: JobCardProps) {
         </div>
         <div className="mt-auto flex flex-wrap gap-x-2.5 gap-y-1 text-[11.5px] text-dim lg:gap-x-2 lg:text-xs">
           <span className="font-mono">{job.schedule}</span>
+          {job.allowed && <span className="text-ok">{job.allowed}</span>}
         </div>
       </div>
       <span

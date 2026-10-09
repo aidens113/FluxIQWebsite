@@ -642,3 +642,14 @@ Workers partition by file:
   - Dot positions were read from every frame: the green fill's right edge at 1440, the dot's amber column at 375. The 68% rest starts at 7.24 and 29.72 s (1440) and at 7.36 and 30.16 s (375).
   - `compare -metric RMSE` between each clip's first and last frames gave 0.0074 (1440) and 0.0087 (375).
 - Outcome: Accepted
+
+### 2026-10-09 — The three jobs rotate through one card
+
+- Changed:
+  - Part 1 brings back the listing-watch and invoice jobs. One wide card (sentence beside Flow from `lg`) crossfades between the three every 5.5 s, with pips, at every width (`carouselJobs`, formerly the phone-only `phoneJobs`; `deskJobs` is removed).
+  - Part 2 is retitled "Then a site redesigns overnight. The roofer job, two ways." It still follows the roofer job.
+- Why: The user suggested, for the single-job card, "you could do it so that the 3 jobs just carousel".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (179.2 KB) pass.
+  - Built site at 1440 and 375 px: frames at 3.5, 9, and 14.5 s show the roofer, listing, and invoice cards in turn, with the matching pip lit; no overflow, no page errors.
+- Outcome: Accepted

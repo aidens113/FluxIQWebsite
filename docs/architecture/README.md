@@ -89,9 +89,10 @@ The home page, `app/page.tsx`, in order:
    price (`savings/model.ts`; labelled "Example, not real data"), then four
    value points (tiles from `md`, an icon list below).
 4. `how-it-works` (`#how-it-works`): "Automations that survive a redesign."
-   Part 1 (`jobs/`): one sentence beside the live Flow it became (status,
-   run count from total elapsed ticks, last run, result line, schedule),
-   side by side from `lg` and stacked below. Part 2
+   Part 1 (`jobs/`): three sentences, each beside the live Flow it became
+   (status, run count from total elapsed ticks, last run, result line,
+   schedule), shown one at a time in a single card that crossfades to the
+   next, with pips; side by side from `lg`, stacked below. Part 2
    (`redesign/`): the same overnight redesign hits an ordinary recorded
    script (fails, nothing arrives) and FluxIQ (fixed for $0.05, nothing
    missed). Then four benefits (`benefit-points`: tiles from `md`, a list
