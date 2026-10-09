@@ -29,41 +29,7 @@ function Glyph({ name }: { name: string }) {
   );
 }
 
-/** How the action went, as a small badge on the icon's corner. */
-function Badge({ state, tone }: { state: CardState; tone: string }) {
-  if (state === "working" || state === "fixing")
-    return (
-      <span
-        className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-[1.5px] border-t-transparent"
-        style={{ borderColor: tone, borderTopColor: "transparent", animation: "demo-spin 0.9s linear infinite" }}
-      />
-    );
-  if (state === "captured")
-    return <span className="absolute -right-px -bottom-px size-2 rounded-full bg-[#fa6571] ring-2 ring-[#162332]" />;
-  return (
-    <span
-      className="absolute -right-1 -bottom-1 inline-flex size-3 items-center justify-center rounded-full text-[#0b1016] ring-2 ring-[#162332]"
-      style={{ background: tone }}
-    >
-      <svg viewBox="0 0 12 12" aria-hidden="true" className="size-2">
-        {state === "done" ? (
-          <path
-            d="M2.5 6.2l2.2 2.2 4.8-4.8"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ) : (
-          <path d="M6 2.6v4M6 9.2h.01" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        )}
-      </svg>
-    </span>
-  );
-}
-
-/** The icon at the start of an action card: what was done, and how it went. */
+/** The icon at the start of an action card: what was done. */
 export function ActionIcon({ name, state, tone }: ActionIconProps) {
   return (
     <span
@@ -73,7 +39,6 @@ export function ActionIcon({ name, state, tone }: ActionIconProps) {
       <svg viewBox="0 0 24 24" aria-hidden="true" className="size-3.5">
         <Glyph name={name} />
       </svg>
-      <Badge state={state} tone={tone} />
     </span>
   );
 }

@@ -366,3 +366,10 @@ Workers partition by file:
 - Why: The user asked for "what it saves, how it works, where its going, then how it fits together"; for animations to start "right when user starts hitting the graphic"; and for the demo chat to be "cleaner".
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (175.5 KB) pass; this also fixes a Biome format error in `privacy.ts` and the stale docs index left by the previous commit. In the built site at 1440 px the main order is why, how-it-works, vision, framework, paper, status; chat frames show one-line actions with long outcomes on a second line; at 375 px no overflow; the only console error is the Google tag blocked by the sandbox proxy.
 - Outcome: Accepted
+
+### 2026-10-09 — Hero chat status marks
+
+- Changed: action cards in the hero demo chat lose the corner badges on their icons (the spinning ring, ticks, alerts). Status now sits before the outcome as a small mark from `hero-demo/status-mark.tsx`: a spinner with a faint track while working or fixing, a tick when done, a dot when failed or captured.
+- Why: The user said the little spinning circle in the cards "just looks weird".
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` pass. Frames of the built site at 1440 px (2x and 3x) show the working, done, and failed rows; the section order is unchanged, and there is no overflow at 375 px.
+- Outcome: Accepted

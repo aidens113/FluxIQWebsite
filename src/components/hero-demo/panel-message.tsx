@@ -2,6 +2,7 @@ import { PANEL } from "@/content/hero-demo/panel";
 import { ActionIcon } from "./action-icon";
 import { CARD } from "./palette";
 import type { Message } from "./scenes/scene";
+import { StatusMark } from "./status-mark";
 
 export type PanelMessageProps = {
   message: Message;
@@ -59,7 +60,8 @@ export function PanelMessage({ message: m, joined }: PanelMessageProps) {
   // A short outcome ("Done") sits at the row's end; a sentence gets its own line.
   const short = m.outcome.length <= 16;
   const outcome = (
-    <span className={short ? "flex-none text-[11px]" : "mt-0.5 block text-[11px]"} style={{ color: tone }}>
+    <span className={`flex items-center gap-1.5 text-[11px] ${short ? "flex-none" : "mt-0.5"}`} style={{ color: tone }}>
+      <StatusMark state={m.state} tone={tone} />
       {m.outcome}
     </span>
   );
