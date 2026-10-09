@@ -176,3 +176,32 @@ framework mock's Flow names are examples. The generated-app mock keeps its
 - Follow-up:
   - The Why tiles and Status were left as they were ("the rest is good").
   - In the build, each graphic becomes a client component that plays only while it is on screen.
+
+### 2026-10-09 — Simpler savings chart, bigger wire, human typing, a chat reply, the phone board
+- Agent: supervisor
+- Changed: canvas `HomeV4.dc.html`, new canvas board `HomeV5Mobile.dc.html` (375 px), `canvas.json`; this document
+- Why: The user's review asked for:
+  - one smooth line in the savings chart, with short color keys and an "example, not real data" label, kept simple;
+  - a bigger, more obvious connecting wire;
+  - "FluxIQ remembers" in place of "Your computer remembers";
+  - human, fast typing in every typing animation;
+  - FluxIQ replying in the "Where it's going" chat before the app appears;
+  - a phone version.
+- Design:
+  - **Savings chart:** one smooth decaying curve, from the average cost per run (0.10 + 0.00016 × runs) / runs. The two keys read "AI agent" and "FluxIQ", and an "Example · not real data" pill replaces the price footnote and the check and fix tick strip. It still breaks even by run 3 and shows $49.74 saved by run 1,000.
+  - **Wire:**
+    - 44 × 34 plugs with prongs and sockets, on a 6 px cable;
+    - flowing green stripes and a glow once connected;
+    - a lock badge;
+    - a status pill reading Not connected, Waiting for your OK, or Connected;
+    - 18 px packets with labelled chips.
+  - **Typing:** the board clock now ticks every 50 ms (stories still step every 250 ms). `typedAt` gives uneven key gaps with pauses after spaces and punctuation. How it works gets a 20-tick first stage so the ask can type out.
+  - **Chat:** the request types out, FluxIQ shows typing dots, then streams "Certainly! Here's RoofLeads: your leads, a live pipeline, and four Flows that keep it current, within a $5 weekly AI budget." The app then rises in before the person starts using it.
+  - **Phone board:** the same stories at 375 px.
+    - The two cards stack with a vertical cable between them.
+    - How it works shows four progress segments with one stage's words.
+    - The app uses tabs and a fingertip.
+    - The paper uses 200 px pages.
+    - The hero is a placeholder, since the live site's phone hero is unchanged.
+- Validation: canvas renders at 1440 and 375 px, with frame sheets of the chart, pairing, chat, and app cycles. No errors or failed requests, and no sideways scroll at 375 px.
+- Outcome: Accepted, pending the user's review
