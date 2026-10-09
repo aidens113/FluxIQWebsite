@@ -10,7 +10,8 @@ import { Vision } from "@/components/vision/vision";
 import { WhyFluxIQ } from "@/components/why-fluxiq/why-fluxiq";
 import { HOME_NAV } from "@/content/navigation";
 
-// Section order follows the approved v5 boards; see docs/working/home-redesign.md.
+// Section order: what it saves, how it works, where it's going, then how the
+// parts fit together (the owner's order); see docs/working/home-redesign.md.
 // The wrapper clips horizontal overflow without creating a scroll container,
 // so the sticky header keeps working.
 export default function Home() {
@@ -20,9 +21,9 @@ export default function Home() {
       <main id="main">
         <Hero />
         <WhyFluxIQ />
-        <Parts />
         <HowItWorks />
         <Vision />
+        <Parts />
         <Paper />
         <Status />
         <ClosingCta />

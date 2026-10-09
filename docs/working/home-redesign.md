@@ -26,12 +26,13 @@ The ledger below records every decision behind them. Each section loops a
 short story; the boards' `<script>` holds the exact timing and states, and
 their markup holds the exact layout and copy.
 
-**In progress.** Building the boards into the site: the sections stay in
-the same order, and a closing call to action is added after Status. Every
-looping illustration uses `src/components/ui/use-loop-clock.ts`, a 50 ms
-tick. The clock runs only while a quarter of the element is on screen and
-the tab is visible, and it restarts at zero each time the element scrolls
-into view. Sections also keep the CSS scroll reveal from `PageSection`.
+**Built.** The boards are in the site, with a closing call to action after
+Status. Since 2026-10-09 the order is the user's: what it saves (`why`), how
+it works, where it's going (`vision`), then how it fits together (`parts`),
+then paper and status. Every looping illustration uses
+`src/components/ui/use-loop-clock.ts`, a 50 ms tick. The clock runs from the
+moment any part of the element is on screen (threshold 0) while the tab is
+visible, and it restarts at zero each time the element scrolls into view. Sections also keep the CSS scroll reveal from `PageSection`.
 
 **Also asked (2026-10-09):**
 
@@ -351,4 +352,17 @@ Workers partition by file:
   - The footer (Cookie settings removed), `app/layout.tsx`, `AGENTS.md`, and the architecture README.
 - Why: The user asked that Google Analytics always load and that the banner be a notice that using the site means agreeing to the privacy notice, saying that the site uses analytics. I told the user that loading analytics before consent does not meet prior-consent rules (the EU GDPR and ePrivacy, the UK PECR, Quebec Law 25) for visitors there; it is their call.
 - Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (175.5 KB) all pass. In the built site at 375 and 1440 px: the Google tag is requested on arrival with no interaction; the notice shows with links to the privacy notice and terms of use; OK hides it and it stays hidden after a reload; no overflow, CSP errors, or page errors.
+- Outcome: Accepted
+
+### 2026-10-09 — Section order, earlier scroll start, cleaner hero chat
+
+- Changed:
+  - `app/page.tsx` order is now Hero, Why, How it works, Vision, Parts, Paper, Status, Closing.
+  - `ui/use-loop-clock.ts` and `hero-demo/use-demo-player.ts` start at IntersectionObserver threshold 0.
+  - The hero demo chat (`hero-demo/panel-message.tsx`, `action-icon.tsx`, `extension-panel.tsx`, `stage.tsx`, `hero-demo.css`):
+    - actions are one-line rows (name, target, outcome on the right) with a 22 px icon, and consecutive actions sit close as one list;
+    - live status uses a pulsing dot;
+    - the amber spotlight ring is gone from the panel, and the phone peek's pulse is a soft glow with no ring.
+- Why: The user asked for "what it saves, how it works, where its going, then how it fits together"; for animations to start "right when user starts hitting the graphic"; and for the demo chat to be "cleaner".
+- Validation: `pnpm check`, `pnpm test` (86 pass), `pnpm build`, `pnpm test:site` (175.5 KB) pass; this also fixes a Biome format error in `privacy.ts` and the stale docs index left by the previous commit. In the built site at 1440 px the main order is why, how-it-works, vision, framework, paper, status; chat frames show one-line actions with long outcomes on a second line; at 375 px no overflow; the only console error is the Google tag blocked by the sandbox proxy.
 - Outcome: Accepted

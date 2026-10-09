@@ -39,10 +39,10 @@ function Badge({ state, tone }: { state: CardState; tone: string }) {
       />
     );
   if (state === "captured")
-    return <span className="absolute -right-px -bottom-px size-2 rounded-full bg-[#fa6571] ring-2 ring-[#142030]" />;
+    return <span className="absolute -right-px -bottom-px size-2 rounded-full bg-[#fa6571] ring-2 ring-[#162332]" />;
   return (
     <span
-      className="absolute -right-1 -bottom-1 inline-flex size-3 items-center justify-center rounded-full text-[#0b1016] ring-2 ring-[#142030]"
+      className="absolute -right-1 -bottom-1 inline-flex size-3 items-center justify-center rounded-full text-[#0b1016] ring-2 ring-[#162332]"
       style={{ background: tone }}
     >
       <svg viewBox="0 0 12 12" aria-hidden="true" className="size-2">
@@ -67,10 +67,10 @@ function Badge({ state, tone }: { state: CardState; tone: string }) {
 export function ActionIcon({ name, state, tone }: ActionIconProps) {
   return (
     <span
-      className="relative inline-flex size-[26px] flex-none items-center justify-center rounded-lg"
+      className="relative inline-flex size-[22px] flex-none items-center justify-center rounded-md"
       style={{ color: state === "captured" ? "#c9d3de" : tone, background: `${tone}1f`, transition: "all 300ms ease" }}
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4">
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="size-3.5">
         <Glyph name={name} />
       </svg>
       <Badge state={state} tone={tone} />

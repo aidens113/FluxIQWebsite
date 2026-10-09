@@ -5,25 +5,18 @@ import type { Message } from "./scenes/scene";
 
 export type PanelMessageProps = {
   message: Message;
-  /** True for FluxIQ's newest message on a quiet step: it pulses to draw the eye. */
-  spotlight?: boolean;
+  /** True for an action that follows another: the two sit close, as one list. */
+  joined?: boolean;
 };
 
 const rise = { animation: "demo-in 420ms ease both" };
 
-/** One entry in the example chat: the person's message, FluxIQ's words, a live status, an action card, or the data. */
-export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
-  const glow = spotlight ? (
-    <span
-      aria-hidden="true"
-      className="pointer-events-none absolute -inset-[5px] rounded-[13px] bg-amber/[0.04]"
-      style={{ animation: "demo-spot 1.6s ease-in-out infinite" }}
-    />
-  ) : null;
+/** One entry in the example chat: the person's message, FluxIQ's words, a live status, an action, or the data. */
+export function PanelMessage({ message: m, joined }: PanelMessageProps) {
   if (m.kind === "user")
     return (
       <div
-        className="max-w-[86%] self-end rounded-[18px] bg-[#1f2c3b] px-[13px] py-[9px] text-[12.5px] leading-[1.45]"
+        className="max-w-[86%] self-end rounded-2xl rounded-br-md bg-[#1f2c3b] px-3 py-2 text-[12.5px] leading-[1.45]"
         style={rise}
       >
         {m.text}
@@ -31,53 +24,61 @@ export function PanelMessage({ message: m, spotlight }: PanelMessageProps) {
     );
   if (m.kind === "text")
     return (
-      <p className="relative text-[12.5px] leading-[1.55] text-[#d9e3ee]" style={rise}>
-        {glow}
+      <p className="max-w-[94%] text-[12.5px] leading-[1.55] text-[#d9e3ee]" style={rise}>
         {m.text}
       </p>
     );
   if (m.kind === "live")
     return (
-      <div className="relative flex items-start gap-2" style={rise}>
-        {glow}
-        <span className="mt-1 size-[9px] flex-none rounded-full bg-[#f5b94a] shadow-[0_0_0_4px_#f5b94a33]" />
-        <span className="flex-1">
-          <span className="flex gap-1.5 text-[12.5px]">
+      <div className="flex items-start gap-2.5 text-[12px] leading-[1.45]" style={rise}>
+        <span className="relative mt-[5px] size-2 flex-none">
+          <span
+            className="absolute inset-0 rounded-full bg-[#f5b94a]"
+            style={{ animation: "demo-pulse 1.6s ease-out infinite" }}
+          />
+          <span className="absolute inset-0 rounded-full bg-[#f5b94a]" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="flex items-baseline gap-2">
             <span className="font-semibold">{m.headline}</span>
-            <span className="ml-auto text-[11px] text-[#93a4b6]">{m.step}</span>
+            <span className="ml-auto text-[10.5px] text-[#6b7c8f] tabular-nums">{m.step}</span>
           </span>
-          <span className="mt-0.5 block text-[11.5px] text-[#93a4b6]">{m.detail}</span>
+          <span className="block text-[11.5px] text-[#93a4b6]">{m.detail}</span>
         </span>
       </div>
     );
   if (m.kind === "data")
     return (
-      <div
-        className="relative flex items-center justify-between rounded-[10px] border border-[#1f2e3f] bg-[#142030] px-2.5 py-2 text-[11.5px]"
-        style={rise}
-      >
-        {glow}
+      <div className="flex items-center justify-between rounded-lg bg-[#162332] px-2.5 py-2 text-[11.5px]" style={rise}>
         <span>{PANEL.data.label}</span>
         <span className="font-semibold text-[#5e9eea]">{PANEL.data.formats}</span>
       </div>
     );
   const { tone } = CARD[m.state];
   const alarm = m.state === "fixing" || m.state === "failed";
+  // A short outcome ("Done") sits at the row's end; a sentence gets its own line.
+  const short = m.outcome.length <= 16;
+  const outcome = (
+    <span className={short ? "flex-none text-[11px]" : "mt-0.5 block text-[11px]"} style={{ color: tone }}>
+      {m.outcome}
+    </span>
+  );
   return (
     <div
-      className="relative flex items-center gap-2.5 rounded-[10px] bg-[#142030] px-2.5 py-[7px]"
-      style={{ ...rise, border: `1px solid ${alarm ? `${tone}66` : "#1f2e3f"}`, transition: "border-color 300ms ease" }}
+      className={`flex gap-2 rounded-lg px-2 py-1.5 text-[11.5px] leading-4 ${short ? "items-center" : "items-start"} ${joined ? "-mt-2" : ""}`}
+      style={{
+        ...rise,
+        background: alarm ? `${tone}14` : "#162332",
+        boxShadow: alarm ? `inset 0 0 0 1px ${tone}55` : "none",
+        transition: "background 300ms ease, box-shadow 300ms ease",
+      }}
     >
-      {glow}
       <ActionIcon name={m.name} state={m.state} tone={tone} />
-      <span className="min-w-0 flex-1">
-        <span className="block text-xs leading-4 font-semibold">
-          {m.name} <span className="font-normal text-[#93a4b6]">· {m.target}</span>
-        </span>
-        <span className="block text-[11px] leading-4" style={{ color: tone }}>
-          {m.outcome}
-        </span>
+      <span className={`min-w-0 flex-1 ${short ? "truncate" : "self-center"}`}>
+        <span className="font-semibold">{m.name}</span> <span className="text-[#93a4b6]">{m.target}</span>
+        {!short && outcome}
       </span>
+      {short && outcome}
     </div>
   );
 }

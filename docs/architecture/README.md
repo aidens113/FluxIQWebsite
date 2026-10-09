@@ -86,18 +86,18 @@ The home page, `app/page.tsx`, in order:
    card whose curve sweeps 1 to 1,000 runs of one job against an agent's flat
    price (`savings/model.ts`; labelled "Example, not real data"), then four
    value points (tiles from `md`, an icon list below).
-4. `parts` (`#framework`): the framework and extension cards with live mocks,
-   joined by a connector (two balls on wires that merge into a secured ball;
-   the striped wire runs in the data's direction) that plays pairing with an
-   approved code, a job going out, and rows coming back.
-5. `how-it-works` (`#how-it-works`): the four stages beside a FluxIQ chat
+4. `how-it-works` (`#how-it-works`): the four stages beside a FluxIQ chat
    that plays one job's life: the request, the plan, an ask before emailing,
    free runs, a fix when the site changes, more runs. Below `md` the stages
    become a four-segment progress bar.
-6. `vision` (`#vision`): a request and FluxIQ's reply, then the RoofLeads
+5. `vision` (`#vision`): a request and FluxIQ's reply, then the RoofLeads
    concept app in use (a pointer, or a fingertip on a phone, moving between
    its views while numbers update), the now/next/then/later roadmap, and the
    "Concept" caption.
+6. `parts` (`#framework`): the framework and extension cards with live mocks,
+   joined by a connector (two balls on wires that merge into a secured ball;
+   the striped wire runs in the data's direction) that plays pairing with an
+   approved code, a job going out, and rows coming back.
 7. `paper` (`#paper`): the cover and six real pages (`public/papers/pages/`)
    crossfading in step with the contents, each at its own tilt.
 8. `status` (`#status`): install, AI provider, platform, license (tiles from
@@ -123,8 +123,8 @@ and `scripts/site-check.mjs`.
 
 Each section is a server component with no props that renders one constant
 from `content/`; its parts sit beside it. The looping illustrations are client
-components driven by `ui/use-loop-clock` (a 50 ms tick that runs only while a
-quarter of the element is on screen and the tab is visible, and restarts each
+components driven by `ui/use-loop-clock` (a 50 ms tick that runs from the moment
+any part of the element is on screen and the tab is visible, and restarts each
 time it scrolls into view); each derives its frame from a pure timeline module
 beside it. Human typing is `ui/typed-at`. They play for every visitor, as the
 hero demo does. The page ships about 177 KB gzip of JavaScript; the audit

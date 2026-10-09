@@ -70,7 +70,7 @@ export function Stage(props: StageProps) {
             </div>
             <div className="h-full flex-none border-l border-[#26384a]" style={{ width: compact ? width : 300 }}>
               <div key={state.tab} className="h-full" style={{ animation: "demo-fade 600ms ease both" }}>
-                <ExtensionPanel panel={scene.panel} tick={state.tick} spotlight={spotlight} />
+                <ExtensionPanel panel={scene.panel} tick={state.tick} />
               </div>
             </div>
           </div>

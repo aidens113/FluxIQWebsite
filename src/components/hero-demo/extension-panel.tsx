@@ -10,8 +10,6 @@ import { TRAVEL_MS } from "./timeline";
 export type ExtensionPanelProps = {
   panel: PanelScene;
   tick: number;
-  /** True on a quiet step; FluxIQ's newest message then pulses. */
-  spotlight: boolean;
 };
 
 const STRIP_TONE: Record<StripTone, string> = { muted: "#93a4b6", amber: "#f5b94a", green: "#3bc982" };
@@ -21,7 +19,7 @@ const STRIP_TONE: Record<StripTone, string> = { muted: "#93a4b6", amber: "#f5b94
  * a recording banner, a saved automation's run strip, the chat, and the
  * composer. The person's clicks on it wait for their cursor to arrive.
  */
-export function ExtensionPanel({ panel, tick, spotlight }: ExtensionPanelProps) {
+export function ExtensionPanel({ panel, tick }: ExtensionPanelProps) {
   return (
     <div className="flex h-full flex-col bg-[#111923] text-[#eef4fb]">
       <div className="flex h-11 flex-none items-center gap-2 border-b border-[#26384a] px-2.5">
@@ -76,7 +74,7 @@ export function ExtensionPanel({ panel, tick, spotlight }: ExtensionPanelProps) 
       )}
 
       {/* The chat fades out at the top instead of cutting messages off. */}
-      <div className="flex min-h-0 flex-1 flex-col justify-end gap-2.5 overflow-hidden px-3.5 pt-3.5 pb-2 [mask-image:linear-gradient(to_bottom,transparent,#000_28px)]">
+      <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 overflow-hidden px-3.5 pt-3.5 pb-2 [mask-image:linear-gradient(to_bottom,transparent,#000_28px)]">
         {panel.empty && (
           <div className="mt-10 mb-auto text-center" style={{ animation: "demo-in 420ms ease both" }}>
             <p className="text-base font-bold">{PANEL.emptyTitle}</p>
@@ -87,7 +85,7 @@ export function ExtensionPanel({ panel, tick, spotlight }: ExtensionPanelProps) 
           <PanelMessage
             key={message.id}
             message={message}
-            spotlight={spotlight && i === panel.messages.length - 1 && message.kind !== "user"}
+            joined={message.kind === "card" && panel.messages[i - 1]?.kind === "card"}
           />
         ))}
       </div>

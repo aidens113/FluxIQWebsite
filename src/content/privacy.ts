@@ -58,7 +58,9 @@ export const PRIVACY: LegalDocument = {
         },
         {
           paragraph: [
-            t("We do not use Google Analytics for advertising; advertising storage and ad personalisation are left off. You can stop analytics with the "),
+            t(
+              "We do not use Google Analytics for advertising; advertising storage and ad personalisation are left off. You can stop analytics with the ",
+            ),
             { text: LINKS.gaOptOut.label, href: LINKS.gaOptOut.href, external: true },
             t(", by blocking cookies in your browser, or with a content blocker."),
           ],

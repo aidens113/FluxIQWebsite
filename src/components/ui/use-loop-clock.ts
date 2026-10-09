@@ -19,9 +19,10 @@ export function useLoopClock<T extends HTMLElement>(stepMs = 50): { ref: RefObje
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    // A quarter of the illustration must be on screen before its story starts.
+    // The story starts the moment any part of the illustration enters the
+    // screen, so it is never caught standing still.
     const observer = new IntersectionObserver(([entry]) => setOnScreen(entry?.isIntersecting ?? false), {
-      threshold: 0.25,
+      threshold: 0,
     });
     observer.observe(el);
     const onVisibility = () => setPageVisible(document.visibilityState === "visible");

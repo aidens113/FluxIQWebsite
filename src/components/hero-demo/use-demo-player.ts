@@ -62,7 +62,7 @@ export function useDemoPlayer(root: RefObject<HTMLElement | null>) {
     const el = root.current;
     if (!el) return;
     const observer = new IntersectionObserver(([entry]) => setOnScreen(entry?.isIntersecting ?? true), {
-      threshold: 0.15,
+      threshold: 0,
     });
     observer.observe(el);
     const onVisibility = () => setPageVisible(document.visibilityState === "visible");
