@@ -1,54 +1,16 @@
-import { HOW_JOBS } from "./how-jobs";
-import type { HomeSectionId, Point, SplitTitle, Tone } from "./types";
+import type { HomeSectionId, SplitTitle } from "./types";
 
-/** Words with a shorter form for a phone; a plain string reads the same everywhere. */
-export type HowPhrase = string | { full: string; short: string };
-
-/** How often a Flow runs, which sets how its "Last run" time reads. */
-export type HowCadence = "daily" | "hourly" | "weekly";
-
-/** What one run left behind: a one-character mark, its words, and how it reads. */
-export type HowResult = {
-  mark: string;
-  text: string;
-  tone: Tone;
-  /** The status after this run, in place of the usual "Done". */
-  status?: string;
-};
-
-/** One sentence someone said, and the Flow it became. */
-export type HowJob = {
-  ask: string;
-  name: string;
-  schedule: string;
-  /** What the Flow does, step by step, in a few words each. */
-  steps: readonly string[];
-  /** When it runs next, as the card shows it. */
-  next: string;
-  /** How closely runs are checked now, which tapers as the Flow earns trust. */
-  checks: string;
-  /** What it has spent on AI this month, at the savings model's rates. */
-  spend: string;
-  cadence: HowCadence;
-  /** The run time of day, for the daily and weekly Flows. */
-  time: string;
-  /** The runs already done when the page opens. */
-  base: number;
-  /** Each run's result, in turn, repeating. */
-  results: readonly HowResult[];
-  /** Results come in groups of this size, one group per item watched; a new group fades in. */
-  group?: number;
-  /** A standing permission, shown under the card. */
-  allowed?: string;
-};
+/** Words with a shorter form for a phone. */
+export type HowPhrase = { full: string; short: string };
 
 /** The static icon drawn beside a benefit. */
 export type HowBenefitIcon = "clock" | "shield" | "wrench" | "trend";
 
-export type HowBenefit = Point & {
+/** One thing a Flow gives you, in a few words. */
+export type HowBenefit = {
   icon: HowBenefitIcon;
-  /** The phone list's shorter body. */
-  shortBody: string;
+  title: string;
+  detail: string;
 };
 
 export type HowItWorksContent = {
@@ -56,59 +18,18 @@ export type HowItWorksContent = {
   eyebrow: string;
   title: SplitTitle;
   lede: string;
-  /** The shorter lede shown below `md`. */
-  ledeShort: string;
-  jobs: {
-    num: string;
-    title: SplitTitle;
-    /** What the illustration shows, for assistive tech. */
-    description: string;
-    labels: {
-      youSaid: string;
-      flow: string;
-      runs: string;
-      lastRun: string;
-      nextRun: string;
-      spend: string;
-      running: string;
-      done: string;
-    };
-    list: readonly HowJob[];
-  };
-  split: {
-    num: string;
-    title: SplitTitle;
-    description: string;
-    site: string;
-    search: { before: string; after: string };
-    chip: { before: HowPhrase; after: HowPhrase };
-    story: string;
-    /** The phone's story line, followed by the day. */
-    storyShort: string;
-    morningRun: string;
-    days: { before: string; after: string };
-    sheet: string;
-    script: { name: string; steps: readonly [HowPhrase, HowPhrase, HowPhrase] };
-    flux: { name: string; steps: readonly [HowPhrase, HowPhrase, HowPhrase] };
-    notes: {
-      notFound: string;
-      neverRan: string;
-      looking: HowPhrase;
-      found: HowPhrase;
-      testing: string;
-      passed: string;
-    };
-    pills: { ran: string; running: string; failed: string; changed: string; testing: HowPhrase; fixed: HowPhrase };
-    outcomes: {
-      saved: string;
-      running: string;
-      stopped: string;
-      empty: HowPhrase;
-      looking: string;
-      testing: HowPhrase;
-      fixed: string;
-    };
-  };
+  /** What the illustration shows, for assistive tech. */
+  description: string;
+  ask: { label: string; text: string };
+  flow: { label: string; name: string; schedule: HowPhrase };
+  lanes: { flux: string; script: HowPhrase };
+  /** The eight mornings along the tracks, and the rows each morning adds. */
+  days: readonly string[];
+  rows: readonly number[];
+  site: string;
+  marker: { before: HowPhrase; after: HowPhrase };
+  notes: { looking: HowPhrase; testing: HowPhrase; fixed: HowPhrase; notFound: HowPhrase };
+  sheet: { label: HowPhrase; unit: string };
   benefits: readonly HowBenefit[];
 };
 
@@ -120,120 +41,43 @@ export type HowItWorksContent = {
 // and a patch is kept only after a whole run on it is judged a success
 // (judged-promotion.ts); checks taper as a Flow earns trust and restart after
 // a fix (runtime/result-check-schedule).
-// Copy follows the approved concept B boards (HowB, HowBMobile; "Concept B
-// chosen" in docs/working/home-redesign.md). The three jobs, run counts,
-// times, prices, addresses, and row counts are an invented example; the
-// costs match the savings model in content/why.ts: a judged run about $0.01,
-// a trusted run $0.00, a fix $0.05. The site never claims runs are free.
+// Copy follows the approved concept C boards (HowTracks, HowTracksMobile;
+// "concept C" in docs/working/home-redesign.md). The job, the site, the days,
+// and the row counts are an invented example; the fix cost matches the savings
+// model in components/why-fluxiq/savings/model.ts (a fix about $0.05). The
+// site never claims runs are free.
 export const HOW_IT_WORKS: HowItWorksContent = {
   id: "how-it-works",
   eyebrow: "How it works",
   title: { lead: "Automations that", muted: "survive a redesign." },
-  lede: "Say what you want done in one sentence. FluxIQ turns it into a Flow that keeps running on its schedule, and keeps working when the site behind it changes.",
-  ledeShort: "Say it in one sentence. It becomes a Flow that keeps running, and keeps working when the site changes.",
-  jobs: {
-    num: "01",
-    title: { lead: "Three sentences.", muted: "Three jobs that keep running." },
-    description:
-      "An example: three sentences, each now a Flow that keeps running. “Every morning, add new roofers in Calgary to my sheet” runs every day at 7:00 and adds the new roofers it finds. “Tell me when this listing drops under $400k” checks every hour and emails you when the price falls under $400k, which you allowed. “Every Friday, save my invoices to a folder” runs Fridays at 17:00 and saves that week’s invoices. The card shows each Flow in turn and counts its runs as they happen.",
-    labels: {
-      youSaid: "You said",
-      flow: "Flow",
-      runs: "Runs",
-      lastRun: "Last run",
-      nextRun: "Next run",
-      spend: "AI this month",
-      running: "Running",
-      done: "Done",
-    },
-    list: HOW_JOBS,
+  lede: "Say it once. It runs every day, and fixes itself when the site changes.",
+  description:
+    "An example: “Every morning, add new roofers in Calgary to my sheet” becomes a Flow that runs every day at 7:00. Over eight mornings it runs two ways, as FluxIQ and as an ordinary recorded script. Overnight before Wednesday the site moves its search box into a new header. From Wednesday the recorded script cannot find the search box and adds nothing, so the sheet stops at 4 rows. FluxIQ sees the site changed, finds the box, tests the fix on a full run, keeps it for about $0.05, and carries on: 21 rows by the next Monday.",
+  ask: { label: "You said", text: "Every morning, add new roofers in Calgary to my sheet." },
+  flow: {
+    label: "Flow",
+    name: "Calgary roofer leads",
+    schedule: { full: "· every day, 7:00", short: "· daily, 7:00" },
   },
-  split: {
-    num: "02",
-    title: { lead: "Then a site redesigns overnight.", muted: "The roofer job, two ways." },
-    description:
-      "An example: a leads site moves its search box into a new header overnight. On Tuesday an ordinary recorded script and FluxIQ both save 3 new rows. On Wednesday the script cannot find its search box, stops at step 2, and nothing arrives in your sheet. FluxIQ sees the site changed, finds the search box in the new header, tests the fix on a full run, and keeps it: fixed for $0.05, nothing missed.",
-    site: "roofers.example",
-    search: { before: "Search roofers…", after: "Search…" },
-    chip: {
-      before: { full: "The site, as recorded", short: "Site as recorded" },
-      after: { full: "Overnight: site redesigned", short: "Site redesigned" },
-    },
-    story:
-      "The roofer directory moves its search box into a new header. The same Calgary roofer job runs the next morning, two ways.",
-    storyShort: "Its search box moves into a new header. Morning run:",
-    morningRun: "Morning run",
-    days: { before: "Tuesday", after: "Wednesday" },
-    sheet: "Your sheet,",
-    script: {
-      name: "An ordinary recorded script",
-      steps: [
-        "Open roofers.example",
-        "Click #search-box",
-        { full: "Copy new rows to the sheet", short: "Copy rows to sheet" },
-      ],
-    },
-    flux: {
-      name: "FluxIQ",
-      steps: [
-        "Open roofers.example",
-        "Find the search box",
-        { full: "Copy new rows to the sheet", short: "Copy rows to sheet" },
-      ],
-    },
-    notes: {
-      notFound: "not found",
-      neverRan: "never ran",
-      looking: { full: "looking for it", short: "looking" },
-      found: { full: "now in the header", short: "in the header" },
-      testing: "testing",
-      passed: "full run passed",
-    },
-    pills: {
-      ran: "✓ Ran",
-      running: "● Running",
-      failed: "✕ Failed",
-      changed: "Site changed",
-      testing: { full: "Testing the fix", short: "Testing fix" },
-      fixed: { full: "✓ Fixed for $0.05", short: "✓ Fixed, $0.05" },
-    },
-    outcomes: {
-      saved: "3 new rows saved",
-      running: "Running…",
-      stopped: "Stopped at step 2.",
-      empty: {
-        full: "Nothing arrived. You find out when you open the sheet.",
-        short: "Nothing arrived. Your sheet is empty.",
-      },
-      looking: "Site changed. Finding the new search box…",
-      testing: { full: "Found the new box. Testing the fix on a full run…", short: "Testing the fix on a full run…" },
-      fixed: "Site changed · fixed for $0.05 · nothing missed",
-    },
+  lanes: { flux: "FluxIQ", script: { full: "Recorded script", short: "Script" } },
+  days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"],
+  rows: [3, 1, 4, 2, 3, 5, 1, 2],
+  site: "roofers.example",
+  marker: {
+    before: { full: "The site, as recorded", short: "The site, as recorded" },
+    after: { full: "Overnight: site redesigned", short: "Overnight: site redesigned" },
   },
+  notes: {
+    looking: { full: "site changed, looking", short: "looking" },
+    testing: { full: "testing the fix", short: "testing" },
+    fixed: { full: "fixed for $0.05", short: "fixed, $0.05" },
+    notFound: { full: "search box not found", short: "not found" },
+  },
+  sheet: { label: { full: "In your sheet", short: "Sheet" }, unit: "rows" },
   benefits: [
-    {
-      icon: "clock",
-      title: "Runs on your schedule",
-      body: "Every morning, every hour, every Friday. Each Flow runs on its own, with nobody at the keyboard.",
-      shortBody: "Every morning, every hour, every Friday, with nobody at the keyboard.",
-    },
-    {
-      icon: "shield",
-      title: "Asks before it acts",
-      body: "Anything that sends, buys, or deletes waits for your OK.",
-      shortBody: "Anything that sends, buys, or deletes waits for your OK.",
-    },
-    {
-      icon: "wrench",
-      title: "Fixes itself, carefully",
-      body: "When a site changes, FluxIQ finds the new element and keeps the fix only after a full run passes.",
-      shortBody: "It finds the new element and keeps a fix only after a full run passes.",
-    },
-    {
-      icon: "trend",
-      title: "Costs less as it earns trust",
-      body: "Checks taper as a Flow proves itself: about $0.01 for a judged run, $0.00 for a trusted one.",
-      shortBody: "About $0.01 for a judged run, $0.00 once the Flow is trusted.",
-    },
+    { icon: "clock", title: "Runs on your schedule", detail: "Daily, hourly, or weekly" },
+    { icon: "shield", title: "Asks before high-risk actions", detail: "Sending, buying, or deleting" },
+    { icon: "wrench", title: "Fixes itself, tested first", detail: "Kept only after a full run passes" },
+    { icon: "trend", title: "Costs less as it earns trust", detail: "Checks taper as it proves itself" },
   ],
 };

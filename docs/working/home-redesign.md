@@ -745,3 +745,19 @@ Workers partition by file:
   - Both boards were rendered locally with the canvas runtime at 1.0, 2.7, 3.5, and 8 s. No page errors, and no horizontal overflow at 375 px.
   - The frames show the redesign marker, FluxIQ testing, the script failing, and the final 21 against 4.
 - Outcome: Proposed; waiting on the user's pick before it is built.
+
+### 2026-10-10 — How it works rebuilt as concept C, two tracks
+
+- Changed:
+  - How it works is now one graphic (`components/how-it-works/tracks/`), replacing the three-job carousel (`jobs/`, `content/how-jobs.ts`) and the redesign split (`redesign/`). `part-title`, `status-pill`, and `fit-text` went with them; `site-sketch` and the scan keyframes moved into `tracks/`.
+  - `tracks/model.ts` holds the 216-tick story. `wide-tracks` lays it left to right from `xl`; `tall-tracks` runs it down the page below `xl`, centred at up to 460 px. The horizontal layout starts at `xl` because at 1024 px Wednesday's notes ran into Tuesday's and Thursday's.
+  - The redesign label on the phone sits above the tracks (`z-10`, after them in the DOM). On the board it had been drawn under the green line.
+  - The benefits are one line each with a short detail, and "Asks before it acts" is now "Asks before high-risk actions", detail "Sending, buying, or deleting". The lede is one sentence at every width.
+  - Boards (canvas version 77): concept C has the same wording and the label fix. The current-site boards hold the new section, recorded from this build.
+- Why: The user approved concept C ("very good"), asked that the asking be "specifically for high risk actions", and reported the phone label sitting under a green line.
+- Claims: sending, buying, and deleting are held for a person (Core f6ef9f4, runtime/flow-bootstrap); the fix cost is the savings model's FIX ($0.05); a fix is kept only after a judged full run (judged-promotion.ts).
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` (177.6 KB gzip JS) pass.
+  - Built site at 1440, 1280, 1024, and 375 px; frames at 2.6, 3.5, and 8 s. They show the redesign marker, FluxIQ fixed on Wednesday, the script failing, and the final 21 against 4. Labels clear each other, the phone label sits above both lines, there is no horizontal overflow, and there are no page errors.
+  - Not exercised: reduced motion. The section plays for every visitor, as the other home illustrations do.
+- Outcome: Accepted

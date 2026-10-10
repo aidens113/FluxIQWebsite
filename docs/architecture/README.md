@@ -89,14 +89,13 @@ The home page, `app/page.tsx`, in order:
    price (`savings/model.ts`; labelled "Example, not real data"), then four
    value points (tiles from `md`, an icon list below).
 4. `how-it-works` (`#how-it-works`): "Automations that survive a redesign."
-   Part 1 (`jobs/`): three sentences, each beside the live Flow it became
-   (status, run count from total elapsed ticks, last run, result line,
-   schedule), shown one at a time in a single card that crossfades to the
-   next, with pips; side by side from `lg`, stacked below. Part 2
-   (`redesign/`): the same overnight redesign hits an ordinary recorded
-   script (fails, nothing arrives) and FluxIQ (fixed for $0.05, nothing
-   missed). Then four benefits (`benefit-points`: tiles from `md`, a list
-   below).
+   One graphic (`tracks/`): the sentence becomes a Flow, then a playhead walks
+   eight mornings along two tracks, FluxIQ and a recorded script
+   (`tracks/model.ts`). Overnight before Wednesday the site moves its search
+   box: the script fails from then on, and FluxIQ looks, tests the fix, and
+   keeps adding rows ("fixed for $0.05"); each track keeps a row total. Left
+   to right from `xl` (`wide-tracks`), top to bottom below it
+   (`tall-tracks`). Then four one-line benefits (`benefit-points`).
 5. `vision` (`#vision`): a request and FluxIQ's reply, then the RoofLeads
    concept app in use (a pointer, or a fingertip on a phone, moving between
    its views while numbers update), the now/next/then/later roadmap, and the

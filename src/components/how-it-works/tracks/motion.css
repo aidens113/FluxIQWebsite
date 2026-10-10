@@ -1,0 +1,15 @@
+/* Motion for the tracks: FluxIQ's scan sweeps the site sketch while it looks
+   for the moved search box. */
+
+@keyframes how-scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(400%);
+  }
+}
+
+.how-scan {
+  animation: how-scan 1.1s ease-in-out infinite;
+}
