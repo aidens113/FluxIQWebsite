@@ -136,7 +136,7 @@ export const VISION: VisionContent = {
         contacted: "Contacted",
         replied: "Replied",
       },
-      pendingScore: "—",
+      pendingScore: "…",
     },
     flows: {
       title: "Flows",

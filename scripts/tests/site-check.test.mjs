@@ -27,7 +27,7 @@ const APP_JS = "console.log(1);\n";
 // one script, APP_SRC; the comment holds a second whose file does not exist.
 const PASSING = `<!DOCTYPE html><html lang="en" class="antialiased"><head><meta charSet="utf-8"/>
 <script src="${APP_SRC}" async=""></script>
-<title>FluxIQ — Automate Smarter</title>
+<title>FluxIQ: Automate Smarter</title>
 <meta name="description" content="FluxIQ is a source-available TypeScript automation framework: AI generates and repairs your Flows, and deterministic replay runs them without a model."/>
 <link rel="canonical" href="https://getfluxiq.com/"/>
 <meta property="og:image" content="https://getfluxiq.com/opengraph-image.png?abc123"/>
@@ -182,8 +182,8 @@ test("link-rel requires both noopener and noreferrer on target=_blank", () => {
 
 test("head-meta fails each missing or malformed head field", () => {
   const cases = {
-    title: ["<title>FluxIQ — Automate Smarter</title>", ""],
-    "empty title": ["<title>FluxIQ — Automate Smarter</title>", "<title> </title>"],
+    title: ["<title>FluxIQ: Automate Smarter</title>", ""],
+    "empty title": ["<title>FluxIQ: Automate Smarter</title>", "<title> </title>"],
     description: ['<meta name="description"', '<meta name="summary"'],
     canonical: ['<link rel="canonical" href="https://getfluxiq.com/"/>', ""],
     "wrong canonical": ['href="https://getfluxiq.com/"/>', 'href="https://getfluxiq.com/index.html"/>'],

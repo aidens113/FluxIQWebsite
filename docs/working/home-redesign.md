@@ -723,3 +723,12 @@ Workers partition by file:
   - Built site at 1440 and 375 px; frames at 0.9, 2.6, 3.5, 4.2, 5.1, and 6.0 s show Tuesday running step by step, Wednesday starting, the script failing ("not found", sheet empty), FluxIQ scanning, then testing, then "Fixed for $0.05" with rows filled. No overflow, no page errors.
   - Sampling the chips every 150 ms gave the sequence ----, A···, GA··, GGA·, GGGA.
 - Outcome: Accepted
+
+### 2026-10-10 — No em dashes on the site
+
+- Changed: the concept app's unscored-lead placeholder is "…" instead of an em dash (`content/vision.ts`), and the site-check test fixture's sample title uses a colon. The working-doc ledger headings keep their dash: it is the format the docs audit checks, and they are never published.
+- Why: The user asked to "remove all em dashes".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` pass.
+  - `grep` finds no em dash in `src`, and none in `out/` as a character, `—`, `&mdash;`, or `&#8212;`.
+- Outcome: Accepted
