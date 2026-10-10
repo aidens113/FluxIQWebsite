@@ -732,3 +732,16 @@ Workers partition by file:
   - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` pass.
   - `grep` finds no em dash in `src`, and none in `out/` as a character, `—`, `&mdash;`, or `&#8212;`.
 - Outcome: Accepted
+
+### 2026-10-10 — How it works, concept C on the board: two tracks
+
+- Changed (design canvas only, version 76; the site is unchanged):
+  - New boards `HowTracks` (1440) and `HowTracksMobile` (375) mock How it works as one graphic. The sentence becomes a Flow, then a playhead walks eight mornings along two tracks, FluxIQ and a recorded script. Overnight before Wednesday the site's search box moves: the script fails every morning after, and FluxIQ looks, tests the fix, and keeps adding rows ("+4 · fixed for $0.05"). Each track has a running row total (21 against 4).
+  - The four benefits shrink to icon-and-label lines. The lede is one sentence. On the phone the tracks run down the page.
+  - The current-site boards now hold How it works and Where it's going re-recorded from today's build; their heights and titles were updated.
+- Why: The user found the section "way too word heavy" and chose idea 1 (two tracks) of four offered.
+- Claims: the $0.05 fix is the savings model's FIX cost (`why-fluxiq/savings/model.ts`). That a fix is kept only after a full run passes is the claim the section already makes.
+- Validation:
+  - Both boards were rendered locally with the canvas runtime at 1.0, 2.7, 3.5, and 8 s. No page errors, and no horizontal overflow at 375 px.
+  - The frames show the redesign marker, FluxIQ testing, the script failing, and the final 21 against 4.
+- Outcome: Proposed; waiting on the user's pick before it is built.
