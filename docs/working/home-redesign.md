@@ -761,3 +761,12 @@ Workers partition by file:
   - Built site at 1440, 1280, 1024, and 375 px; frames at 2.6, 3.5, and 8 s. They show the redesign marker, FluxIQ fixed on Wednesday, the script failing, and the final 21 against 4. Labels clear each other, the phone label sits above both lines, there is no horizontal overflow, and there are no page errors.
   - Not exercised: reduced motion. The section plays for every visitor, as the other home illustrations do.
 - Outcome: Accepted
+
+### 2026-10-10 — How it works tracks glide
+
+- Changed: the tracks use the smooth clock (`useLoopClock(50, true)`), a fractional tick on every animation frame, so the playhead and the filling lines glide instead of stepping every 50 ms.
+- Why: The user said the timeline animation "is lagging a bit".
+- Validation:
+  - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` pass.
+  - Built site at 1440 and 375 px: over one second the playhead took 61 distinct positions in 61 frames (the 50 ms clock gives 20). No page errors.
+- Outcome: Accepted

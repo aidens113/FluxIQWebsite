@@ -11,9 +11,11 @@ import { WideTracks } from "./wide-tracks";
  * How it works in one graphic: the sentence becomes a Flow, then eight
  * mornings run along two tracks, FluxIQ and a recorded script, through an
  * overnight redesign. The story starts over each time it scrolls into view.
+ * The clock is smooth (a fractional tick on every animation frame), so the
+ * playhead and the filling tracks glide rather than step every 50 ms.
  */
 export function RedesignTracks() {
-  const { ref, tick } = useLoopClock<HTMLDivElement>();
+  const { ref, tick } = useLoopClock<HTMLDivElement>(50, true);
   const { ask, flow, rows, description } = HOW_IT_WORKS;
   const frame = tracksFrame(tick, rows);
   return (
