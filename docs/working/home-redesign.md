@@ -770,3 +770,15 @@ Workers partition by file:
   - `pnpm check`, `pnpm test` (86 pass), `pnpm build`, and `pnpm test:site` pass.
   - Built site at 1440 and 375 px: over one second the playhead took 61 distinct positions in 61 frames (the 50 ms clock gives 20). No page errors.
 - Outcome: Accepted
+
+### 2026-10-10 — How it fits together, concept 1 on the board: one loop
+
+- Changed (design canvas only, version 78; the site is unchanged):
+  - New boards `FitsLoop` (1440) and `FitsLoopMobile` (375). Two labelled zones, "On your computer" (FluxIQ's Flows list) and "In your browser" (a page beside the extension panel, "Coming soon"), joined by a thick wire that carries the story.
+  - The first time through they pair once: the panel shows a code, FluxIQ asks you to approve the same code, and the wire lights. After that only the job loop repeats: "Roofing leads, Calgary" travels to the browser, the extension types, searches, and reads the list, and "24 rows" travels back and is saved.
+  - Each zone keeps a two-to-three-word caption and one short line. The lede is the current phone lede. On the phone the zones stack and the wire runs down between them.
+- Why: The user asked for "a complete redesign and an easily understandable concept instantly" and chose idea 1 of four.
+- Claims: copy and states come from `content/parts.ts` (Core f6ef9f4 and Extension b6768b7, as sourced there): pairing is Connect in the side panel and then approving the matching code in FluxIQ; the extension reads lists. Nothing new is claimed.
+- Validation:
+  - Both boards were rendered locally with the canvas runtime at 0.7 to 7 s. They show the pairing, the job going out, the list being read, and the rows saved. No page errors, and no overflow at 375 px.
+- Outcome: Proposed; waiting on the user before it is built.
