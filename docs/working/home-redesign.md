@@ -782,3 +782,16 @@ Workers partition by file:
 - Validation:
   - Both boards were rendered locally with the canvas runtime at 0.7 to 7 s. They show the pairing, the job going out, the list being read, and the rows saved. No page errors, and no overflow at 375 px.
 - Outcome: Proposed; waiting on the user before it is built.
+
+### 2026-10-10 — How it fits together rebuilt as one loop
+
+- Changed:
+  - The section follows the FitsLoop boards. `loop-stage` holds one card with two `zone`s and the new `wire`, which replaces `connector`, `part-card`, `pairing-stage`, and `wire.css`.
+  - `timeline.ts` is rewritten on 50 ms ticks: pairing runs to tick 44, then a 140-tick job loop. It runs on the smooth clock with `restart` off, so the pairing plays once per visit.
+  - `flows-mock` loses its nav column and is titled with the brand. `search-page` types the query letter by letter. `side-panel` sits beside the page inside a browser frame.
+  - Copy (`content/parts.ts`): the lede is the old phone lede; each zone has a short caption; the wire gets "working in your browser" and "✓ Paired once". The extension's longer claims (whole lists page after page, never guessing) are dropped from this section, not changed.
+- Why: The user approved the one-loop concept ("go to main").
+- Validation:
+  - `pnpm check`, `pnpm test`, `pnpm build`, and `pnpm test:site` pass.
+  - Built site at 1440, 1024, and 375 px; frames at 1.3, 3, 4.5, and 7.5 s. They show the code being approved, the job chip on the wire, the extension typing and reading, and "24 rows saved". No horizontal overflow, no page errors. At 1024 px the panel's pill ran past its edge; the panel now clips it.
+- Outcome: Accepted

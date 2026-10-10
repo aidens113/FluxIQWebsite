@@ -100,10 +100,13 @@ The home page, `app/page.tsx`, in order:
    concept app in use (a pointer, or a fingertip on a phone, moving between
    its views while numbers update), the now/next/then/later roadmap, and the
    "Concept" caption.
-6. `parts` (`#framework`): the framework and extension cards with live mocks,
-   joined by a connector (two balls on wires that merge into a secured ball;
-   the striped wire runs in the data's direction) that plays pairing with an
-   approved code, a job going out, and rows coming back.
+6. `parts` (`#framework`): one card with two zones, "On your computer"
+   (FluxIQ's Flows, `flows-mock`) and "In your browser" (a page beside the
+   extension's panel), joined by a wire (`wire`). The pairing plays once per
+   visit (the clock does not restart); after that only the job loop repeats:
+   the job travels out, the extension types, searches, and reads the list,
+   and the rows travel back (`timeline.ts`). Side by side from `lg`, stacked
+   below with the wire running down; the two links sit under the card.
 7. `paper` (`#paper`): the cover and six real pages (`public/papers/pages/`)
    crossfading in step with the contents, each at its own tilt.
 8. `status` (`#status`): install, AI provider, platform, license (tiles from

@@ -9,22 +9,19 @@ import type { HomeSectionId, SiteLink, SplitTitle } from "./types";
 // (docs/architecture/element-identity.md), no analytics (README.md), pairing
 // over the local client gateway: press Connect in the side panel, then
 // approve the matching code in FluxIQ (docs/user/install.md, quickstart.md).
-// The copy is the approved v5 boards' (docs/working/home-redesign.md), which
-// shortens the v2 copy and claims nothing new. Both mocks are illustrations:
+// The copy is the approved one-loop boards' (FitsLoop, FitsLoopMobile;
+// docs/working/home-redesign.md), which shortens the v5 copy and claims
+// nothing new. Both mocks are illustrations:
 // the Flow names, the code, and the search results are made up.
 
-/** The words on one of the two cards, under its illustration. */
+/** The words for one of the two zones: where it runs, its illustration's caption, and where to read more. */
 export type PartCardCopy = {
-  /** Where it runs, then what it is; drawn in capitals. */
-  kicker: string;
-  /** Drawn in the accent after the kicker, such as a release note. */
-  kickerTag?: string;
-  /** The tag on a phone, where the line is short. */
-  kickerTagShort?: string;
+  /** Where this half runs, beside its icon. */
+  zone: string;
+  /** Drawn in the accent after the zone, such as a release note. */
+  zoneTag?: string;
   title: string;
   body: string;
-  /** The body on a phone. */
-  bodyShort: string;
   link: SiteLink;
   /** What the illustration shows, for assistive tech. */
   illustration: string;
@@ -36,8 +33,6 @@ export type FlowRowCopy = { name: string; lastRan: string };
 /** The framework mock: the Flows screen, then the request to approve a code. */
 export type FlowsMockCopy = {
   brand: string;
-  nav: readonly string[];
-  heading: string;
   /** The status pill while a browser is, or is not, connected. */
   connected: string;
   notConnected: string;
@@ -53,6 +48,8 @@ export type LiveStepCopy = { verb: string; target: string };
 
 /** The extension mock: a search page beside FluxIQ's side panel. */
 export type BrowserMockCopy = {
+  /** The made-up site in the address bar. */
+  site: string;
   /** What gets typed into the page's search box. */
   query: string;
   search: string;
@@ -68,16 +65,14 @@ export type BrowserMockCopy = {
   stepsResult: string;
 };
 
-/** The label over the wire for each thing that travels along it. */
-export type WireLabels = { code: string; job: string; rows: string };
+/** The note under the wire for each thing that travels along it, and the mark once paired. */
+export type WireLabels = { code: string; job: string; rows: string; working: string; paired: string };
 
 export type PartsSectionContent = {
   id: HomeSectionId;
   eyebrow: string;
   title: SplitTitle;
   lede: string;
-  /** The lede on a phone. */
-  ledeShort: string;
   /** The pairing code both mocks show; made up. */
   pairingCode: string;
   framework: PartCardCopy;
@@ -91,33 +86,27 @@ export const PARTS: PartsSectionContent = {
   id: "framework",
   eyebrow: "How it fits together",
   title: { lead: "FluxIQ remembers.", muted: "Your browser does the work." },
-  lede: "FluxIQ runs on your own machine and keeps everything it learns. The browser extension does the clicking on real sites. Connect them once with a code you approve, and the jobs run from there.",
-  ledeShort: "Connect them once with a code you approve. Then your jobs run in your browser.",
+  lede: "Connect them once with a code you approve. Then your jobs run in your browser.",
   pairingCode: "K7Q 4MD",
   framework: {
-    kicker: "On your computer · Framework",
+    zone: "On your computer",
     title: "Remembers every job",
-    body: "Keeps what it learned, runs your jobs on schedule, and fixes them when sites change. Your data stays with you.",
-    bodyShort: "Runs them on schedule and fixes them when sites change.",
+    body: "Runs them on schedule and fixes them when sites change.",
     link: { ...LINKS.coreRepo, label: "Get the framework" },
     illustration:
       "Illustration: FluxIQ's list of Flows asks you to approve a browser's code, then shows a Flow running in your browser and saving its rows.",
   },
   extension: {
-    kicker: "In your browser · Extension",
-    kickerTag: "Coming soon",
-    kickerTagShort: "Soon",
+    zone: "In your browser",
+    zoneTag: "Coming soon",
     title: "Does the clicking for you",
-    body: "Works on the real sites you already use, pulls whole lists page after page, and never guesses when it isn't sure.",
-    bodyShort: "On the real sites you already use.",
+    body: "On the real sites you already use.",
     link: { ...LINKS.extensionPage, label: "More about the extension" },
     illustration:
       "Illustration: the extension's side panel shows a code to approve, then searches a page and reads its list of results.",
   },
   flowsMock: {
     brand: "FluxIQ",
-    nav: ["Flows", "Studio", "Datasets", "Settings"],
-    heading: "Flows",
     connected: "Browser connected",
     notConnected: "No browser connected",
     liveFlow: "Roofing leads, Calgary",
@@ -139,6 +128,7 @@ export const PARTS: PartsSectionContent = {
     },
   },
   browserMock: {
+    site: "roofers.example",
     query: "roofing",
     search: "Search",
     results: ["Summit Roofing Co.", "Peak Roofers", "Bow River Roofing", "Chinook Exteriors"],
@@ -162,5 +152,7 @@ export const PARTS: PartsSectionContent = {
     code: "← the code, for you to check",
     job: "sending the job →",
     rows: "← results coming back",
+    working: "working in your browser",
+    paired: "✓ Paired once",
   },
 };

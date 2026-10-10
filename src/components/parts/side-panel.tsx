@@ -24,7 +24,7 @@ export function SidePanel({ frame, copy, code }: SidePanelProps) {
         : `○ ${copy.pill.off}`;
   const lastStep = copy.steps.length - 1;
   return (
-    <div className="relative w-[52%] flex-none rounded-tr-[10px] border border-b-0 border-edge bg-[#111923] p-2.5 text-[10px] text-[#eef4fb] md:w-[48%] md:rounded-tr-xl md:p-3 md:text-[10.5px]">
+    <div className="relative w-[46%] flex-none overflow-hidden border-l border-[#1d1f23] bg-[#111923] p-2.5 text-[10px] text-[#eef4fb] md:w-[42%] md:p-3 md:text-[10.5px]">
       <span className="flex items-center gap-[5px] text-[11px] font-bold md:gap-1.5 md:text-[11.5px]">
         <LogoMark className="hidden size-[13px] md:block" />
         {copy.brand}

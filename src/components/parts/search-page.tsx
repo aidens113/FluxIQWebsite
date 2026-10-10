@@ -11,11 +11,13 @@ export type SearchPageProps = {
 /** A real site's search page, where the extension types the query, clicks Search, and reads the list. */
 export function SearchPage({ frame, copy }: SearchPageProps) {
   return (
-    <div className="min-w-0 flex-1 rounded-tl-[10px] border border-r-0 border-b-0 border-edge bg-[#f6f7f9] p-2.5 text-[10px] text-[#1d232b] md:rounded-tl-xl md:p-3 md:text-[10.5px]">
-      <div className="hidden h-2 w-3/5 rounded bg-[#d9dde3] md:block" />
-      <div className="flex gap-[5px] md:mt-3 md:gap-1.5">
+    <div className="min-w-0 flex-1 bg-[#f6f7f9] p-2.5 text-[10px] text-[#1d232b] md:p-3 md:text-[10.5px]">
+      <div className="flex gap-[5px] md:gap-1.5">
         <span className="flex h-[22px] min-w-0 flex-1 items-center rounded-md border border-[#d3d8de] bg-white px-1.5 md:px-[7px]">
-          {frame.filled ? copy.query : null}
+          {copy.query.slice(0, frame.typed)}
+          {frame.typed > 0 && frame.typed < copy.query.length && (
+            <span className="ml-px inline-block h-3 w-px animate-pulse bg-[#1d232b]" />
+          )}
         </span>
         <span
           className="flex h-[22px] items-center rounded-md bg-[#1d232b] px-[9px] text-white"

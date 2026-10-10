@@ -19,28 +19,17 @@ const STATUS_LOOK: Record<FlowStatus, { glyph: string; color: string }> = {
 
 const ROW = "grid grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-lg bg-[#1a1b1f] px-2.5 py-[9px]";
 
-/** The framework's Flows screen: a browser asks to connect, you approve its code, and its Flow runs. */
+/** FluxIQ's Flows screen: a browser asks to connect, you approve its code once, and its Flow runs. */
 export function FlowsMock({ frame, copy, code }: FlowsMockProps) {
   const live = frame.phase === "live";
   const look = STATUS_LOOK[frame.status];
   return (
-    <div className="relative flex h-full w-full overflow-hidden rounded-t-[10px] border border-b-0 border-edge bg-[#141518] text-[11.5px] md:rounded-t-xl">
-      <div className="hidden w-[112px] flex-none flex-col gap-[9px] border-r border-rule px-3 py-3.5 text-dim lg:flex">
-        <span className="mb-1.5 flex items-center gap-[7px] font-semibold text-fg">
-          <LogoMark className="size-3.5" />
-          {copy.brand}
-        </span>
-        {copy.nav.map((item, i) => (
-          <span key={item} className={i === 0 ? "text-fg" : undefined}>
-            {item}
-          </span>
-        ))}
-      </div>
+    <div className="relative flex h-full w-full overflow-hidden bg-[#0e0f11] text-[11.5px]">
       <div className="relative min-w-0 flex-1 p-3 md:px-4 md:py-3.5">
         <div className="mb-2.5 flex items-center justify-between gap-2 md:mb-3">
           <span className="flex items-center gap-1.5 text-[12.5px] font-semibold">
-            <LogoMark className="size-[13px] lg:hidden" />
-            {copy.heading}
+            <LogoMark className="size-[13px]" />
+            {copy.brand}
           </span>
           <span
             className="text-[10.5px] whitespace-nowrap"
@@ -60,7 +49,7 @@ export function FlowsMock({ frame, copy, code }: FlowsMockProps) {
               style={{
                 width: `${frame.progress}%`,
                 opacity: frame.progress ? 0.8 : 0,
-                transition: `${frame.progress ? "width .25s linear, " : ""}opacity .3s`,
+                transition: "opacity .3s",
               }}
             />
           </div>
